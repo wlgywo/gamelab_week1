@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyAI : MonoBehaviour
 {
     [SerializeField] protected Rigidbody rb;
 
