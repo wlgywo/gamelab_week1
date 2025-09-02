@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
     }
     private void GravityLeft_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        //if (!PlayerController.Instance.isGround) return;
+        if (!PlayerController.Instance.isGround) return;
 
         GravityManager.Instance.GravityChange(true);
 
@@ -31,7 +31,7 @@ public class InputManager : MonoBehaviour
 
     private void GravityRight_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        //if (!PlayerController.Instance.isGround) return;
+        if (!PlayerController.Instance.isGround) return;
 
         GravityManager.Instance.GravityChange(false);
 
@@ -41,6 +41,13 @@ public class InputManager : MonoBehaviour
     public Vector2 GetMoveDirNormalized()
     {
         Vector2 dir = playerInput.Player.Move.ReadValue<Vector2>();
+        dir = dir.normalized;
+        return dir;
+    }
+
+    public Vector2 GetPointerNormalized()
+    {
+        Vector2 dir = playerInput.Player.Look.ReadValue<Vector2>();
         dir = dir.normalized;
         return dir;
     }

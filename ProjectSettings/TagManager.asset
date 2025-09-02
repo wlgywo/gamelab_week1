@@ -6,6 +6,8 @@ TagManager:
   tags:
   - RepairKit
   - Timer
+  - PlayerHand
+  - Ground
   layers:
   - Default
   - TransparentFX
