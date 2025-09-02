@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TimerScript : MonoBehaviour
@@ -26,6 +27,12 @@ public class TimerScript : MonoBehaviour
         isCounting = true;
         InGameManager.Instance.countdownText.gameObject.SetActive(true);
     }
+    public void StopCountdown()
+    {
+        currentTime = countdownTime;
+        isCounting = false;
+        InGameManager.Instance.countdownText.gameObject.SetActive(false);
+    }
 
     void Update()
     {
@@ -40,8 +47,14 @@ public class TimerScript : MonoBehaviour
                 InGameManager.Instance.countdownText.gameObject.SetActive(false);
                 // 타이머 끝난 이후 처리
             }
-
             UpdateTimerUI();
+        }
+        else
+        {
+            if(currentTime <= countdownTime)
+            {
+                currentTime+= Time.deltaTime;
+            }
         }
     }
 

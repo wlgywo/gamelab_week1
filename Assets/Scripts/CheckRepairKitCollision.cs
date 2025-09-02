@@ -22,4 +22,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
 		}
 	}
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("RepairKit"))
+        {
+            GetComponent<TimerScript>().StopCountdown();
+        }
+    }
+
 }
