@@ -44,6 +44,17 @@ public class EnemyAI : MonoBehaviour
 
 	private Coroutine dashCorutine;
 
+    [Header("Gravity Settings")]
+    public float gravityForce = 9.8f; // 적용할 중력의 크기
+    public float orientationSpeed = 10f; // 플레이어의 'up' 방향을 따라가는 회전 속도
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        // Rigidbody의 기본 중력은 꺼야 수동으로 제어할 수 있습니다.
+        rb.useGravity = false;
+    }
+
     private void Start()
     {
         player = PlayerController.Instance.transform;
@@ -55,8 +66,21 @@ public class EnemyAI : MonoBehaviour
     private void FixedUpdate()
 	{
 		if (isDie) return;
-		//if (player == null && repairKit == null) return;
-		if (isAttacking) return;
+        //if (player == null && repairKit == null) return;
+        // --- ▼ [수정 1] 중력 및 방향 동기화 로직 추가 ▼ ---
+        if (player != null)
+        {
+            // 1. 플레이어와 같은 방향으로 중력 적용
+            Vector3 gravityDirection = -player.transform.up;
+            rb.AddForce(gravityDirection * gravityForce);
+
+            // 2. 플레이어의 'up' 벡터를 부드럽게 따라가도록 회전
+            Quaternion targetOrientation = Quaternion.FromToRotation(transform.up, player.transform.up) * rb.rotation;
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetOrientation, orientationSpeed * Time.fixedDeltaTime));
+        }
+        // --- ▲ [수정 1] 종료 ▲ ---
+
+        if (isAttacking) return;
 
 		Transform target;
 		if(!repairKit.gameObject.activeSelf)
@@ -76,42 +100,57 @@ public class EnemyAI : MonoBehaviour
 			return;
 		}
 
+        // --- ▼ [수정 2] 거리 및 방향 계산 로직 변경 ▼ ---
         Vector3 selfPos = transform.position;
-        Vector3 flatTargetPos = new Vector3(target.position.x, selfPos.y, target.position.z);
+        Vector3 targetPos = target.position;
+        Vector3 upDir = transform.up; // 현재 나의 '위' 방향
 
-        Vector3 dirFromCenter = (flatTargetPos - selfPos).normalized;
+        // '위' 방향을 무시한 평면상의 거리 계산
+        centerDistance = Vector3.Distance(Vector3.ProjectOnPlane(selfPos, upDir), Vector3.ProjectOnPlane(targetPos, upDir));
+
+        if (attackCooldown < 0 && centerDistance <= attackRange)
+        {
+            attackCooldown = attackDelay;
+            Attack();
+            return;
+        }
+
+        // '위' 방향을 무시하고 타겟을 향하는 방향 벡터 계산
+        Vector3 dirToTarget = (targetPos - selfPos);
+        Vector3 flatDirToTarget = Vector3.ProjectOnPlane(dirToTarget, upDir).normalized;
 
         if (centerDistance > stopRadius + stopEpsilon)
         {
-            // 경계점 계산 (flatTargetPos 사용)
-            Vector3 targetOnBoundary = flatTargetPos + dirFromCenter * stopRadius;
+            // 목표 지점은 타겟 위치에서 멈춤 반경만큼 떨어진 곳
+            Vector3 targetOnBoundary = targetPos - flatDirToTarget * stopRadius;
 
-            Vector3 toTarget = targetOnBoundary - selfPos;
+            // 이동할 방향 계산
+            Vector3 toTarget = Vector3.ProjectOnPlane(targetOnBoundary - selfPos, upDir);
             Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
             rb.MovePosition(nextPos);
 
-            // 높이 무시 후 transform.up 기준으로 회전
-            Quaternion targetRot = Quaternion.LookRotation(toTarget, transform.up);
+            // '위' 방향을 기준으로 회전
+            Quaternion targetRot = Quaternion.LookRotation(flatDirToTarget, upDir);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
         }
         else
         {
             // 멈출 때
             rb.MovePosition(rb.position);
-            rb.linearVelocity = Vector3.zero; // 관성 제거
 
-            Vector3 lookDir = flatTargetPos - selfPos; // y 무시된 방향
-            if (lookDir.sqrMagnitude > 0.0001f)
+            // 관성 제거 시, 현재 평면에 대해서만 제거하는 것이 더 안정적일 수 있습니다.
+            rb.linearVelocity = Vector3.Project(rb.linearVelocity, upDir);
+
+            if (flatDirToTarget.sqrMagnitude > 0.0001f)
             {
-                Quaternion targetRot = Quaternion.LookRotation(lookDir, transform.up);
+                Quaternion targetRot = Quaternion.LookRotation(flatDirToTarget, upDir);
                 rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
             }
         }
-
-
+        // --- ▲ [수정 2] 종료 ▲ ---
     }
 
-	private void Update()
+    private void Update()
 	{
 		attackCooldown -= Time.deltaTime;
 	}
@@ -125,74 +164,76 @@ public class EnemyAI : MonoBehaviour
 		}
 	}
 
-	private IEnumerator CoDashAndReturn()
-	{
-		isAttacking = true;
+    private IEnumerator CoDashAndReturn()
+    {
+        isAttacking = true;
         Transform target;
-		if (!repairKit.gameObject.activeSelf)
-		{
-			target = player;
-		}
-		else
-		{
-			target = repairKit;
-		}
+        if (!repairKit.gameObject.activeSelf)
+        {
+            target = player;
+        }
+        else
+        {
+            target = repairKit;
+        }
 
         // 시작 상태 저장
         Vector3 startPos = rb.position;
-		float baseY = startPos.y;
-		Vector3 kitFlat = new Vector3(target.position.x, baseY, target.position.z);
+        Vector3 upDir = transform.up; // 현재 나의 '위' 방향
 
-		// 향할 방향 계산
-		Vector3 fwdDir = (kitFlat - startPos).normalized;
+        // --- ▼ [수정] 방향 계산 로직 변경 ▼ ---
+        // '위' 방향을 무시하고 타겟을 향하는 방향 벡터 계산
+        Vector3 dirToTarget = target.position - startPos;
+        Vector3 fwdDir = Vector3.ProjectOnPlane(dirToTarget, upDir).normalized;
+        // --- ▲ [수정] 종료 ▲ ---
 
-		// 공격 안정화: 기존 속도/각속도 제거 + 드래그 임시 증가
-		float _origDrag = rb.linearDamping;
-		rb.linearDamping = attackDrag;
-		rb.linearVelocity = Vector3.zero;
-		rb.angularVelocity = Vector3.zero;
+        // 공격 안정화... (이하 기존 코드와 거의 동일)
+        float _origDrag = rb.linearDamping;
+        rb.linearDamping = attackDrag;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
 
-		// === 1) 전진 임펄스 ===
-		var forceMode = useVelocityChange ? ForceMode.VelocityChange : ForceMode.Impulse;
-		rb.AddForce(fwdDir * forwardImpulse, forceMode);
+        // === 1) 전진 임펄스 ===
+        var forceMode = useVelocityChange ? ForceMode.VelocityChange : ForceMode.Impulse;
+        rb.AddForce(fwdDir * forwardImpulse, forceMode);
 
-		// 타격 조건: 짧은 시간 대기 OR 목표 근접
-		float t = 0f;
-		while (t < hitPhaseTime && Vector3.Distance(rb.position, kitFlat) > impactDistance)
-		{
-			t += Time.fixedDeltaTime;
-			yield return new WaitForFixedUpdate();
-		}
+        // 타격 조건: 짧은 시간 대기 OR 목표 근접
+        float t = 0f;
+        // 거리 계산도 평면 기준으로 변경
+        while (t < hitPhaseTime && Vector3.Distance(Vector3.ProjectOnPlane(rb.position, upDir), Vector3.ProjectOnPlane(target.position, upDir)) > impactDistance)
+        {
+            t += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
 
-		// ★ 여기서 1회 데미지/이펙트 처리(원하면)
-		// repairKit.GetComponent<IHittable>()?.OnHit(damage);
+        // ★ 여기서 1회 데미지/이펙트 처리
 
-		// 아주 짧은 간격 후 복귀 임펄스
-		if (returnDelay > 0f) yield return new WaitForSeconds(returnDelay);
+        if (returnDelay > 0f) yield return new WaitForSeconds(returnDelay);
 
-		// === 2) 복귀 임펄스 ===
-		Vector3 backDir = (startPos - rb.position).normalized; // 현재 위치 기준 ‘시작점’ 방향
-		rb.AddForce(backDir * backwardImpulse, forceMode);
+        // === 2) 복귀 임펄스 ===
+        // 복귀 방향도 평면 기준으로 계산
+        Vector3 backDir = (Vector3.ProjectOnPlane(startPos, upDir) - Vector3.ProjectOnPlane(rb.position, upDir)).normalized;
+        rb.AddForce(backDir * backwardImpulse, forceMode);
 
-		// 시작점 근접까지 감시(안전 타임아웃 포함)
-		float elapsed = 0f;
-		const float stopEps = 0.05f;
-		while (Vector3.Distance(rb.position, startPos) > stopEps && elapsed < maxAttackTime)
-		{
-			elapsed += Time.fixedDeltaTime;
-			yield return new WaitForFixedUpdate();
-		}
+        // 시작점 근접까지 감시
+        float elapsed = 0f;
+        const float stopEps = 0.05f;
+        while (Vector3.Distance(Vector3.ProjectOnPlane(rb.position, upDir), Vector3.ProjectOnPlane(startPos, upDir)) > stopEps && elapsed < maxAttackTime)
+        {
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
 
-		// 스냅 & 잔류 속도 제거
-		rb.MovePosition(startPos);
-		rb.linearVelocity = Vector3.zero;
-		rb.angularVelocity = Vector3.zero;
-		rb.linearDamping = _origDrag;
+        // 스냅 & 잔류 속도 제거
+        rb.MovePosition(startPos);
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.linearDamping = _origDrag;
 
-		isAttacking = false;
-	}
+        isAttacking = false;
+    }
 
-	private void GetDamage()
+    private void GetDamage()
 	{
 		hp -= PlayerController.Instance.damage;
 		UpdateVisual();

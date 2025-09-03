@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class BossAI : MonoBehaviour
 {
@@ -52,6 +53,17 @@ public class BossAI : MonoBehaviour
 
     private bool isFiring = false; // 현재 발사 중인지 확인하는 변수
 
+    [Header("Gravity Settings")]
+    public float gravityForce = 9.8f; // 적용할 중력의 크기
+    public float orientationSpeed = 10f; // 플레이어의 'up' 방향을 따라가는 회전 속도
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        // Rigidbody의 기본 중력은 꺼야 수동으로 제어할 수 있습니다.
+        rb.useGravity = false;
+    }
+
     private void Start()
     {
 		skills = new Action[] { AoESkill, ThrowFileSkile };
@@ -100,7 +112,21 @@ public class BossAI : MonoBehaviour
     private void FixedUpdate()
 	{
 		if (isDie) return;
-		if (player == null) return;
+        //if (player == null && repairKit == null) return;
+        // --- ▼ [수정 1] 중력 및 방향 동기화 로직 추가 ▼ ---
+        if (player != null)
+        {
+            // 1. 플레이어와 같은 방향으로 중력 적용
+            Vector3 gravityDirection = -player.transform.up;
+            rb.AddForce(gravityDirection * gravityForce);
+
+            // 2. 플레이어의 'up' 벡터를 부드럽게 따라가도록 회전
+            Quaternion targetOrientation = Quaternion.FromToRotation(transform.up, player.transform.up) * rb.rotation;
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetOrientation, orientationSpeed * Time.fixedDeltaTime));
+        }
+        // --- ▲ [수정 1] 종료 ▲ ---
+
+        if (player == null) return;
 		if (isAttacking) return;
 		
         float centerDistance = Vector3.Distance(transform.position, player.position);
@@ -111,36 +137,60 @@ public class BossAI : MonoBehaviour
 			return;
 		}
 
-		Vector3 dirFromCenter = (transform.position - player.transform.position).normalized;
-		if(centerDistance > stopRadius + stopEpsilon)
-		{
-			Vector3 targetOnBoundary = player.position + dirFromCenter * stopRadius;
+        // --- ▼ [수정 2] 거리 및 방향 계산 로직 변경 ▼ ---
+        Vector3 selfPos = transform.position;
+        Transform target = player;
+        Vector3 targetPos = target.position;
+        Vector3 upDir = transform.up; // 현재 나의 '위' 방향
 
-			Vector3 toTarget = targetOnBoundary - transform.position;
-			Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
-			rb.MovePosition(nextPos);
+        // '위' 방향을 무시한 평면상의 거리 계산
+        centerDistance = Vector3.Distance(Vector3.ProjectOnPlane(selfPos, upDir), Vector3.ProjectOnPlane(targetPos, upDir));
 
-			Quaternion targetRot = Quaternion.LookRotation(toTarget, transform.up);
-			rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+        if (attackCooldown < 0 && centerDistance <= attackRange)
+        {
+            attackCooldown = attackDelay;
+            Attack();
+            return;
+        }
 
-		}
-		else
-		{
-			rb.MovePosition(rb.position);
-			rb.linearVelocity = Vector3.zero; // 관성 잔류 제거(필요시)
+        // '위' 방향을 무시하고 타겟을 향하는 방향 벡터 계산
+        Vector3 dirToTarget = (targetPos - selfPos);
+        Vector3 flatDirToTarget = Vector3.ProjectOnPlane(dirToTarget, upDir).normalized;
 
-			Vector3 lookDir = (player.position - transform.position);
-			if (lookDir.sqrMagnitude > 0.0001f)
-			{
-				Quaternion targetRot = Quaternion.LookRotation(lookDir, transform.up);
-				rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
-			}
-		}
-			
-		
-	}
+        if (centerDistance > stopRadius + stopEpsilon)
+        {
+            // 목표 지점은 타겟 위치에서 멈춤 반경만큼 떨어진 곳
+            Vector3 targetOnBoundary = targetPos - flatDirToTarget * stopRadius;
 
-	private void Update()
+            // 이동할 방향 계산
+            Vector3 toTarget = Vector3.ProjectOnPlane(targetOnBoundary - selfPos, upDir);
+            Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
+            rb.MovePosition(nextPos);
+
+            // '위' 방향을 기준으로 회전
+            Quaternion targetRot = Quaternion.LookRotation(flatDirToTarget, upDir);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+        }
+        else
+        {
+            // 멈출 때
+            rb.MovePosition(rb.position);
+
+            // 관성 제거 시, 현재 평면에 대해서만 제거하는 것이 더 안정적일 수 있습니다.
+            rb.linearVelocity = Vector3.Project(rb.linearVelocity, upDir);
+
+            if (flatDirToTarget.sqrMagnitude > 0.0001f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(flatDirToTarget, upDir);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+            }
+        }
+        // --- ▲ [수정 2] 종료 ▲ ---
+
+
+    }
+
+    private void Update()
 	{
 		attackCooldown -= Time.deltaTime;
 
@@ -163,7 +213,7 @@ public class BossAI : MonoBehaviour
 	{
         if (other.gameObject.CompareTag("Player"))
         {
-			player.GetComponent<PlayerController>().GetDamage(damage);
+            PlayerController.Instance.GetDamage(damage);
         }
     }
 
