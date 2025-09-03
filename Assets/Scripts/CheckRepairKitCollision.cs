@@ -3,6 +3,7 @@ using UnityEngine;
 public class CheckRepairKitCollision : MonoBehaviour
 {
 	[SerializeField] private TimerScript timerScript;
+	private GameObject curKit;
 
 	void Start()
 	{
@@ -12,23 +13,32 @@ public class CheckRepairKitCollision : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+		if(curKit != null)
+		{
+			if(!curKit.activeSelf)
+			{
+				curKit = null;
+                timerScript.ChanageCountdown(false);
+            }
+		}
 	}
 
-	void OnTriggerEnter(Collider other)
+	private void OnTriggerEnter(Collider other)
 	{
         if (other.CompareTag("RepairKit"))
 		{
             timerScript.StartCountdown();
-		}
-	}
-
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.CompareTag("RepairKit"))
-		{
-			timerScript.ChanageCountdown(true);
+			curKit = other.gameObject;
 
         }
 	}
+
+	/*private void OnTriggerExit(Collider other)
+	{
+		if (other.CompareTag("RepairKit"))
+		{
+			timerScript.ChanageCountdown(false);
+
+        }
+	}*/
 }

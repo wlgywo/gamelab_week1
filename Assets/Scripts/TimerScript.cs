@@ -8,7 +8,7 @@ public class TimerScript : MonoBehaviour
     public float countdownTime = 30f;
 
     private float currentTime = 0;
-    private bool isCounting = false;
+    [SerializeField] private bool isCounting = false;
 
     private float curKitTimer = 0f;
     private float kitTimer = 3f; // 
@@ -21,6 +21,12 @@ public class TimerScript : MonoBehaviour
 
     public void StartCountdown()
     {
+        if(slider.gameObject.activeSelf)
+        {
+            ChanageCountdown(true);
+            return;
+        }      
+
         currentTime = countdownTime;
         isCounting = true;
 
@@ -36,11 +42,11 @@ public class TimerScript : MonoBehaviour
 
     public void CompleteCountdown()
     {
-        /*currentTime = countdownTime;*/
-
         isCounting = false;
         InGameManager.Instance.countdownText.gameObject.SetActive(false);
         slider.gameObject.SetActive(false);
+
+        // 몬스터 전부 삭제, 방 열림
     }
 
     void Update()
