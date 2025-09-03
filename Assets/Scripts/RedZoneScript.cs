@@ -23,7 +23,7 @@ public class RedZoneScript : MonoBehaviour
         }
         if(other.gameObject.CompareTag("Boss"))
         {
-            BossAI.Instance.GetDamage();
+            BossAI.Instance.GetDamage(damage);
         }
     }
 }

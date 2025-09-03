@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-
 
 public class BossAI : MonoBehaviour
 {
@@ -16,12 +15,10 @@ public class BossAI : MonoBehaviour
 	[SerializeField] GameObject RedZone;
 	[SerializeField] GameObject BlueZone;
 	[SerializeField] GameObject GreenZone;
-    [SerializeField] Slider slider;
 
     // 보스 능력치 관련
     public int hp = 1000;
-    public int maxHp = 1000;
-    public float speed = 5.0f;
+	public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
 	public int damage = 15;
 
@@ -58,7 +55,6 @@ public class BossAI : MonoBehaviour
     private void Start()
     {
 		skills = new Action[] { AoESkill, ThrowFileSkile };
-		UpdateVisual();
     }
 
 	private void AoESkill()
@@ -163,39 +159,30 @@ public class BossAI : MonoBehaviour
 		}
 	}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+	private void OnTriggerEnter(Collider other)
+	{
+        if (other.gameObject.CompareTag("Player"))
         {
-			PlayerController.Instance.GetDamage(damage);
-
+			player.GetComponent<PlayerController>().GetDamage(damage);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+	public void GetDamage(int damage)
 	{
-        if (other.CompareTag("Weapon"))
-        {
-			GetDamage();
-        }
-    }
-
-	public void GetDamage()
-	{
-        hp -= PlayerController.Instance.damage;
-        UpdateVisual();
-        if (hp <= 0)
-        {
-            
-            Destroy(gameObject);
-            InGameManager.Instance.GameClear();
-        }
+		hp -= damage;
+		{
+			if(hp < 0)
+			{
+				InGameManager.Instance.GameClear();
+			}
+			else
+			{
+				// UI로 띄워야함.
+			}
+		}
 	}
-    private void UpdateVisual()
-    {
-        slider.value = (float)hp / maxHp;
-    }
-    public void SetAttackDamage(int attackDamage)
+
+	public void SetAttackDamage(int attackDamage)
 	{
 		damage += attackDamage;
 	}
