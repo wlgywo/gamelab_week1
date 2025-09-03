@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class TimerScript : MonoBehaviour
 {
+    [SerializeField] private CheckRepairKitCollision repairKit;
     [SerializeField] private Slider slider;
     public float countdownTime = 30f;
 
@@ -44,6 +45,7 @@ public class TimerScript : MonoBehaviour
     public void CompleteCountdown()
     {
         isCounting = false;
+        repairKit.RepairComplete();
         InGameManager.Instance.countdownText.gameObject.SetActive(false);
         slider.gameObject.SetActive(false);
         InGameManager.Instance.LevelUp();

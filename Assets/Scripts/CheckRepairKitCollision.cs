@@ -3,7 +3,9 @@ using UnityEngine;
 public class CheckRepairKitCollision : MonoBehaviour
 {
 	[SerializeField] private TimerScript timerScript;
+	[SerializeField] private ParticleSystem[] particle;
 	private GameObject curKit;
+	private bool repairComplete;
 
 	void Start()
 	{
@@ -13,7 +15,7 @@ public class CheckRepairKitCollision : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if(curKit != null)
+		if(!repairComplete && curKit != null)
 		{
 			if(!curKit.activeSelf)
 			{
@@ -23,9 +25,19 @@ public class CheckRepairKitCollision : MonoBehaviour
 		}
 	}
 
+	public void RepairComplete()
+	{
+		repairComplete = true;
+		foreach(var p in particle)
+		{
+			p.Stop();
+		}
+	}
+
+
 	private void OnTriggerEnter(Collider other)
 	{
-        if (other.CompareTag("RepairKit"))
+        if (!repairComplete && other.CompareTag("RepairKit"))
 		{
             timerScript.StartCountdown();
 			curKit = other.gameObject;

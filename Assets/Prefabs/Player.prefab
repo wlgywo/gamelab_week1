@@ -1704,7 +1704,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7090861022609222434}
   serializedVersion: 4
-  m_Mass: 2
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1758,7 +1758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockback: 10
-  jumpPower: 15
+  jumpPower: 55
   kitBoxObject: {fileID: 1414755815862836804}
   kitBoxPos: {fileID: 2801056275548486797}
 --- !u!1 &7957899719353480289
