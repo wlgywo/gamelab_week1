@@ -17,6 +17,8 @@ public class DoorScript : MonoBehaviour
     {
         leftDoorClosedPosition = leftDoor.localPosition;
         rightDoorClosedPosition = rightDoor.localPosition;
+
+        CallDoorOpen();
     }
 
     // Update is called once per frame
@@ -25,7 +27,7 @@ public class DoorScript : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -39,7 +41,7 @@ public class DoorScript : MonoBehaviour
         {
             CallDoorClose();
         }
-    }
+    }*/
 
     private IEnumerator OpenDoors()
     {
