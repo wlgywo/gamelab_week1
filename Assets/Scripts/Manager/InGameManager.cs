@@ -9,10 +9,13 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI countdownText;
 
     [SerializeField] public GameObject levelUp;
+    [SerializeField] public GameObject gameoverUI;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
     public bool isLevelUp = false;
+
+    public bool gameOver { get; private set; } = false;
 
 
     public float repairSpeed { get; private set; }
@@ -51,5 +54,11 @@ public class InGameManager : MonoBehaviour
     public void UpgradeRepairSpeed()
     {
         repairSpeed += upgradeRepairSpeed;
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        gameoverUI.SetActive(true);
     }
 }

@@ -33,7 +33,7 @@ public class KitBox : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Player")) // 임시, 이걸 Enemy에서 실행하고 IngameManager에서 여기 SetDamager를 접근
+        if(collision.gameObject.CompareTag("Enemy")) // 임시, 이걸 Enemy에서 실행하고 IngameManager에서 여기 SetDamager를 접근
         {
             SetDamage(20);
         }
