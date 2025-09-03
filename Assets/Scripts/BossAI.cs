@@ -18,6 +18,9 @@ public class BossAI : MonoBehaviour
 	[SerializeField] GameObject GreenZone;
     [SerializeField] Slider slider;
 
+    // 보스 상태 관련
+    public bool onFloor = false;
+
     // 보스 능력치 관련
     public int hp = 1000;
     public int maxHp = 1000;
@@ -38,7 +41,7 @@ public class BossAI : MonoBehaviour
 	// 공격 관련
 	private bool isAttacking = false;
 	private float attackRange = 4f;       // 공격 사거리
-	private float attackCooldown;         // 공격 쿨타임
+	private float attackCooldown = 2f;         // 공격 쿨타임
 	private float attackDelay = 3f;
 	Action[] skills;
 
@@ -75,40 +78,42 @@ public class BossAI : MonoBehaviour
 	private void AoESkill()
 	{
 		int num = UnityEngine.Random.Range(0, zoneCount);
-		switch (num)
-		{
-			case 0:
-				{
-					Instantiate(RedZone, transform.position, SnapRotation90(transform.rotation));
-					break;
-				}
+
+        Quaternion snappedRot = SnapRotation90(transform.rotation);
+        Vector3 down = snappedRot * Vector3.down;
+
+        // 스폰 위치 = 보스 위치 + 회전된 바닥방향으로 10 내림
+        Vector3 spawnPos = transform.position + down * 2f;
+
+        switch (num)
+        {
+            case 0:
+                Instantiate(RedZone, spawnPos, snappedRot);
+                break;
             case 1:
-                {
-                    Instantiate(BlueZone, transform.position, SnapRotation90(transform.rotation));
-                    break;
-                }
+                Instantiate(BlueZone, spawnPos, snappedRot);
+                break;
             case 2:
-                {
-                    Instantiate(GreenZone, transform.position, SnapRotation90(transform.rotation));
-                    break;
-                }
+                Instantiate(GreenZone, spawnPos, snappedRot);
+                break;
         }
-	}
+    }
 
-	Quaternion SnapRotation90(Quaternion rot)
+    Quaternion SnapRotation90(Quaternion rot)
+    {
+        Vector3 euler = rot.eulerAngles;
+
+        euler.x = Mathf.Round(euler.x / 90f) * 90f;
+        euler.y = Mathf.Round(euler.y / 90f) * 90f;
+        euler.z = Mathf.Round(euler.z / 90f) * 90f;
+
+        return Quaternion.Euler(euler);
+    }
+
+
+    private void ThrowFileSkile()
 	{
-		Vector3 euler = rot.eulerAngles;
-
-		euler.x = Mathf.Round(euler.x/90f) * 90f;
-		euler.y = Mathf.Round(euler.y/90f) * 90f;
-		euler.z = Mathf.Round(euler.z/90f) * 90f;
-
-		return Quaternion.Euler(euler);
-	}
-
-	private void ThrowFileSkile()
-	{
-		Instantiate(bulletPrefab, transform.position + transform.forward * 2f + Vector3.up, Quaternion.identity);
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
 
 
@@ -134,7 +139,7 @@ public class BossAI : MonoBehaviour
 		
         float centerDistance = Vector3.Distance(transform.position, player.position);
 
-		if(attackCooldown < 0 && centerDistance <= attackRange) {
+		if(attackCooldown < 0 && centerDistance <= attackRange && onFloor) {
 			attackCooldown = attackDelay;
 			Attack();
 			return;
@@ -196,19 +201,13 @@ public class BossAI : MonoBehaviour
     private void Update()
 	{
 		attackCooldown -= Time.deltaTime;
-
-        if (!isFiring)
-        {
-            StartCoroutine(FireBurst());
-        }
     }
 
 	private void Attack()
 	{
 		if(!isAttacking && !isDie)
 		{
-			int idx = UnityEngine.Random.Range(0, skills.Length);
-			skills[idx].Invoke();
+            skills[1].Invoke();
 		}
 	}
 
@@ -219,6 +218,7 @@ public class BossAI : MonoBehaviour
             PlayerController.Instance.GetDamage(damage);
         }
     }
+
     private void OnTriggerEnter(Collider other)
 	{
         if (other.CompareTag("Weapon"))
@@ -251,24 +251,5 @@ public class BossAI : MonoBehaviour
     private void UpdateVisual()
     {
         slider.value = (float)hp / maxHp;
-    }
-    IEnumerator FireBurst()
-    {
-        isFiring = true; // 발사 시작
-
-        // 1. 3발을 0.05초 간격으로 발사
-        for (int i = 0; i < bulletsPerBurst; i++)
-        {
-            // 총알 생성: (무엇을, 어디에, 어떤 방향으로)
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-
-            // 다음 총알을 발사하기 전까지 0.05초 대기
-            yield return new WaitForSeconds(timeBetweenShots);
-        }
-		Debug.Log("3발 발사 완료");
-        // 2. 다음 연사까지 대기
-        yield return new WaitForSeconds(timeBetweenBursts);
-		Debug.Log("공격종료");
-        isFiring = false; // 발사 완료, 다음 발사 준비
     }
 }

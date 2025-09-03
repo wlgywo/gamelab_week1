@@ -918,12 +918,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03338f1d7a89e6942977419f117aa8c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 5445039607221666440}
   player: {fileID: 0}
   RedZone: {fileID: 0}
   BlueZone: {fileID: 0}
   GreenZone: {fileID: 0}
+  slider: {fileID: 0}
   hp: 1000
+  maxHp: 1000
   speed: 5
   moveRotationSpeed: 10
   damage: 15
@@ -934,6 +936,8 @@ MonoBehaviour:
   bulletsPerBurst: 1
   timeBetweenShots: 0.05
   timeBetweenBursts: 2
+  gravityForce: 9.8
+  orientationSpeed: 10
 --- !u!1 &7957899719353480289
 GameObject:
   m_ObjectHideFlags: 0
