@@ -6,22 +6,25 @@ public class BossDoorScript : MonoBehaviour
 
     public Transform leftDoor;
     public Transform rightDoor;
+    public Light leftLight;
+    public Light rightLight;
     public float openDistance = 1.5f;
     public float openSpeed = 2.0f;
 
     private Vector3 leftDoorClosedPosition;
     private Vector3 rightDoorClosedPosition;
 
-    private bool isRightSideClear = false;
-    private bool isLeftSideClear = false;
-    private bool doorsAreOpen = false;
+    public bool isRightSideClear = false;
+    public bool isLeftSideClear = false;
+    public bool doorsAreOpen = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         leftDoorClosedPosition = leftDoor.localPosition;
         rightDoorClosedPosition = rightDoor.localPosition;
-
+        rightLight.enabled = false;
+        leftLight.enabled = false;
         CallDoorClose();
     }
 
@@ -30,12 +33,12 @@ public class BossDoorScript : MonoBehaviour
     {
         if (isRightSideClear)
         {
-
+            rightLight.enabled = true;
         }
         
         if (isLeftSideClear)
         {
-
+            leftLight.enabled = true;
         }
 
         if(isRightSideClear && isLeftSideClear)
@@ -73,6 +76,14 @@ public class BossDoorScript : MonoBehaviour
         rightDoor.localPosition = rightDoorClosedPosition;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && doorsAreOpen)
+        {
+            // 플레이어가 문에 닿았을 때의 동작
+            CallDoorOpen();
+        }
+    }
     public void CallDoorOpen()
     {
         StopAllCoroutines();

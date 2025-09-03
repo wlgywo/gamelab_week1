@@ -6,7 +6,8 @@ public class CheckRepairKitCollision : MonoBehaviour
 	[SerializeField] private ParticleSystem[] particle;
 	[SerializeField] private DoorScript[] doors;
 	[SerializeField] private LightOnChecker lightOnChecker;
-	private GameObject curKit;
+	[SerializeField] private BossDoorScript bossDoor;
+    private GameObject curKit;
 	private bool repairComplete;
 	private bool playerOn;
 
@@ -24,6 +25,10 @@ public class CheckRepairKitCollision : MonoBehaviour
 			{
 				curKit = null;
                 timerScript.ChanageCountdown(false);
+				if(gameObject.name == "BrokenPipe_2")
+					bossDoor.isLeftSideClear = true;
+				if (gameObject.name == "BrokenPipe_3")
+					bossDoor.isRightSideClear = true;
             }
 		}
 	}

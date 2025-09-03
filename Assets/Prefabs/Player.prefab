@@ -31,7 +31,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 3.06, z: -6.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3618877526856804453}
   m_Father: {fileID: 7048849329357691877}
   m_LocalEulerAnglesHint: {x: 2.879, y: 0, z: 0}
 --- !u!20 &3055171247955454527
@@ -1476,13 +1477,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5360623874035939218}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.0000004917383, z: 0, w: 1}
-  m_LocalPosition: {x: -0.011, y: 1.571, z: 0.408}
+  m_LocalRotation: {x: 0.007161471, y: 0.0002070211, z: 0.00825812, w: 0.9999403}
+  m_LocalPosition: {x: -0.01, y: -0.03, z: 6.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7048849329357691877}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 3791746999499101368}
+  m_LocalEulerAnglesHint: {x: 0.82, y: 0.031, z: 0.947}
 --- !u!108 &964082078651753171
 Light:
   m_ObjectHideFlags: 0
@@ -1496,8 +1497,8 @@ Light:
   m_Color: {r: 1, g: 0.6628425, b: 0, a: 1}
   m_Intensity: 100
   m_Range: 1948.4756
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 20.68489
+  m_SpotAngle: 50.551525
+  m_InnerSpotAngle: 28.666796
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -1889,7 +1890,6 @@ Transform:
   - {fileID: 3026146654152048952}
   - {fileID: 5186116434840966696}
   - {fileID: 3791746999499101368}
-  - {fileID: 3618877526856804453}
   - {fileID: 8757053995859994085}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1976,10 +1976,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
+  slider: {fileID: 0}
   curAttackDelay: 0
   attackDelay: 1.5
   knockback: 10
   jumpPower: 55
+  rotateDuration: 0.5
   kitBoxObject: {fileID: 1414755815862836804}
   kitBoxPos: {fileID: 2801056275548486797}
   cameraTransform: {fileID: 3791746999499101368}

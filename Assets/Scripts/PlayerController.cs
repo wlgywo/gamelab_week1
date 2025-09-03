@@ -46,6 +46,12 @@ public class PlayerController : MonoBehaviour
     private float mouseSpeed = 150f;
     Quaternion targetRot;
 
+    // --- ▼ 아래 두 줄을 추가하세요 ▼ ---
+    [Header("Gravity Rotation")]
+    public float rotateDuration = 0.5f; // 중력 전환에 걸리는 시간 (초)
+    private Coroutine rotationCoroutine; // 실행 중인 회전 코루틴을 저장할 변수
+    // --- ▲ 여기까지 추가 ▲ ---
+
     Vector3 postUp; // 중력 전환 전 transform.up 방향
     Vector3 snapVec = Vector3.zero;
 
@@ -195,7 +201,15 @@ public class PlayerController : MonoBehaviour
         // 3) 캐릭터의 up을 -gravityDir로 맞추는 회전(즉시/보간 중 택1)
         targetRot = Quaternion.FromToRotation(snappedRot * Vector3.up, -gravityDir) * snappedRot;
 
-        isRotate = true;
+        // --- ▼ 기존 isRotate = true; 를 아래 코드로 교체하세요 ▼ ---
+        // 만약 이전에 실행 중이던 회전 코루틴이 있다면 중지시킵니다.
+        if (rotationCoroutine != null)
+        {
+            StopCoroutine(rotationCoroutine);
+        }
+        // 새로운 목표 각도로 회전하는 코루틴을 시작하고, 변수에 저장합니다.
+        rotationCoroutine = StartCoroutine(RotateGravityCoroutine(targetRot));
+        // --- ▲ 여기까지 교체 ▲ ---
     }
 
     // [-180,180) 구간으로 정규화하여 0/±90/180으로 스냅
@@ -237,20 +251,7 @@ public class PlayerController : MonoBehaviour
         }*/
 
 
-        if (isRotate)
-        {
-
-            rb.MoveRotation(targetRot); // 즉시 적용
-            isRotate = false;
-            /*Quaternion newRot = Quaternion.Slerp(rb.rotation, targetRot, rotateSpeed * Time.fixedDeltaTime);
-            rb.MoveRotation(newRot);
-
-            if (Quaternion.Angle(rb.rotation, targetRot) < 0.01f)
-            {
-                rb.MoveRotation(targetRot);
-                isRotate = false;
-            }*/
-        }
+        
     }
 
     private void Update()
@@ -292,6 +293,41 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+
+    private IEnumerator RotateGravityCoroutine(Quaternion targetRotation)
+    {
+        // 회전 시작을 알림 (이 시간 동안 마우스 회전이 멈춤)
+        isRotate = true;
+
+        Quaternion startRotation = rb.rotation;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < rotateDuration)
+        {
+            // 경과 시간을 0과 1 사이의 값으로 정규화
+            float t = elapsedTime / rotateDuration;
+
+            // (선택사항) SmoothStep을 사용하면 시작과 끝에서 가감속 효과를 주어 더 부드러워 보입니다.
+            t = Mathf.SmoothStep(0, 1, t);
+
+            // Slerp를 사용하여 시작 각도와 목표 각도 사이를 부드럽게 보간
+            rb.MoveRotation(Quaternion.Slerp(startRotation, targetRotation, t));
+
+            // 경과 시간 업데이트
+            elapsedTime += Time.deltaTime;
+
+            // 다음 프레임까지 대기
+            yield return null;
+        }
+
+        // 회전이 끝난 후, 정확한 목표 각도로 맞춰줌 (오차 보정)
+        rb.MoveRotation(targetRotation);
+
+        // 회전이 끝났음을 알림
+        isRotate = false;
+        rotationCoroutine = null;
+    }
+    // --- ▲ 여기까지 추가 ▲ ---
 
     private void LateUpdate()
     {/*

@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
 	// 다른 오브젝트 관련
 	public Transform repairKit;
 	public Transform player;
+    private Animator animator;
 
 	// 몬스터 상태 관련
 	public int hp = 100;
@@ -53,6 +54,11 @@ public class EnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         // Rigidbody의 기본 중력은 꺼야 수동으로 제어할 수 있습니다.
         rb.useGravity = false;
+        animator = GetComponent<Animator>();
+
+        if (animator != null) { 
+            Debug.Log("Animator component found.");
+        }
     }
 
     private void Start()
@@ -176,6 +182,9 @@ public class EnemyAI : MonoBehaviour
         {
             target = repairKit;
         }
+
+        animator.SetBool("isChase", true);
+        //animator.SetTrigger("Attack");
 
         // 시작 상태 저장
         Vector3 startPos = rb.position;
