@@ -1,35 +1,63 @@
-	using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
 	public GameObject enemyPrefab;
 
+	public Transform[] pivots;
+	
 	public int spawnCount = 10;
 
-	public float firstDelay = 10f;	// 시작 지연
+	//public float firstDelay = 10f;	// 시작 지연
+
+	private float curDelay = 0f;
 	public float spawnInterval = 3f;    // 소환주기
 
+	public bool isSpawn;
 
-    void OnEnable()
+	List<GameObject> enemyList;
+
+    private void Start()
+    {
+        enemyList = new List<GameObject>();
+    }
+
+    /*void OnEnable()
     {
         InvokeRepeating("SpawnEnemy", firstDelay, spawnInterval);
     }
 
     void OnDisable()
     {
-		CancelInvoke("SpawnEnemy");
+		/CancelInvoke("SpawnEnemy");
+    }*/
+
+    private void Update()
+    {
+        if(isSpawn)
+		{
+			curDelay -= Time.deltaTime;
+			if(curDelay <= 0)
+			{
+				curDelay = spawnInterval;
+				SpawnEnemy();
+            }
+		}
     }
 
     void SpawnEnemy()
 	{
 		if (enemyPrefab == null) return;
 
-		for (int i = 0; i < spawnCount; i++) {
-			Instantiate(enemyPrefab,GetRandomPos() , enemyPrefab.transform.rotation);
-		}
+		int num = Random.Range(0, pivots.Length);
+
+        GameObject enemy = Instantiate(enemyPrefab, pivots[num].position, PlayerController.Instance.transform.rotation);
+        enemyList.Add(enemy);
 	}
 
-	Vector3 GetRandomPos()
+	/*Vector3 GetRandomPos()
 	{
 		Vector3 playerPos = transform.position;
 
@@ -39,5 +67,16 @@ public class EnemySpawnManager : MonoBehaviour
 		return new Vector3(playerPos.x + offsetX,
 							playerPos.y,
 							playerPos.z + offsetZ);
-	}
+	}*/
+
+	public void Complete()
+	{
+		isSpawn = false;
+
+        foreach (GameObject enemy in enemyList)
+        {
+            if (enemy != null)
+                Destroy(enemy);
+        }
+    }
 }

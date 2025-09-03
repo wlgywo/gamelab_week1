@@ -12,7 +12,7 @@ public class TimerScript : MonoBehaviour
     [SerializeField] private bool isCounting = false;
 
     private float curKitTimer = 0f;
-    private float kitTimer = 5f; // 
+    private float kitTimer = 30f; // 
 
     private void Start()
     {

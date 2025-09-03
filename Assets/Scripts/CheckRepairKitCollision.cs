@@ -11,7 +11,14 @@ public class CheckRepairKitCollision : MonoBehaviour
 	private bool repairComplete;
 	private bool playerOn;
 
-	void Start()
+	private EnemySpawnManager enemySpawnManager;
+
+    private void Awake()
+    {
+        enemySpawnManager = GetComponent<EnemySpawnManager>();
+    }
+
+    void Start()
 	{
 		
 	}
@@ -36,7 +43,8 @@ public class CheckRepairKitCollision : MonoBehaviour
 	public void RepairComplete()
 	{
 		repairComplete = true;
-		foreach(var p in particle)
+		enemySpawnManager.Complete();
+        foreach (var p in particle)
 		{
 			p.Stop();
 		}
@@ -57,8 +65,9 @@ public class CheckRepairKitCollision : MonoBehaviour
                 foreach (var d in doors)
                 {
                     d.CallDoorClose();
-                    playerOn = true;
                 }
+				playerOn = true;
+				enemySpawnManager.isSpawn = true;
                 lightOnChecker.CallLightOn();
             }
 
