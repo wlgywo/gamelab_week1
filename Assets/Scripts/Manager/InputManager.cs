@@ -29,22 +29,26 @@ public class InputManager : MonoBehaviour
 
     private void KitBoxGet_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (InGameManager.Instance.isLevelUp) return;
         OnKitBoxGet.Invoke(this, EventArgs.Empty);
     }
 
     private void KitBoxDrop_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (InGameManager.Instance.isLevelUp) return;
         OnKitBoxDrop.Invoke(this, EventArgs.Empty);
     }
 
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (InGameManager.Instance.isLevelUp) return;
         OnJump?.Invoke(this, EventArgs.Empty);
     }
 
     private void GravityLeft_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (!PlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
+        if (InGameManager.Instance.isLevelUp) return;
 
         GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(true);
@@ -56,6 +60,7 @@ public class InputManager : MonoBehaviour
     private void GravityRight_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (!PlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
+        if (InGameManager.Instance.isLevelUp) return;
 
         GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(false);

@@ -9,10 +9,17 @@ public class PlayerController : MonoBehaviour
 
 
     // 플레이어 상태 관련. 체력등)
+    private int maxHp = 100;
     private int hp = 100;
+    private int hpUpgrade = 20;
+
     private const string WALKANIM = "IsWalk";
     private const string ATTACKANIM = "IsAttack";
-    protected int damage = 10;  
+    private int damage = 10;
+    private const int upgraeDamage = 10;
+
+    public float knockback = 10;
+    public const float knockbackUpgrade = 10f;
 
     private float moveSpeed = 5f;
     public float jumpPower = 15f;
@@ -139,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        if(InGameManager.Instance.isLevelUp) return;
         Vector2 InputVector = InputManager.Instance.GetMoveDirNormalized();
 
         if(InputVector == Vector2.zero)
@@ -184,6 +191,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (InGameManager.Instance.isLevelUp) return;
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
         if (pointerDelta.sqrMagnitude > 0.01f && !isRotate && isGround)
         {
@@ -225,4 +233,19 @@ public class PlayerController : MonoBehaviour
         // UI 호출필요
     }
 
+    public void UpdateKnockback()
+    {
+        knockback += knockbackUpgrade;
+    }
+
+    public void UpdateDamage()
+    {
+        damage += upgraeDamage;
+    }
+
+    public void UpdateHp()
+    {
+        maxHp += hpUpgrade;
+        hp = maxHp;
+    }
 }

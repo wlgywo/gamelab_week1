@@ -12,6 +12,12 @@ public class InGameManager : MonoBehaviour
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
+    public bool isLevelUp = false;
+
+
+    public float repairSpeed { get; private set; }
+    private float upgradeRepairSpeed = 1.5f;
+
     private void Awake()
     {
         if(Instance == null) Instance = this;
@@ -29,10 +35,21 @@ public class InGameManager : MonoBehaviour
     }
     public void LevelUp()
     {
+        isLevelUp = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         levelUp.SetActive(true);
     }
     public void RemoveLevelUpUI()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        isLevelUp = false;
         levelUp.SetActive(false);
+    }
+
+    public void UpgradeRepairSpeed()
+    {
+        repairSpeed += upgradeRepairSpeed;
     }
 }

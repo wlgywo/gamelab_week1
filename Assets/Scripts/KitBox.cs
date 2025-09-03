@@ -4,6 +4,9 @@ public class KitBox : MonoBehaviour
 {
     public float curHp { get; private set; }
     private float MaxHp = 100;
+    private const float hpUpgradeRange = 20f;
+
+    // 슬라이더 추가
 
     private void Awake()
     {
@@ -20,6 +23,13 @@ public class KitBox : MonoBehaviour
             Debug.Log("수리 키트 파괴");
         }
     }
+
+    public void HPUp()
+    {
+        MaxHp += hpUpgradeRange;
+        curHp = MaxHp; // 슬라이더 갱신
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {

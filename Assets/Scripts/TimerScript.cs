@@ -11,7 +11,7 @@ public class TimerScript : MonoBehaviour
     [SerializeField] private bool isCounting = false;
 
     private float curKitTimer = 0f;
-    private float kitTimer = 3f; // 
+    private float kitTimer = 5f; // 
 
     private void Start()
     {
@@ -29,6 +29,7 @@ public class TimerScript : MonoBehaviour
 
         currentTime = countdownTime;
         isCounting = true;
+        curKitTimer = 0;
 
         //if()
         InGameManager.Instance.countdownText.gameObject.SetActive(true);
@@ -45,6 +46,7 @@ public class TimerScript : MonoBehaviour
         isCounting = false;
         InGameManager.Instance.countdownText.gameObject.SetActive(false);
         slider.gameObject.SetActive(false);
+        InGameManager.Instance.LevelUp();
 
         // 몬스터 전부 삭제, 방 열림
     }
@@ -64,7 +66,7 @@ public class TimerScript : MonoBehaviour
                 InGameManager.Instance.levelUp.gameObject.SetActive(true);
             }
 
-            if(curKitTimer >= kitTimer)
+            if(curKitTimer >= (kitTimer- InGameManager.Instance.repairSpeed))
             {
                 Debug.Log("클리어 처리");
                 CompleteCountdown();
@@ -94,6 +96,6 @@ public class TimerScript : MonoBehaviour
         int seconds = Mathf.FloorToInt(currentTime % 60);
         InGameManager.Instance.countdownText.text = string.Format("{0}:{1:00}", minutes, seconds);
 
-        slider.value = curKitTimer / kitTimer;
+        slider.value = curKitTimer / (kitTimer- InGameManager.Instance.repairSpeed);
     }
 }
