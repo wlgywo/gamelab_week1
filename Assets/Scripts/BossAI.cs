@@ -173,7 +173,7 @@ public class BossAI : MonoBehaviour
 		{
 			if(hp < 0)
 			{
-				// 보스가 죽었으니 게임 종료
+				InGameManager.Instance.GameClear();
 			}
 			else
 			{
