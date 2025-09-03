@@ -5,7 +5,7 @@ public class BossBullet : MonoBehaviour
     private Rigidbody bulletRb;
 
     private int damage = 10;
-    public float speed = 10f;
+    public float speed = 5f;
     public float maxTorque = 10f;
     Transform playerPos;
 
@@ -31,14 +31,18 @@ public class BossBullet : MonoBehaviour
         return Random.Range(-maxTorque, maxTorque);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Ground"))
+        if (other.CompareTag("Player") )
         {
-            PlayerController.Instance.GetDamage(1);
+            PlayerController.Instance.GetDamage(5);
             Destroy(gameObject);
+        }
+        if(other.CompareTag("Ground"))
+        {
+            Destroy(gameObject);
+
         }
     }
 
-    
 }

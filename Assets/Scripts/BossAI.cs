@@ -34,13 +34,13 @@ public class BossAI : MonoBehaviour
 
 
 	// 경계 설정용
-	private float stopRadius = 3.9f;     // 어느 반경에서 멈출지
+	public float stopRadius = 9.9f;     // 어느 반경에서 멈출지
 	private float stopEpsilon = 0.05f;   // 경계에서 떨림 방지용
 
 
 	// 공격 관련
 	private bool isAttacking = false;
-	private float attackRange = 4f;       // 공격 사거리
+	public float attackRange = 10f;       // 공격 사거리
 	private float attackCooldown = 2f;         // 공격 쿨타임
 	private float attackDelay = 3f;
 	Action[] skills;
@@ -118,84 +118,75 @@ public class BossAI : MonoBehaviour
 
 
     private void FixedUpdate()
-	{
-		if (isDie) return;
-        //if (player == null && repairKit == null) return;
-        // --- ▼ [수정 1] 중력 및 방향 동기화 로직 추가 ▼ ---
+    {
+        if (isDie) return;
+
+        // --- 1. 중력 및 방향 동기화 (기존과 동일) ---
         if (player != null)
         {
-            // 1. 플레이어와 같은 방향으로 중력 적용
             Vector3 gravityDirection = -player.transform.up;
             rb.AddForce(gravityDirection * gravityForce);
 
-            // 2. 플레이어의 'up' 벡터를 부드럽게 따라가도록 회전
             Quaternion targetOrientation = Quaternion.FromToRotation(transform.up, player.transform.up) * rb.rotation;
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetOrientation, orientationSpeed * Time.fixedDeltaTime));
         }
-        // --- ▲ [수정 1] 종료 ▲ ---
 
         if (player == null) return;
-		if (isAttacking) return;
-		
-        float centerDistance = Vector3.Distance(transform.position, player.position);
+        if (isAttacking) return;
 
-		if(attackCooldown < 0 && centerDistance <= attackRange && onFloor) {
-			attackCooldown = attackDelay;
-			Attack();
-			return;
-		}
-
-        // --- ▼ [수정 2] 거리 및 방향 계산 로직 변경 ▼ ---
+        // --- 2. 필요한 모든 변수를 한 번만 계산 (로직 통합) ---
         Vector3 selfPos = transform.position;
-        Transform target = player;
-        Vector3 targetPos = target.position;
+        Vector3 targetPos = player.position;
         Vector3 upDir = transform.up; // 현재 나의 '위' 방향
 
-        // '위' 방향을 무시한 평면상의 거리 계산
-        centerDistance = Vector3.Distance(Vector3.ProjectOnPlane(selfPos, upDir), Vector3.ProjectOnPlane(targetPos, upDir));
+        // '위' 방향을 무시한 평면상의 거리와 방향을 계산
+        float centerDistance = Vector3.Distance(Vector3.ProjectOnPlane(selfPos, upDir), Vector3.ProjectOnPlane(targetPos, upDir));
+        Vector3 flatDirToTarget = Vector3.ProjectOnPlane(targetPos - selfPos, upDir).normalized;
 
-        if (attackCooldown < 0 && centerDistance <= attackRange)
-        {
-            attackCooldown = attackDelay;
-            Attack();
-            return;
-        }
 
-        // '위' 방향을 무시하고 타겟을 향하는 방향 벡터 계산
-        Vector3 dirToTarget = (targetPos - selfPos);
-        Vector3 flatDirToTarget = Vector3.ProjectOnPlane(dirToTarget, upDir).normalized;
+        // --- 3. 거리에 따라 행동 결정 (이동 또는 정지/공격) ---
 
-        if (centerDistance > stopRadius + stopEpsilon)
+        // 플레이어가 멈춤 반경(stopRadius) 밖에 있다면 -> 이동
+        if (centerDistance > stopRadius)
         {
             // 목표 지점은 타겟 위치에서 멈춤 반경만큼 떨어진 곳
             Vector3 targetOnBoundary = targetPos - flatDirToTarget * stopRadius;
 
-            // 이동할 방향 계산
+            // 이동할 방향 계산 및 이동
             Vector3 toTarget = Vector3.ProjectOnPlane(targetOnBoundary - selfPos, upDir);
             Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
             rb.MovePosition(nextPos);
 
-            // '위' 방향을 기준으로 회전
-            Quaternion targetRot = Quaternion.LookRotation(flatDirToTarget, upDir);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+            // 이동 방향으로 회전
+            if (toTarget.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(toTarget.normalized, upDir);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+            }
         }
+        // 플레이어가 멈춤 반경(stopRadius) 안에 있다면 -> 정지 & 공격 시도
         else
         {
-            // 멈출 때
+            // 이동을 멈춤
             rb.MovePosition(rb.position);
+            rb.linearVelocity = Vector3.Project(rb.linearVelocity, upDir); // 평면 이동 관성 제거
 
-            // 관성 제거 시, 현재 평면에 대해서만 제거하는 것이 더 안정적일 수 있습니다.
-            rb.linearVelocity = Vector3.Project(rb.linearVelocity, upDir);
-
-            if (flatDirToTarget.sqrMagnitude > 0.0001f)
+            // 플레이어를 바라보도록 회전
+            if (flatDirToTarget.sqrMagnitude > 0.001f)
             {
                 Quaternion targetRot = Quaternion.LookRotation(flatDirToTarget, upDir);
                 rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
             }
+
+            // 이 상태에서 공격 쿨타임이 다 되었다면 공격
+            // onFloor 같은 추가 조건이 있다면 여기에 추가
+            if (attackCooldown <= 0 /*&& onFloor*/)
+            {
+                attackCooldown = attackDelay;
+                Attack();
+                // Attack() 후에 return할 필요 없음. 이미 이동은 멈춘 상태.
+            }
         }
-        // --- ▲ [수정 2] 종료 ▲ ---
-
-
     }
 
     private void Update()
