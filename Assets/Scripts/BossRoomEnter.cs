@@ -22,7 +22,6 @@ public class BossRoomEnter : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player")){
-            // 보스 UI 추가 필요
             StartCoroutine(OpenDoor(bossDoor, Vector3.left));  
             StartCoroutine(OpenDoor(bossDoor2, Vector3.right));
             InGameManager.Instance.BossUI.SetActive(true);
