@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler OnLeftGravity;
     public event EventHandler OnRightGravity;
+    public event EventHandler OnJump; 
 
     public PlayerInput playerInput {  get; private set; }
 
@@ -19,7 +20,14 @@ public class InputManager : MonoBehaviour
 
         playerInput.Player.GravityLeft.performed += GravityLeft_performed;
         playerInput.Player.GravityRight.performed += GravityRight_performed;
+        playerInput.Player.Jump.performed += Jump_performed;
     }
+
+    private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnJump?.Invoke(this, EventArgs.Empty);
+    }
+
     private void GravityLeft_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (!PlayerController.Instance.isGround) return;

@@ -38,6 +38,16 @@ public class PlayerController : MonoBehaviour
     {
         InputManager.Instance.OnLeftGravity += InputManager_OnLeftGravity;
         InputManager.Instance.OnRightGravity += InputManager_OnRightGravity;
+        InputManager.Instance.OnJump += InputManager_OnJump;
+    }
+
+    private void InputManager_OnJump(object sender, System.EventArgs e)
+    {
+        if(!isGround) return;
+
+        isGround = false;
+        Vector3 up = transform.up;
+        rb.AddForce(up * 5f, ForceMode.Impulse);
     }
 
     private void InputManager_OnLeftGravity(object sender, System.EventArgs e)
