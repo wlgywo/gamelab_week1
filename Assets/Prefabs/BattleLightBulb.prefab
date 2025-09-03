@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 2893781051518366440}
   - component: {fileID: 1641753072761714333}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: Point Light2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,7 +137,7 @@ Transform:
   m_GameObject: {fileID: 576414911404808903}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00015863113, y: -0.008608347, z: -0.0014301197, w: 0.9999619}
-  m_LocalPosition: {x: 0.007, y: 1.418, z: 0.013}
+  m_LocalPosition: {x: 0.007, y: 2.66, z: 0.013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -154,8 +154,8 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 500
-  m_Range: 10
+  m_Intensity: 100
+  m_Range: 18.168774
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -1159,7 +1159,7 @@ GameObject:
   - component: {fileID: 5814838108017000781}
   - component: {fileID: 4802822491742494819}
   m_Layer: 0
-  m_Name: Spot Light
+  m_Name: Spot Light2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1174,7 +1174,7 @@ Transform:
   m_GameObject: {fileID: 8098930679590877465}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.006, y: 1.53, z: 0.01}
+  m_LocalPosition: {x: 0.006, y: 1.95, z: 0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1192,8 +1192,8 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1000
-  m_Range: 23.193779
-  m_SpotAngle: 126.23487
+  m_Range: 28.942926
+  m_SpotAngle: 91.28383
   m_InnerSpotAngle: 29.772873
   m_CookieSize: 10
   m_Shadows:

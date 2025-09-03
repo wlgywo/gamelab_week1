@@ -405,7 +405,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 8550708223304160295}
   m_HandleRect: {fileID: 0}
@@ -756,6 +756,7 @@ GameObject:
   - component: {fileID: 3704011882481582967}
   - component: {fileID: 6101133274721678714}
   - component: {fileID: 6210177518218147205}
+  - component: {fileID: 4246183214857291932}
   m_Layer: 0
   m_Name: BrokenPipe
   m_TagString: Untagged
@@ -800,6 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be6f9ddba4b5ba242ac32717ca85dbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repairKit: {fileID: 6101133274721678714}
   slider: {fileID: 1785372171125917389}
   countdownTime: 30
   isCounting: 0
@@ -816,6 +818,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerScript: {fileID: 3704011882481582967}
+  particle:
+  - {fileID: 792999898180796488}
+  - {fileID: 3753379506093813663}
+  doors:
+  - {fileID: 0}
+  lightOnChecker: {fileID: 0}
+  lights: []
 --- !u!65 &6210177518218147205
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -835,8 +844,24 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.4, y: 1.45, z: 5.24}
-  m_Center: {x: 1.39, y: -1.04, z: 0.48}
+  m_Size: {x: 2.5350227, y: 3.0052667, z: 5.24}
+  m_Center: {x: 1.3224888, y: -1.8176334, z: 0.48000002}
+--- !u!114 &4246183214857291932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333463943056229873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3c39bb7d6394047a92f8d34699df19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLight:
+  - {fileID: 0}
+  - {fileID: 0}
+  blinkInterval: 0.1
 --- !u!1 &4544155386651642805
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public class CheckRepairKitCollision : MonoBehaviour
 	[SerializeField] private TimerScript timerScript;
 	[SerializeField] private ParticleSystem[] particle;
 	[SerializeField] private DoorScript[] doors;
+	[SerializeField] private LightOnChecker lightOnChecker;
 	private GameObject curKit;
 	private bool repairComplete;
 	private bool playerOn;
@@ -46,13 +47,14 @@ public class CheckRepairKitCollision : MonoBehaviour
 	{
         if (!repairComplete && other.CompareTag("RepairKit"))
 		{
-			if(!playerOn)
+            if (!playerOn)
 			{
                 foreach (var d in doors)
                 {
                     d.CallDoorClose();
                     playerOn = true;
                 }
+                lightOnChecker.CallLightOn();
             }
 
             timerScript.StartCountdown();
