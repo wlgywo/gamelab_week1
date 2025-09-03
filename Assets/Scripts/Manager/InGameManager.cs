@@ -9,10 +9,6 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI countdownText;
 
     [SerializeField] public GameObject levelUp;
-    [SerializeField] public Image levelUpImage;
-    [SerializeField] public TextMeshProUGUI levelUpText1;   // 어떤 능력 업그레이드 할지 정하기.
-    [SerializeField] public TextMeshProUGUI levelUpText2;   // 어떤 능력 업그레이드 할지 정하기.
-    [SerializeField] public TextMeshProUGUI levelUpText3;   // 어떤 능력 업그레이드 할지 정하기.
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
@@ -30,5 +26,13 @@ public class InGameManager : MonoBehaviour
     public void GetKitBox()
     {
         kitBox.gameObject.SetActive(false);
+    }
+    public void LevelUp()
+    {
+        levelUp.SetActive(true);
+    }
+    public void RemoveLevelUpUI()
+    {
+        levelUp.SetActive(false);
     }
 }

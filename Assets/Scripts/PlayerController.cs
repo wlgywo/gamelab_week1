@@ -15,12 +15,13 @@ public class PlayerController : MonoBehaviour
     protected int damage = 10;  
 
     private float moveSpeed = 5f;
+    public float jumpPower = 15f;
 
     public bool isGround { get; private set; }
 
     private bool isRotate = false;
     private float rotateSpeed = 10f;
-    private float mouseSpeed = 50f;
+    private float mouseSpeed = 150f;
     Quaternion targetRot;
 
     Vector3 postUp; // 중력 전환 전 transform.up 방향
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         isGround = false;
         Vector3 up = transform.up;
-        rb.AddForce(up * 5f, ForceMode.Impulse);
+        rb.AddForce(up * jumpPower, ForceMode.Impulse);
     }
 
     private void InputManager_OnLeftGravity(object sender, System.EventArgs e)
