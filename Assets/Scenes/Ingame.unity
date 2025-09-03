@@ -2017,6 +2017,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3109828025045272394, guid: f3dff98b6325ec241bbd935716ddfcc7, type: 3}
+      propertyPath: hp
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3109828025045272394, guid: f3dff98b6325ec241bbd935716ddfcc7, type: 3}
+      propertyPath: slider
+      value: 
+      objectReference: {fileID: 2074760865}
     - target: {fileID: 7048849329357691877, guid: f3dff98b6325ec241bbd935716ddfcc7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.21
@@ -2063,7 +2071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7090861022609222434, guid: f3dff98b6325ec241bbd935716ddfcc7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12298,8 +12306,9 @@ MonoBehaviour:
   countdownText: {fileID: 6105991484891532615}
   levelUp: {fileID: 5183045304207618038}
   gameoverUI: {fileID: 4537094985248251310}
-  gameClearUI: {fileID: 0}
+  gameClearUI: {fileID: 1228002344}
   BossUI: {fileID: 542879975}
+  playerUI: {fileID: 0}
   <kitBox>k__BackingField: {fileID: 1267427272}
   isLevelUp: 0
 --- !u!1 &1947186347
