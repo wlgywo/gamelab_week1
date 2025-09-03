@@ -7577,6 +7577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   countdownText: {fileID: 6105991484891532615}
   levelUp: {fileID: 5183045304207618038}
+  gameoverUI: {fileID: 0}
   <kitBox>k__BackingField: {fileID: 1267427272}
   isLevelUp: 0
 --- !u!1 &1947186347

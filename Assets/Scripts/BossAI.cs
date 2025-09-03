@@ -1,86 +1,149 @@
+using System;
+using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class BossAI : MonoBehaviour
 {
     [SerializeField] protected Rigidbody rb;
+ 
+	// 다른 오브젝트 관련
+	public Transform player;
+	int zoneCount = 3;
+	[SerializeField] GameObject RedZone;
+	[SerializeField] GameObject BlueZone;
+	[SerializeField] GameObject GreenZone;
 
-    public int hp = 100;
+	// 보스 능력치 관련
+	public int hp = 1000;
+	public float speed = 5.0f;
+	public float moveRotationSpeed = 10.0f;
+	public int damage = 15;
 
-    protected const string ISCHASE = "IsChase";
-    protected const string ISAttack = "IsAttack";
+	// 데미지와 사망 관련
+	private bool isDie = false;
+	private bool isDamaged = false; // 지금 맞은 상태인가
 
-    public float attackRange = 2f;       // 공격 사거리
 
-    protected Transform player;
-    protected float attackCooldown;      // 공격 쿨타임
-    public float attackDelay = 3f;
+	// 경계 설정용
+	private float stopRadius = 3.9f;     // 어느 반경에서 멈출지
+	private float stopEpsilon = 0.05f;   // 경계에서 떨림 방지용
 
-    public float speed = 5.0f;
-    public float moveRotationSpeed = 10.0f;
 
-    protected bool isDamaged = false; // 지금 맞은 상태인가
-    //private float curInvincibleTimer = 0f;
+	// 공격 관련
+	private bool isAttacking = false;
+	private float attackRange = 4f;       // 공격 사거리
+	private float attackCooldown;         // 공격 쿨타임
+	private float attackDelay = 3f;
+	Action[] skills;
 
-    protected Coroutine rotateCoroutine;
-
-    protected bool isDie = false;
-
-    protected virtual void FixedUpdate()
+    private void Start()
     {
-        if (isDie) return;
+		skills = new Action[] { AoESkill, ThrowFileSkile };
+    }
 
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (attackCooldown < 0)
-        {
-            attackCooldown = attackDelay;
-            Attack();
+	private void AoESkill()
+	{
+		int num = UnityEngine.Random.Range(0, zoneCount);
+		switch (num)
+		{
+			case 0:
+				{
+					Instantiate(RedZone, transform.position, SnapRotation90(transform.rotation));
+					break;
+				}
+            case 1:
+                {
+                    Instantiate(BlueZone, transform.position, SnapRotation90(transform.rotation));
+                    break;
+                }
+            case 2:
+                {
+                    Instantiate(GreenZone, transform.position, SnapRotation90(transform.rotation));
+                    break;
+                }
         }
-        else
+	}
+
+	Quaternion SnapRotation90(Quaternion rot)
+	{
+		Vector3 euler = rot.eulerAngles;
+
+		euler.x = Mathf.Round(euler.x/90f) * 90f;
+		euler.y = Mathf.Round(euler.y/90f) * 90f;
+		euler.z = Mathf.Round(euler.z/90f) * 90f;
+
+		return Quaternion.Euler(euler);
+	}
+
+	private void ThrowFileSkile()
+	{
+
+	}
+
+
+    private void FixedUpdate()
+	{
+		if (isDie) return;
+		if (player == null) return;
+		if (isAttacking) return;
+		
+        float centerDistance = Vector3.Distance(transform.position, player.position);
+
+		if(attackCooldown < 0 && centerDistance <= attackRange) {
+			attackCooldown = attackDelay;
+			Attack();
+			return;
+		}
+
+		Vector3 dirFromCenter = (transform.position - player.transform.position).normalized;
+		if(centerDistance > stopRadius + stopEpsilon)
+		{
+			Vector3 targetOnBoundary = player.position + dirFromCenter * stopRadius;
+
+			Vector3 toTarget = targetOnBoundary - transform.position;
+			Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
+			rb.MovePosition(nextPos);
+
+			Quaternion targetRot = Quaternion.LookRotation(toTarget, transform.up);
+			rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+
+		}
+		else
+		{
+			rb.MovePosition(rb.position);
+			rb.linearVelocity = Vector3.zero; // 관성 잔류 제거(필요시)
+
+			Vector3 lookDir = (player.position - transform.position);
+			if (lookDir.sqrMagnitude > 0.0001f)
+			{
+				Quaternion targetRot = Quaternion.LookRotation(lookDir, transform.up);
+				rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+			}
+		}
+			
+		
+	}
+
+	private void Update()
+	{
+		attackCooldown -= Time.deltaTime;
+	}
+
+	private void Attack()
+	{
+		if(!isAttacking && !isDie)
+		{
+			int idx = UnityEngine.Random.Range(0, skills.Length);
+			skills[idx].Invoke();
+		}
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+        if (other.gameObject.CompareTag("Player"))
         {
-            Vector3 dir = player.transform.position - transform.position;
-            rb.MovePosition(rb.position + dir.normalized * speed * Time.fixedDeltaTime);
-
-            Quaternion targetRotation = Quaternion.LookRotation(dir, transform.up);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, moveRotationSpeed * Time.fixedDeltaTime));
-        }
-    }
-
-    protected virtual void Update()
-    {
-        attackCooldown -= Time.deltaTime;
-    }
-
-    protected virtual void Attack()
-    {
-        // 공격 어떻게 할건지 넣기
-    }
-
-    protected virtual void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            //Tapasse12_PlayerController.Instance.GetDamage(bodyDamage);
-        }
-    }
-
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("PlayerHand"))
-        {
-            if (isDamaged) return;
-
-            //Hp -= Tapasse12_PlayerController.Instance.Damage;
-            isDamaged = true;
-
-            if (hp <= 0)
-            {
-                isDie = true;
-                //Tapasse12_IngameManager.Instance.GetItem(transform);
-
-                //Tapasse12_IngameManager.Instance.UpdateDoor();
-                Destroy(gameObject);
-            }
+			player.GetComponent<PlayerController>().GetDamage(damage);
         }
     }
 }
