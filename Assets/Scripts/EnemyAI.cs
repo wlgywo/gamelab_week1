@@ -184,15 +184,15 @@ public class EnemyAI : MonoBehaviour
 		isAttacking = false;
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-        if (other.gameObject.CompareTag("Player"))
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-			PlayerController.Instance.GetDamage(damage);
+            PlayerController.Instance.GetDamage(damage);
         }
-        else if (other.gameObject.CompareTag("RepairKit"))
+        else if (collision.gameObject.CompareTag("RepairKit"))
         {
-			InGameManager.Instance.kitBox.SetDamage(damage);
+            InGameManager.Instance.kitBox.SetDamage(damage);
         }
     }
 }
