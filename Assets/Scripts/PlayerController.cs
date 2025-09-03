@@ -46,6 +46,14 @@ public class PlayerController : MonoBehaviour
     public float minXAngle = -80f; // 카메라의 최소 상하 회전 각
     public float maxXAngle = 80f; // 카메라의 최대 상하 회전 각
 
+    // --- 아래 코드 추가 ---
+    [Header("Camera Collision")]
+    public LayerMask obstacleMask; // 장애물로 인식할 레이어
+    public Vector3 cameraOffset; // 플레이어로부터 카메라가 떨어져 있을 기본 위치
+    private float cameraDistance; // 카메라와 플레이어의 현재 거리
+    public float cameraCollisionPadding = 0.2f; // 충돌 시 카메라를 벽에서 살짝 뗄 거리
+    public float cameraReturnSpeed = 5f; // 카메라가 원래 위치로 돌아오는 속도
+
 
     private void Awake()
     {
@@ -66,6 +74,11 @@ public class PlayerController : MonoBehaviour
         InputManager.Instance.OnJump += InputManager_OnJump;
         InputManager.Instance.OnKitBoxDrop += InputManager_OnKitBoxDrop;
         InputManager.Instance.OnKitBoxGet += InputManager_OnKitBoxGet;
+
+        // --- 아래 코드 추가 ---
+        // 카메라의 기본 거리를 오프셋의 크기로 설정
+        cameraDistance = cameraOffset.magnitude;
+        // --- 여기까지 추가 ---
     }
 
     private void InputManager_OnKitBoxGet(object sender, System.EventArgs e)
@@ -221,6 +234,63 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+
+    private void LateUpdate()
+    {/*
+        // 카메라의 회전값(Quaternion)을 플레이어의 회전과 곱하여 최종 회전 방향을 계산
+        Quaternion rotation = Quaternion.Euler(xRotation, transform.eulerAngles.y, 0);
+
+        // 1. 카메라가 있어야 할 이상적인 위치 계산
+        // 플레이어 위치 + 회전값을 적용한 오프셋
+        Vector3 desiredPosition = transform.position + rotation * cameraOffset;
+
+        // 2. 레이캐스트로 충돌 감지
+        RaycastHit hit;
+        // 플레이어 위치에서 이상적인 카메라 위치 방향으로 광선을 발사
+        if (Physics.Raycast(transform.position, desiredPosition - transform.position, out hit, cameraDistance, obstacleMask))
+        {
+            // 3. 장애물이 감지되면, 충돌 지점에서 약간 앞으로 카메라 위치를 조정
+            // hit.point는 광선이 부딪힌 정확한 위치
+            // hit.normal은 부딪힌 표면의 법선(수직) 벡터. 카메라를 벽에서 밀어내는 데 사용
+            cameraTransform.position = hit.point + hit.normal * cameraCollisionPadding;
+        }
+        else
+        {
+            // 4. 장애물이 없으면, 부드럽게(Lerp) 원래의 이상적인 위치로 카메라를 이동
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPosition, Time.deltaTime * cameraReturnSpeed);
+        }
+
+        // 카메라의 회전도 업데이트
+        cameraTransform.rotation = rotation; */
+
+        // 1. 플레이어의 로컬 좌표계 기준 cameraOffset을 월드 좌표로 변환하여
+        //    카메라가 있어야 할 이상적인 위치를 계산합니다.
+        //    transform.TransformPoint()가 이 모든 복잡한 계산을 한 번에 처리해 줍니다.
+        Vector3 desiredPosition = transform.TransformPoint(cameraOffset);
+
+        // 레이캐스트의 방향과 거리를 다시 계산
+        Vector3 directionToCamera = desiredPosition - transform.position;
+        float distanceToCamera = directionToCamera.magnitude;
+
+        // 2. 레이캐스트로 충돌 감지
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, directionToCamera.normalized, out hit, distanceToCamera, obstacleMask))
+        {
+            // 3. 장애물이 감지되면, 충돌 지점에서 약간 앞으로 카메라 위치를 조정
+            cameraTransform.position = hit.point + hit.normal * cameraCollisionPadding;
+        }
+        else
+        {
+            // 4. 장애물이 없으면, 부드럽게(Lerp) 원래의 이상적인 위치로 카메라를 이동
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPosition, Time.deltaTime * cameraReturnSpeed);
+        }
+
+        // 5. 카메라의 최종 회전값을 계산합니다.
+        //    플레이어의 현재 회전(어느 방향이든)에 카메라의 상하 회전(xRotation)을 추가로 적용합니다.
+        cameraTransform.rotation = transform.rotation * Quaternion.Euler(xRotation, 0, 0);
+    
+}
+
 
     private void OnCollisionEnter(Collision collision)
     {
