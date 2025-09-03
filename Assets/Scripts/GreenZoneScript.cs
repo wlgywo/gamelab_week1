@@ -22,7 +22,7 @@ public class GreenZoneScript : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Boss"))
         {
-            // 보스도 체력 증가 하지만 증가량 많음.
+            BossAI.Instance.Heal(heal);
         }
     }
 }

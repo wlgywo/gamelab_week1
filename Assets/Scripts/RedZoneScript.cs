@@ -23,7 +23,7 @@ public class RedZoneScript : MonoBehaviour
         }
         if(other.gameObject.CompareTag("Boss"))
         {
-            // 보스도 체력 감소 하지만 감소량 적음.
+            BossAI.Instance.GetDamage(damage);
         }
     }
 }

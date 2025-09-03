@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class BossAI : MonoBehaviour
 {
+    public static BossAI Instance { get; private set; }
     [SerializeField] protected Rigidbody rb;
- 
-	// 다른 오브젝트 관련
-	public Transform player;
+
+
+    // 다른 오브젝트 관련
+    public Transform player;
 	int zoneCount = 3;
 	[SerializeField] GameObject RedZone;
 	[SerializeField] GameObject BlueZone;
@@ -146,4 +148,30 @@ public class BossAI : MonoBehaviour
 			player.GetComponent<PlayerController>().GetDamage(damage);
         }
     }
+
+	public void GetDamage(int damage)
+	{
+		hp -= damage;
+		{
+			if(hp < 0)
+			{
+				// 보스가 죽었으니 게임 종료
+			}
+			else
+			{
+				// UI로 띄워야함.
+			}
+		}
+	}
+
+	public void SetAttackDamage(int attackDamage)
+	{
+		damage += attackDamage;
+	}
+
+	public void Heal(int heal)
+	{
+		hp += heal;
+		// 보스 Hp UI작업 필요.
+	}
 }

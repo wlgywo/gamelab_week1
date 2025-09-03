@@ -22,7 +22,7 @@ public class BlueZoneScript : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Boss"))
         {
-            // 보스는 데미지가 증가
+            BossAI.Instance.SetAttackDamage(attackDamage);
         }
     }
 }
