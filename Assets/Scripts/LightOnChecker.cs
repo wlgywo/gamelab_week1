@@ -27,20 +27,7 @@ public class LightOnChecker : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player")&&!isLightOn)
-        {
-            isLightOn = true;
-            foreach (Light light in targetLight)
-            {
-                if (light != null)
-                {       
-                    StartCoroutine(BlinkAndStayOn());           
-                }
-            }
-        }
-    }
+
 
     private IEnumerator BlinkAndStayOn()
     {
@@ -64,5 +51,14 @@ public class LightOnChecker : MonoBehaviour
                     isBlinking = false;
                 }
          }
+    }
+
+    public void CallLightOn()
+    {
+        if (!isLightOn)
+        {
+            isLightOn = true;
+            StartCoroutine(BlinkAndStayOn());
+        }
     }
 }
