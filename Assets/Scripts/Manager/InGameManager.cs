@@ -29,7 +29,10 @@ public class InGameManager : MonoBehaviour
     private void Awake()
     {
         if(Instance == null) Instance = this;
+
+        playerUI.SetActive(true);
     }
+
 
     public void DropKitBox()
     {

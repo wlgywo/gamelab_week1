@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Renderer[] renderers;
 
     [SerializeField] private GameObject weapon;
+    [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Slider slider;
 
 
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private const int upgraeDamage = 10;
 
     [SerializeField] private float curAttackDelay = 0f;
-    [SerializeField] private float attackDelay = 1.5f;
+    private float attackDelay = 0.5f;
 
     private bool isDamaged = false; // 지금 맞은 상태인가
     private float invincibleTimer = 2f; // 무적 타이머
@@ -121,14 +122,16 @@ public class PlayerController : MonoBehaviour
             else anim.SetTrigger(ATTACKANIM2);
 
             weapon.SetActive(true);
+            trailRenderer.enabled = true;
             StartCoroutine(AttackReset());
         }
     }
 
     private IEnumerator AttackReset()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(attackDelay);
         weapon.SetActive(false);
+        trailRenderer.enabled = false;
     }
 
     private void InputManager_OnKitBoxGet(object sender, System.EventArgs e)

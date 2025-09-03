@@ -3,11 +3,14 @@ using System.Collections;
 
 public class BossDoorScript : MonoBehaviour
 {
+    public GameObject bossAi;
 
     public Transform leftDoor;
     public Transform rightDoor;
-    public Light leftLight;
-    public Light rightLight;
+    public Light leftLight1;
+    public Light leftLight2;
+    public Light rightLight1;
+    public Light rightLight2;
     public float openDistance = 1.5f;
     public float openSpeed = 2.0f;
 
@@ -23,8 +26,10 @@ public class BossDoorScript : MonoBehaviour
     {
         leftDoorClosedPosition = leftDoor.localPosition;
         rightDoorClosedPosition = rightDoor.localPosition;
-        rightLight.enabled = false;
-        leftLight.enabled = false;
+        rightLight1.enabled = false;
+        leftLight1.enabled = false;
+        rightLight2.enabled = false;
+        leftLight2.enabled = false;
         CallDoorClose();
     }
 
@@ -33,12 +38,14 @@ public class BossDoorScript : MonoBehaviour
     {
         if (isRightSideClear)
         {
-            rightLight.enabled = true;
+            rightLight1.enabled = true;
+            rightLight2.enabled = true;
         }
         
         if (isLeftSideClear)
         {
-            leftLight.enabled = true;
+            leftLight1.enabled = true;
+            leftLight2.enabled = true;
         }
 
         if(isRightSideClear && isLeftSideClear)
@@ -81,6 +88,8 @@ public class BossDoorScript : MonoBehaviour
         if (other.CompareTag("Player") && doorsAreOpen)
         {
             // 플레이어가 문에 닿았을 때의 동작
+            
+            if(bossAi != null) bossAi.SetActive(true);
             CallDoorOpen();
         }
     }

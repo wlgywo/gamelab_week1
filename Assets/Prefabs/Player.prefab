@@ -262,7 +262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8757053995859994085
 Transform:
   m_ObjectHideFlags: 0
@@ -1975,7 +1975,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2bc04f04b5a3f4a87d5829013a4084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 0}
+  weapon: {fileID: 682139289624342183}
+  trailRenderer: {fileID: 4092895683540072808}
   slider: {fileID: 0}
   curAttackDelay: 0
   attackDelay: 1.5

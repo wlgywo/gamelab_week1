@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class BossAI : MonoBehaviour
 {
@@ -12,10 +10,6 @@ public class BossAI : MonoBehaviour
 
     // 다른 오브젝트 관련
     public Transform player;
-	int zoneCount = 3;
-	[SerializeField] GameObject RedZone;
-	[SerializeField] GameObject BlueZone;
-	[SerializeField] GameObject GreenZone;
     [SerializeField] Slider slider;
 
     // 보스 상태 관련
@@ -71,32 +65,8 @@ public class BossAI : MonoBehaviour
 
     private void Start()
     {
-		skills = new Action[] { AoESkill, ThrowFileSkile };
+		skills = new Action[] { ThrowFileSkile };
         UpdateVisual();
-    }
-
-	private void AoESkill()
-	{
-		int num = UnityEngine.Random.Range(0, zoneCount);
-
-        Quaternion snappedRot = SnapRotation90(transform.rotation);
-        Vector3 down = snappedRot * Vector3.down;
-
-        // 스폰 위치 = 보스 위치 + 회전된 바닥방향으로 10 내림
-        Vector3 spawnPos = transform.position + down * 2f;
-
-        switch (num)
-        {
-            case 0:
-                Instantiate(RedZone, spawnPos, snappedRot);
-                break;
-            case 1:
-                Instantiate(BlueZone, spawnPos, snappedRot);
-                break;
-            case 2:
-                Instantiate(GreenZone, spawnPos, snappedRot);
-                break;
-        }
     }
 
     Quaternion SnapRotation90(Quaternion rot)
@@ -198,7 +168,7 @@ public class BossAI : MonoBehaviour
 	{
 		if(!isAttacking && !isDie)
 		{
-            skills[1].Invoke();
+            skills[0].Invoke();
 		}
 	}
 

@@ -32,10 +32,6 @@ public class CheckRepairKitCollision : MonoBehaviour
 			{
 				curKit = null;
                 timerScript.ChanageCountdown(false);
-				if(gameObject.name == "BrokenPipe_2")
-					bossDoor.isLeftSideClear = true;
-				if (gameObject.name == "BrokenPipe_3")
-					bossDoor.isRightSideClear = true;
             }
 		}
 	}
@@ -43,7 +39,13 @@ public class CheckRepairKitCollision : MonoBehaviour
 	public void RepairComplete()
 	{
 		repairComplete = true;
-		enemySpawnManager.Complete();
+
+        if (gameObject.name == "BrokenPipe_2")
+            bossDoor.isLeftSideClear = true;
+        if (gameObject.name == "BrokenPipe_3")
+            bossDoor.isRightSideClear = true;
+
+        enemySpawnManager.Complete();
         foreach (var p in particle)
 		{
 			p.Stop();
