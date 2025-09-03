@@ -39,14 +39,20 @@ public class EnemyAI : MonoBehaviour
     private float attackDrag = 2.0f;       // 공격 중에만 드래그를 잠깐 높여 관성 억제
     private bool useVelocityChange = false; // true면 질량 무시하고 속도변화 기반(일관성↑)
 
+    private void Start()
+    {
+        player = PlayerController.Instance.transform;
+		repairKit = InGameManager.Instance.kitBox.transform;
+    }
 
-	private void FixedUpdate()
+    private void FixedUpdate()
 	{
 		if (isDie) return;
-		if (player == null && repairKit == null) return;
+		//if (player == null && repairKit == null) return;
 		if (isAttacking) return;
+
 		Transform target;
-		if(repairKit == null)
+		if(!repairKit.gameObject.activeSelf)
 		{
 			target = player;
 		}
@@ -54,6 +60,7 @@ public class EnemyAI : MonoBehaviour
         {
 			target = repairKit;
         }
+
         float centerDistance = Vector3.Distance(transform.position, target.position);
 
 		if(attackCooldown < 0 && centerDistance <= attackRange) {
@@ -62,34 +69,40 @@ public class EnemyAI : MonoBehaviour
 			return;
 		}
 
-		Vector3 dirFromCenter = (transform.position - target.transform.position).normalized;
-		if(centerDistance > stopRadius + stopEpsilon)
-		{
-			Vector3 targetOnBoundary = target.position + dirFromCenter * stopRadius;
+        Vector3 selfPos = transform.position;
+        Vector3 flatTargetPos = new Vector3(target.position.x, selfPos.y, target.position.z);
 
-			Vector3 toTarget = targetOnBoundary - transform.position;
-			Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
-			rb.MovePosition(nextPos);
+        Vector3 dirFromCenter = (flatTargetPos - selfPos).normalized;
 
-			Quaternion targetRot = Quaternion.LookRotation(toTarget, transform.up);
-			rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+        if (centerDistance > stopRadius + stopEpsilon)
+        {
+            // 경계점 계산 (flatTargetPos 사용)
+            Vector3 targetOnBoundary = flatTargetPos + dirFromCenter * stopRadius;
 
-		}
-		else
-		{
-			rb.MovePosition(rb.position);
-			rb.linearVelocity = Vector3.zero; // 관성 잔류 제거(필요시)
+            Vector3 toTarget = targetOnBoundary - selfPos;
+            Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
+            rb.MovePosition(nextPos);
 
-			Vector3 lookDir = (target.position - transform.position);
-			if (lookDir.sqrMagnitude > 0.0001f)
-			{
-				Quaternion targetRot = Quaternion.LookRotation(lookDir, transform.up);
-				rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
-			}
-		}
-			
-		
-	}
+            // 높이 무시 후 transform.up 기준으로 회전
+            Quaternion targetRot = Quaternion.LookRotation(toTarget, transform.up);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+        }
+        else
+        {
+            // 멈출 때
+            rb.MovePosition(rb.position);
+            rb.linearVelocity = Vector3.zero; // 관성 제거
+
+            Vector3 lookDir = flatTargetPos - selfPos; // y 무시된 방향
+            if (lookDir.sqrMagnitude > 0.0001f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(lookDir, transform.up);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+            }
+        }
+
+
+    }
 
 	private void Update()
 	{
@@ -98,7 +111,7 @@ public class EnemyAI : MonoBehaviour
 
 	private void Attack()
 	{
-		if(!isAttacking && repairKit != null && !isDie)
+		if(!isAttacking && !isDie)
 		{
 			StartCoroutine(CoDashAndReturn());
 		}
@@ -108,7 +121,7 @@ public class EnemyAI : MonoBehaviour
 	{
 		isAttacking = true;
         Transform target;
-		if (repairKit == null)
+		if (!repairKit.gameObject.activeSelf)
 		{
 			target = player;
 		}
@@ -175,11 +188,11 @@ public class EnemyAI : MonoBehaviour
 	{
         if (other.gameObject.CompareTag("Player"))
         {
-			player.GetComponent<PlayerController>().GetDamage(damage);
+			PlayerController.Instance.GetDamage(damage);
         }
         else if (other.gameObject.CompareTag("RepairKit"))
         {
-            // 수리키트 데미지 받음 구현.
+			InGameManager.Instance.kitBox.SetDamage(damage);
         }
     }
 }
