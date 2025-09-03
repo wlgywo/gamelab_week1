@@ -810,9 +810,10 @@ GameObject:
   - component: {fileID: 270892614279973892}
   - component: {fileID: 5445039607221666440}
   - component: {fileID: 7118096688464520426}
+  - component: {fileID: 3109828025045272394}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -905,6 +906,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3109828025045272394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7090861022609222434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03338f1d7a89e6942977419f117aa8c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  player: {fileID: 0}
+  RedZone: {fileID: 0}
+  BlueZone: {fileID: 0}
+  GreenZone: {fileID: 0}
+  hp: 1000
+  speed: 5
+  moveRotationSpeed: 10
+  damage: 15
+  spawnBulletDelay: 0.5
+  bulletDamage: 10
+  bulletPrefab: {fileID: 1789324014450358325, guid: 705da4131e583c34593eae78724d10cd, type: 3}
+  firePoint: {fileID: 6427309894025119621}
+  bulletsPerBurst: 1
+  timeBetweenShots: 0.05
+  timeBetweenBursts: 2
 --- !u!1 &7957899719353480289
 GameObject:
   m_ObjectHideFlags: 0
