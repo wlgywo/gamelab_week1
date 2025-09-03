@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnJump;
     public event EventHandler OnKitBoxDrop;
     public event EventHandler OnKitBoxGet;
+    public event EventHandler OnAttack;
 
     public PlayerInput playerInput {  get; private set; }
 
@@ -25,7 +26,9 @@ public class InputManager : MonoBehaviour
         playerInput.Player.Jump.performed += Jump_performed;
         playerInput.Player.KitBoxDrop.performed += KitBoxDrop_performed;
         playerInput.Player.KitBoxGet.performed += KitBoxGet_performed;
+        playerInput.Player.Attack.performed += Attack_performed;
     }
+
     private void OnDestroy()
     {
         playerInput.Player.GravityLeft.performed -= GravityLeft_performed;
@@ -33,8 +36,14 @@ public class InputManager : MonoBehaviour
         playerInput.Player.Jump.performed -= Jump_performed;
         playerInput.Player.KitBoxDrop.performed -= KitBoxDrop_performed;
         playerInput.Player.KitBoxGet.performed -= KitBoxGet_performed;
+        playerInput.Player.Attack.performed -= Attack_performed;
 
         playerInput.Dispose();
+    }
+
+    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnAttack?.Invoke(this, EventArgs.Empty);
     }
 
     private void KitBoxGet_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

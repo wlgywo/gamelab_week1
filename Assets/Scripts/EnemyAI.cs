@@ -1,16 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
 	[SerializeField] protected Rigidbody rb;
- 
+	[SerializeField] private Slider slider;
+
 	// 다른 오브젝트 관련
 	public Transform repairKit;
 	public Transform player;
 
 	// 몬스터 상태 관련
 	public int hp = 100;
+	public int maxHp = 100;
 	public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
 	public int damage = 5;
@@ -39,10 +42,14 @@ public class EnemyAI : MonoBehaviour
     private float attackDrag = 2.0f;       // 공격 중에만 드래그를 잠깐 높여 관성 억제
     private bool useVelocityChange = false; // true면 질량 무시하고 속도변화 기반(일관성↑)
 
+	private Coroutine dashCorutine;
+
     private void Start()
     {
         player = PlayerController.Instance.transform;
 		repairKit = InGameManager.Instance.kitBox.transform;
+
+		UpdateVisual();
     }
 
     private void FixedUpdate()
@@ -113,7 +120,8 @@ public class EnemyAI : MonoBehaviour
 	{
 		if(!isAttacking && !isDie)
 		{
-			StartCoroutine(CoDashAndReturn());
+			if (dashCorutine != null) StopCoroutine(dashCorutine);
+            dashCorutine = StartCoroutine(CoDashAndReturn());
 		}
 	}
 
@@ -184,6 +192,23 @@ public class EnemyAI : MonoBehaviour
 		isAttacking = false;
 	}
 
+	private void GetDamage()
+	{
+		hp -= PlayerController.Instance.damage;
+		UpdateVisual();
+
+        if (hp <= 0)
+		{
+            StopCoroutine(dashCorutine);
+            Destroy(gameObject);
+		}
+	}
+
+	private void UpdateVisual()
+	{
+		slider.value = (float)hp / maxHp;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -193,6 +218,14 @@ public class EnemyAI : MonoBehaviour
         else if (collision.gameObject.CompareTag("RepairKit"))
         {
             InGameManager.Instance.kitBox.SetDamage(damage);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Weapon"))
+		{
+			GetDamage();
         }
     }
 }

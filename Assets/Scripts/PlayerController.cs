@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,7 +8,9 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     private Rigidbody rb;
+    private Renderer[] renderers;
 
+    [SerializeField] private GameObject weapon;
 
     // 플레이어 상태 관련. 체력등)
     private int maxHp = 100;
@@ -14,9 +18,17 @@ public class PlayerController : MonoBehaviour
     private int hpUpgrade = 20;
 
     private const string WALKANIM = "IsWalk";
-    private const string ATTACKANIM = "IsAttack";
-    private int damage = 10;
+    private const string ATTACKANIM1 = "IsAttack1";
+    private const string ATTACKANIM2 = "IsAttack2";
+    public int damage { get; private set; } = 10;
     private const int upgraeDamage = 10;
+
+    [SerializeField] private float curAttackDelay = 0f;
+    [SerializeField] private float attackDelay = 1.5f;
+
+    private bool isDamaged = false; // 지금 맞은 상태인가
+    private float invincibleTimer = 2f; // 무적 타이머
+    private float curInvincibleTimer = 0f;
 
     public float knockback = 10;
     public const float knockbackUpgrade = 10f;
@@ -61,6 +73,11 @@ public class PlayerController : MonoBehaviour
          
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        //renderers = GetComponentsInChildren<Renderer>();
+
+        renderers = GetComponentsInChildren<Renderer>()
+        .Where(r => !(r is TrailRenderer)) // TrailRenderer 제외
+        .ToArray();
 
         // 마우스 숨기고 중앙 고정
         Cursor.lockState = CursorLockMode.Locked;
@@ -74,11 +91,34 @@ public class PlayerController : MonoBehaviour
         InputManager.Instance.OnJump += InputManager_OnJump;
         InputManager.Instance.OnKitBoxDrop += InputManager_OnKitBoxDrop;
         InputManager.Instance.OnKitBoxGet += InputManager_OnKitBoxGet;
+        InputManager.Instance.OnAttack += InputManager_OnAttack;
 
         // --- 아래 코드 추가 ---
         // 카메라의 기본 거리를 오프셋의 크기로 설정
         cameraDistance = cameraOffset.magnitude;
         // --- 여기까지 추가 ---
+    }
+
+    private void InputManager_OnAttack(object sender, System.EventArgs e)
+    {
+        if (curAttackDelay < 0f)
+        {
+            curAttackDelay = attackDelay;
+
+            int num = Random.Range(0, 2);
+
+            if(num == 0) anim.SetTrigger(ATTACKANIM1);
+            else anim.SetTrigger(ATTACKANIM2);
+
+            weapon.SetActive(true);
+            StartCoroutine(AttackReset());
+        }
+    }
+
+    private IEnumerator AttackReset()
+    {
+        yield return new WaitForSeconds(1f);
+        weapon.SetActive(false);
     }
 
     private void InputManager_OnKitBoxGet(object sender, System.EventArgs e)
@@ -211,7 +251,21 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        curAttackDelay -= Time.deltaTime;
+
+
         if (InGameManager.Instance.isLevelUp) return;
+
+        if (isDamaged)
+        {
+            curInvincibleTimer -= Time.deltaTime;
+            if (curInvincibleTimer < 0)
+            {
+                isDamaged = false;
+                curInvincibleTimer = invincibleTimer;
+            }
+        }
+
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
         if (pointerDelta.sqrMagnitude > 0.01f && !isRotate)
         {
@@ -317,12 +371,20 @@ public class PlayerController : MonoBehaviour
 
     public void GetDamage(int damage)
     {
+        if (isDamaged) return;
+        isDamaged = true;
+        curInvincibleTimer = invincibleTimer;
+
         hp -= damage;
-        if(hp <= 0) // 플레이어 사망
+        if (hp <= 0)
         {
-            // 게임 종료 구현
+            hp = 0;
+            InGameManager.Instance.GameOver();
         }
-        // UI 호출필요
+        else
+        {
+            StartCoroutine(InvincibleBlink());
+        }
     }
 
     public void UpdateKnockback()
@@ -341,5 +403,22 @@ public class PlayerController : MonoBehaviour
         hp = maxHp;
     }
 
-    
+    private IEnumerator InvincibleBlink()
+    {
+        float elapsed = 0f;
+        while (elapsed < invincibleTimer)
+        {
+            // 깜빡임 효과 (렌더러 on/off)
+            foreach (Renderer r in renderers)
+                r.enabled = !r.enabled;
+
+            yield return new WaitForSeconds(0.1f); // 깜빡임 간격
+            elapsed += 0.1f;
+        }
+
+        // 무적 해제 + 렌더러 복구
+        foreach (Renderer r in renderers)
+            r.enabled = true;
+    }
+
 }
