@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private int hp = 100;
     private const string WALKANIM = "IsWalk";
     private const string ATTACKANIM = "IsAttack";
+    protected int damage = 10;  
 
     private float moveSpeed = 5f;
 
