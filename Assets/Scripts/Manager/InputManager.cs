@@ -26,6 +26,16 @@ public class InputManager : MonoBehaviour
         playerInput.Player.KitBoxDrop.performed += KitBoxDrop_performed;
         playerInput.Player.KitBoxGet.performed += KitBoxGet_performed;
     }
+    private void OnDestroy()
+    {
+        playerInput.Player.GravityLeft.performed -= GravityLeft_performed;
+        playerInput.Player.GravityRight.performed -= GravityRight_performed;
+        playerInput.Player.Jump.performed -= Jump_performed;
+        playerInput.Player.KitBoxDrop.performed -= KitBoxDrop_performed;
+        playerInput.Player.KitBoxGet.performed -= KitBoxGet_performed;
+
+        playerInput.Dispose();
+    }
 
     private void KitBoxGet_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
