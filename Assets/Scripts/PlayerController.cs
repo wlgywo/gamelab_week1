@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private Rigidbody rb;
 
+
+    // 플레이어 상태 관련. 체력등)
+    private int hp = 100;
     private const string WALKANIM = "IsWalk";
     private const string ATTACKANIM = "IsAttack";
 
@@ -208,6 +211,16 @@ public class PlayerController : MonoBehaviour
             nearKitBox = false;
         }
 
+    }
+
+    public void GetDamage(int damage)
+    {
+        hp -= damage;
+        if(hp <= 0) // 플레이어 사망
+        {
+            // 게임 종료 구현
+        }
+        // UI 호출필요
     }
 
 }

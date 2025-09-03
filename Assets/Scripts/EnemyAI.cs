@@ -7,11 +7,13 @@ public class EnemyAI : MonoBehaviour
  
 	// 다른 오브젝트 관련
 	public Transform repairKit;
+	public Transform player;
 
 	// 몬스터 상태 관련
 	public int hp = 100;
 	public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
+	public int damage = 5;
 
 	// 데미지와 사망 관련
 	private bool isDie = false;
@@ -40,10 +42,19 @@ public class EnemyAI : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (isDie || repairKit == null) return;
+		if (isDie) return;
+		if (player == null && repairKit == null) return;
 		if (isAttacking) return;
-
-		float centerDistance = Vector3.Distance(transform.position, repairKit.position);
+		Transform target;
+		if(repairKit == null)
+		{
+			target = player;
+		}
+        else
+        {
+			target = repairKit;
+        }
+        float centerDistance = Vector3.Distance(transform.position, target.position);
 
 		if(attackCooldown < 0 && centerDistance <= attackRange) {
 			attackCooldown = attackDelay;
@@ -51,10 +62,10 @@ public class EnemyAI : MonoBehaviour
 			return;
 		}
 
-		Vector3 dirFromCenter = (transform.position - repairKit.transform.position).normalized;
+		Vector3 dirFromCenter = (transform.position - target.transform.position).normalized;
 		if(centerDistance > stopRadius + stopEpsilon)
 		{
-			Vector3 targetOnBoundary = repairKit.position + dirFromCenter * stopRadius;
+			Vector3 targetOnBoundary = target.position + dirFromCenter * stopRadius;
 
 			Vector3 toTarget = targetOnBoundary - transform.position;
 			Vector3 nextPos = rb.position + toTarget.normalized * speed * Time.fixedDeltaTime;
@@ -69,7 +80,7 @@ public class EnemyAI : MonoBehaviour
 			rb.MovePosition(rb.position);
 			rb.linearVelocity = Vector3.zero; // 관성 잔류 제거(필요시)
 
-			Vector3 lookDir = (repairKit.position - transform.position);
+			Vector3 lookDir = (target.position - transform.position);
 			if (lookDir.sqrMagnitude > 0.0001f)
 			{
 				Quaternion targetRot = Quaternion.LookRotation(lookDir, transform.up);
@@ -96,11 +107,20 @@ public class EnemyAI : MonoBehaviour
 	private IEnumerator CoDashAndReturn()
 	{
 		isAttacking = true;
+        Transform target;
+		if (repairKit == null)
+		{
+			target = player;
+		}
+		else
+		{
+			target = repairKit;
+		}
 
-		// 시작 상태 저장
-		Vector3 startPos = rb.position;
+        // 시작 상태 저장
+        Vector3 startPos = rb.position;
 		float baseY = startPos.y;
-		Vector3 kitFlat = new Vector3(repairKit.position.x, baseY, repairKit.position.z);
+		Vector3 kitFlat = new Vector3(target.position.x, baseY, target.position.z);
 
 		// 향할 방향 계산
 		Vector3 fwdDir = (kitFlat - startPos).normalized;
@@ -151,31 +171,15 @@ public class EnemyAI : MonoBehaviour
 		isAttacking = false;
 	}
 
-	private void OnCollisionEnter(Collision collision)
+	private void OnTriggerEnter(Collider other)
 	{
-		if (collision.gameObject.CompareTag("Player"))
-		{
-			//Tapasse12_PlayerController.Instance.GetDamage(bodyDamage);
-		}
-	}
-
-	protected void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("PlayerHand"))
-		{
-			if (isDamaged) return;
-
-			//Hp -= Tapasse12_PlayerController.Instance.Damage;
-			isDamaged = true;
-
-			if (hp <= 0)
-			{
-				isDie = true;
-				//Tapasse12_IngameManager.Instance.GetItem(transform);
-
-				//Tapasse12_IngameManager.Instance.UpdateDoor();
-				Destroy(gameObject);
-			}
-		}
-	}
+        if (other.gameObject.CompareTag("Player"))
+        {
+			player.GetComponent<PlayerController>().GetDamage(damage);
+        }
+        else if (other.gameObject.CompareTag("RepairKit"))
+        {
+            // 수리키트 데미지 받음 구현.
+        }
+    }
 }
