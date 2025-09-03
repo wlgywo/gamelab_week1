@@ -39,11 +39,18 @@ public class PlayerController : MonoBehaviour
     public GameObject kitBoxObject; // 손에 있는 키트박스
     public Transform kitBoxPos; // 키트박스 떨어질 위치
 
+    // --- 추가된 변수들 ---
+    [Header("Camera Control")]
+    public Transform cameraTransform; // 인스펙터에서 카메라 Transform을 할당해주세요.
+    private float xRotation = 0f; // 카메라의 상하 회전 각도를 저장할 변수
+    public float minXAngle = -80f; // 카메라의 최소 상하 회전 각
+    public float maxXAngle = 80f; // 카메라의 최대 상하 회전 각
+
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
-
+         
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
 
@@ -193,9 +200,24 @@ public class PlayerController : MonoBehaviour
     {
         if (InGameManager.Instance.isLevelUp) return;
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
-        if (pointerDelta.sqrMagnitude > 0.01f && !isRotate && isGround)
+        if (pointerDelta.sqrMagnitude > 0.01f && !isRotate)
         {
-            transform.Rotate(transform.up, pointerDelta.x * mouseSpeed * Time.deltaTime, Space.World);
+            //transform.Rotate(transform.up, pointerDelta.x * mouseSpeed * Time.deltaTime, Space.World);
+            // [수정됨] 마우스 X축으로 플레이어 좌우 회전
+            float mouseX = pointerDelta.x * mouseSpeed * Time.deltaTime;
+            transform.Rotate(transform.up, mouseX, Space.World);
+
+            // [추가됨] 마우스 Y축으로 카메라 상하 회전
+            float mouseY = pointerDelta.y * mouseSpeed * Time.deltaTime;
+
+            // 회전 값을 누적 (마우스를 위로 올릴 때 카메라가 위를 보도록 '-' 사용)
+            xRotation -= mouseY;
+
+            // 상하 회전 각도 제한
+            xRotation = Mathf.Clamp(xRotation, minXAngle, maxXAngle);
+
+            // 카메라의 로컬 회전 값 적용
+            cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         }
         
     }
@@ -248,4 +270,6 @@ public class PlayerController : MonoBehaviour
         maxHp += hpUpgrade;
         hp = maxHp;
     }
+
+    
 }
