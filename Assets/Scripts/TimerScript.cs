@@ -45,7 +45,7 @@ public class TimerScript : MonoBehaviour
                 currentTime = 0;
                 isCounting = false;
                 InGameManager.Instance.countdownText.gameObject.SetActive(false);
-                // 타이머 끝난 이후 처리
+                InGameManager.Instance.levelUp.gameObject.SetActive(true);
             }
             UpdateTimerUI();
         }

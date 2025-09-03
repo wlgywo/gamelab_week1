@@ -4,7 +4,7 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] protected Rigidbody rb;
 
-    public int Hp = 100;
+    public int hp = 100;
 
     protected const string ISCHASE = "IsChase";
     protected const string ISAttack = "IsAttack";
@@ -69,7 +69,7 @@ public class EnemyAI : MonoBehaviour
             //Hp -= Tapasse12_PlayerController.Instance.Damage;
             isDamaged = true;
 
-            if (Hp <= 0)
+            if (hp <= 0)
             {
                 isDie = true;
                 //Tapasse12_IngameManager.Instance.GetItem(transform);
