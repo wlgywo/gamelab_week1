@@ -1,37 +1,46 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimerScript : MonoBehaviour
 {
-    //[SerializeField] private TextMeshProUGUI countdownText;
-    public float countdownTime = 10f;
+    [SerializeField] private Slider slider;
+    public float countdownTime = 30f;
 
     private float currentTime = 0;
     private bool isCounting = false;
 
+    private float curKitTimer = 0f;
+    private float kitTimer = 3f; // 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        //countdownText.gameObject.SetActive(false);
-
         InGameManager.Instance.countdownText.gameObject.SetActive(false);
+        slider.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-  
     public void StartCountdown()
     {
         currentTime = countdownTime;
         isCounting = true;
+
+        //if()
         InGameManager.Instance.countdownText.gameObject.SetActive(true);
+        slider.gameObject.SetActive(true);
     }
-    public void StopCountdown()
+
+   public void ChanageCountdown(bool isKitRepair)
     {
-        currentTime = countdownTime;
+        isCounting = isKitRepair;
+    }
+
+    public void CompleteCountdown()
+    {
+        /*currentTime = countdownTime;*/
+
         isCounting = false;
         InGameManager.Instance.countdownText.gameObject.SetActive(false);
+        slider.gameObject.SetActive(false);
     }
 
     void Update()
@@ -39,23 +48,37 @@ public class TimerScript : MonoBehaviour
         if (isCounting)
         {
             currentTime -= Time.deltaTime;
+            curKitTimer += Time.deltaTime;
 
-            if(currentTime <= 0)
+            if (currentTime <= 0)
             {
                 currentTime = 0;
                 isCounting = false;
                 InGameManager.Instance.countdownText.gameObject.SetActive(false);
                 InGameManager.Instance.levelUp.gameObject.SetActive(true);
             }
-            UpdateTimerUI();
+
+            if(curKitTimer >= kitTimer)
+            {
+                Debug.Log("클리어 처리");
+                CompleteCountdown();
+            }
         }
         else
         {
-            if(currentTime <= countdownTime)
+
+            curKitTimer -= Time.deltaTime;
+            currentTime += Time.deltaTime;
+
+            if (currentTime > countdownTime)
             {
-                currentTime+= Time.deltaTime;
+                currentTime = countdownTime;
             }
+
+            if (curKitTimer < 0) curKitTimer = 0;
         }
+
+        UpdateTimerUI();
     }
 
 
@@ -64,5 +87,7 @@ public class TimerScript : MonoBehaviour
         int minutes = Mathf.FloorToInt(currentTime / 60);
         int seconds = Mathf.FloorToInt(currentTime % 60);
         InGameManager.Instance.countdownText.text = string.Format("{0}:{1:00}", minutes, seconds);
+
+        slider.value = curKitTimer / kitTimer;
     }
 }

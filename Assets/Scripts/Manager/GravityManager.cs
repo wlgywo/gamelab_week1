@@ -16,6 +16,9 @@ public class GravityManager : MonoBehaviour
     private float gravityValue = -9.81f;
     private float gravityAngle = 0f;
 
+    public bool isGravity { get; private set; } = false; // 현재 중력 진행중인지를 파악
+
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -33,5 +36,10 @@ public class GravityManager : MonoBehaviour
         Vector3 gravityDir = rot * PlayerController.Instance.transform.forward; // 플레이어의 정면 방향 축을 적용
 
         Physics.gravity = gravityDir.normalized * Mathf.Abs(gravityValue);
+    }
+
+    public void GravityCheck(bool isStart)
+    {
+        isGravity = isStart;
     }
 }

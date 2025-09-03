@@ -7,7 +7,9 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler OnLeftGravity;
     public event EventHandler OnRightGravity;
-    public event EventHandler OnJump; 
+    public event EventHandler OnJump;
+    public event EventHandler OnKitBoxDrop;
+    public event EventHandler OnKitBoxGet;
 
     public PlayerInput playerInput {  get; private set; }
 
@@ -21,6 +23,18 @@ public class InputManager : MonoBehaviour
         playerInput.Player.GravityLeft.performed += GravityLeft_performed;
         playerInput.Player.GravityRight.performed += GravityRight_performed;
         playerInput.Player.Jump.performed += Jump_performed;
+        playerInput.Player.KitBoxDrop.performed += KitBoxDrop_performed;
+        playerInput.Player.KitBoxGet.performed += KitBoxGet_performed;
+    }
+
+    private void KitBoxGet_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnKitBoxGet.Invoke(this, EventArgs.Empty);
+    }
+
+    private void KitBoxDrop_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnKitBoxDrop.Invoke(this, EventArgs.Empty);
     }
 
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -30,20 +44,24 @@ public class InputManager : MonoBehaviour
 
     private void GravityLeft_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!PlayerController.Instance.isGround) return;
+        if (!PlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
 
+        GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(true);
 
         OnLeftGravity?.Invoke(this, EventArgs.Empty);
+        GravityManager.Instance.GravityCheck(false);
     }
 
     private void GravityRight_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!PlayerController.Instance.isGround) return;
+        if (!PlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
 
+        GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(false);
 
         OnRightGravity?.Invoke(this, EventArgs.Empty);
+        GravityManager.Instance.GravityCheck(false);
     }
 
     public Vector2 GetMoveDirNormalized()

@@ -22,6 +22,12 @@ public class PlayerController : MonoBehaviour
     Vector3 postUp; // 중력 전환 전 transform.up 방향
     Vector3 snapVec = Vector3.zero;
 
+    private bool grabKitBox = true; // 현재 박스를 가지고 있는지
+    private bool nearKitBox = false; // 현재 박스가 근처에 있는지
+    public GameObject kitBoxObject; // 손에 있는 키트박스
+    public Transform kitBoxPos; // 키트박스 떨어질 위치
+
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -39,6 +45,28 @@ public class PlayerController : MonoBehaviour
         InputManager.Instance.OnLeftGravity += InputManager_OnLeftGravity;
         InputManager.Instance.OnRightGravity += InputManager_OnRightGravity;
         InputManager.Instance.OnJump += InputManager_OnJump;
+        InputManager.Instance.OnKitBoxDrop += InputManager_OnKitBoxDrop;
+        InputManager.Instance.OnKitBoxGet += InputManager_OnKitBoxGet;
+    }
+
+    private void InputManager_OnKitBoxGet(object sender, System.EventArgs e)
+    {
+        if (grabKitBox || !nearKitBox) return;
+
+        Debug.Log("키드 줍기");
+        grabKitBox = true;
+        InGameManager.Instance.GetKitBox();
+        kitBoxObject.SetActive(true);
+    }
+
+    private void InputManager_OnKitBoxDrop(object sender, System.EventArgs e)
+    {
+        if (!grabKitBox) return;
+
+        Debug.Log("키드 놓기");
+        grabKitBox = false;
+        InGameManager.Instance.DropKitBox();
+        kitBoxObject.SetActive(false);
     }
 
     private void InputManager_OnJump(object sender, System.EventArgs e)
@@ -163,8 +191,23 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Ground"))
         {
+
             isGround = true;
-        }    
+        }
+        else if(collision.gameObject.CompareTag("RepairKit"))
+        {
+            nearKitBox = true;
+        }
+
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("RepairKit"))
+        {
+            nearKitBox = false;
+        }
+
     }
 
 }

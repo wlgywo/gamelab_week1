@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class CheckRepairKitCollision : MonoBehaviour
 {
-	// Start is called once before the first execution of Update after the MonoBehaviour is created
+	[SerializeField] private TimerScript timerScript;
+
 	void Start()
 	{
 		
@@ -18,7 +19,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 	{
         if (other.CompareTag("RepairKit"))
 		{
-			GetComponent<TimerScript>().StartCountdown();
+            timerScript.StartCountdown();
 		}
 	}
 
@@ -26,7 +27,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
 	{
 		if (other.CompareTag("RepairKit"))
 		{
-			GetComponent<TimerScript>().StopCountdown();
-		}
+			timerScript.ChanageCountdown(true);
+
+        }
 	}
 }
