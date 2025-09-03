@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private Renderer[] renderers;
 
     [SerializeField] private GameObject weapon;
+    [SerializeField] private Slider slider;
+
 
     // 플레이어 상태 관련. 체력등)
     private int maxHp = 100;
@@ -92,6 +95,7 @@ public class PlayerController : MonoBehaviour
         InputManager.Instance.OnKitBoxDrop += InputManager_OnKitBoxDrop;
         InputManager.Instance.OnKitBoxGet += InputManager_OnKitBoxGet;
         InputManager.Instance.OnAttack += InputManager_OnAttack;
+        UpdateVisual();
 
         // --- 아래 코드 추가 ---
         // 카메라의 기본 거리를 오프셋의 크기로 설정
@@ -376,6 +380,7 @@ public class PlayerController : MonoBehaviour
         curInvincibleTimer = invincibleTimer;
 
         hp -= damage;
+        UpdateVisual();
         if (hp <= 0)
         {
             hp = 0;
@@ -420,5 +425,8 @@ public class PlayerController : MonoBehaviour
         foreach (Renderer r in renderers)
             r.enabled = true;
     }
-
+    private void UpdateVisual()
+    {
+        slider.value = (float)hp / maxHp;
+    }
 }
