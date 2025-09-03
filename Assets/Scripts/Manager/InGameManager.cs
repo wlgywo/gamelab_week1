@@ -13,6 +13,8 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject gameoverUI;
     [SerializeField] public GameObject gameClearUI;
     [SerializeField] public GameObject BossUI;
+    [SerializeField] public GameObject playerUI;
+    
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
@@ -65,6 +67,8 @@ public class InGameManager : MonoBehaviour
         Cursor.visible = true;
         gameOver = true;
         gameoverUI.SetActive(true);
+        BossUI.SetActive(false);
+        playerUI.SetActive(false);
     }
     public void GameClear()
     {
@@ -72,6 +76,8 @@ public class InGameManager : MonoBehaviour
         Cursor.visible = true;
         gameOver = true;
         gameClearUI.SetActive(true);
+        BossUI.SetActive(false);
+        playerUI.SetActive(false);
     }
 
     public void MainMenu()

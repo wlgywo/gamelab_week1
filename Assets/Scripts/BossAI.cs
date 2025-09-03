@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class BossAI : MonoBehaviour
@@ -16,10 +16,12 @@ public class BossAI : MonoBehaviour
 	[SerializeField] GameObject RedZone;
 	[SerializeField] GameObject BlueZone;
 	[SerializeField] GameObject GreenZone;
+    [SerializeField] Slider slider;
 
     // 보스 능력치 관련
     public int hp = 1000;
-	public float speed = 5.0f;
+    public int maxHp = 1000;
+    public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
 	public int damage = 15;
 
@@ -67,6 +69,7 @@ public class BossAI : MonoBehaviour
     private void Start()
     {
 		skills = new Action[] { AoESkill, ThrowFileSkile };
+        UpdateVisual();
     }
 
 	private void AoESkill()
@@ -209,27 +212,30 @@ public class BossAI : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-        if (other.gameObject.CompareTag("Player"))
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController.Instance.GetDamage(damage);
         }
     }
-
-	public void GetDamage(int damage)
+    private void OnTriggerEnter(Collider other)
 	{
-		hp -= damage;
-		{
-			if(hp < 0)
-			{
-				InGameManager.Instance.GameClear();
-			}
-			else
-			{
-				// UI로 띄워야함.
-			}
-		}
+        if (other.CompareTag("Weapon"))
+        {
+            GetDamage();
+        }
+    }
+
+	public void GetDamage()
+	{
+		hp -= PlayerController.Instance.damage;
+        UpdateVisual();
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+            InGameManager.Instance.GameClear();
+        }
 	}
 
 	public void SetAttackDamage(int attackDamage)
@@ -242,7 +248,10 @@ public class BossAI : MonoBehaviour
 		hp += heal;
 		// 보스 Hp UI작업 필요.
 	}
-
+    private void UpdateVisual()
+    {
+        slider.value = (float)hp / maxHp;
+    }
     IEnumerator FireBurst()
     {
         isFiring = true; // 발사 시작
