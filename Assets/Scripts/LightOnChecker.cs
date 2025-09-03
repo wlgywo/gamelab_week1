@@ -7,7 +7,7 @@ public class LightOnChecker : MonoBehaviour
     [SerializeField] private float blinkInterval = 0.01f;
 
     private bool isBlinking = false;
-
+    private bool isLightOn = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,6 +16,7 @@ public class LightOnChecker : MonoBehaviour
             if (light != null)
             {
                 light.enabled = false;
+                isLightOn = false;
             }
         }
     }
@@ -28,13 +29,14 @@ public class LightOnChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&&!isLightOn)
         {
+            isLightOn = true;
             foreach (Light light in targetLight)
             {
                 if (light != null)
-                {
-                    StartCoroutine(BlinkAndStayOn());
+                {       
+                    StartCoroutine(BlinkAndStayOn());           
                 }
             }
         }
@@ -45,23 +47,22 @@ public class LightOnChecker : MonoBehaviour
         
         isBlinking = true;
 
-        foreach (Light light in targetLight)
-        {
-            if (light != null)
-            {
-                for (int i = 0; i < 4; i++)
+         foreach (Light light in targetLight)
+         {
+                if (light != null)
                 {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        light.enabled = true;
+                        yield return new WaitForSeconds(blinkInterval);
+
+                        light.enabled = false;
+                        yield return new WaitForSeconds(blinkInterval);
+                    }
+
                     light.enabled = true;
-                    yield return new WaitForSeconds(blinkInterval);
-
-                    light.enabled = false;
-                    yield return new WaitForSeconds(blinkInterval);
+                    isBlinking = false;
                 }
-
-                light.enabled = true;
-                isBlinking = false;
-            }
-        }
-        
+         }
     }
 }
