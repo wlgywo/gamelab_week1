@@ -7,6 +7,7 @@ public class BossAI : MonoBehaviour
     public static BossAI Instance { get; private set; }
     [SerializeField] protected Rigidbody rb;
 
+    public ParticleSystem hitEffect;
 
     // 다른 오브젝트 관련
     public Transform player;
@@ -191,6 +192,7 @@ public class BossAI : MonoBehaviour
 	public void GetDamage()
 	{
 		hp -= PlayerController.Instance.damage;
+        hitEffect.Play();
         UpdateVisual();
         if (hp <= 0)
         {

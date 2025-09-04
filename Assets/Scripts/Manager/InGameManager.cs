@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,9 +51,16 @@ public class InGameManager : MonoBehaviour
 
         levelUp.SetActive(true);
         isLevelUp = true;
+        StartCoroutine(OpenMouse());
+    }
+
+    IEnumerator OpenMouse()
+    {
+        yield return new WaitForSeconds(1.25f);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
     public void RemoveLevelUpUI()
     {
         Cursor.lockState = CursorLockMode.Locked;
