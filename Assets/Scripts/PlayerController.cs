@@ -96,8 +96,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        InputManager.Instance.OnLeftGravity += InputManager_OnLeftGravity;
-        InputManager.Instance.OnRightGravity += InputManager_OnRightGravity;
         InputManager.Instance.OnJump += InputManager_OnJump;
         InputManager.Instance.OnKitBoxDrop += InputManager_OnKitBoxDrop;
         InputManager.Instance.OnKitBoxGet += InputManager_OnKitBoxGet;
