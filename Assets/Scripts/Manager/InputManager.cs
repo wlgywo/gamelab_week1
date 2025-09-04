@@ -5,8 +5,6 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
 
-    public event EventHandler OnLeftGravity;
-    public event EventHandler OnRightGravity;
     public event EventHandler OnJump;
     public event EventHandler OnKitBoxDrop;
     public event EventHandler OnKitBoxGet;
@@ -38,34 +36,6 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        // 중력 좌
-        if (Input.GetKeyDown(gravityLeftKey))
-        {
-            if (PlayerController.Instance.isGround &&
-                !GravityManager.Instance.isGravity &&
-                !InGameManager.Instance.isLevelUp)
-            {
-                GravityManager.Instance.GravityCheck(true);
-                GravityManager.Instance.GravityChange(true);  // left
-                OnLeftGravity?.Invoke(this, EventArgs.Empty);
-                GravityManager.Instance.GravityCheck(false);
-            }
-        }
-
-        // 중력 우
-        if (Input.GetKeyDown(gravityRightKey))
-        {
-            if (PlayerController.Instance.isGround &&
-                !GravityManager.Instance.isGravity &&
-                !InGameManager.Instance.isLevelUp)
-            {
-                GravityManager.Instance.GravityCheck(true);
-                GravityManager.Instance.GravityChange(false); // right
-                OnRightGravity?.Invoke(this, EventArgs.Empty);
-                GravityManager.Instance.GravityCheck(false);
-            }
-        }
-
         // 점프
         if (Input.GetKeyDown(jumpKey))
         {
@@ -95,7 +65,7 @@ public class InputManager : MonoBehaviour
     }
 
     // 이동 입력(정규화)
-    public Vector2 GetMoveDirNormalized()
+    public Vector2 GetMoveDirNormalized()   // 항상 일정한 속도로 움직이기 위함.
     {
         float x = Input.GetAxisRaw(horizontalAxis);
         float y = Input.GetAxisRaw(verticalAxis);
@@ -105,7 +75,7 @@ public class InputManager : MonoBehaviour
     }
 
     // 시점/포인터(정규화)
-    public Vector2 GetPointerNormalized()
+    public Vector2 GetPointerNormalized() 
     {
         if (useMouseDeltaForLook)
         {
