@@ -16,11 +16,11 @@ public class BossAI : MonoBehaviour
     public bool onFloor = false;
 
     // 보스 능력치 관련
-    public int hp = 1000;
-    public int maxHp = 1000;
+    private int hp = 300;
+    private int maxHp = 300;
     public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
-	public int damage = 15;
+	public int damage = 10;
 
 	// 데미지와 사망 관련
 	private bool isDie = false;

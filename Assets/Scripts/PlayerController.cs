@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isRotate = false;
     private float rotateSpeed = 10f;
-    private float mouseSpeed = 150f;
+    private float mouseSpeed = 270f;
     Quaternion targetRot;
 
     // --- ▼ 아래 두 줄을 추가하세요 ▼ ---
@@ -431,6 +431,7 @@ public class PlayerController : MonoBehaviour
     {
         maxHp += hpUpgrade;
         hp = maxHp;
+        UpdateVisual();
     }
 
     private IEnumerator InvincibleBlink()
