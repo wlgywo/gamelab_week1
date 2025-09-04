@@ -65,7 +65,7 @@ public class TimerScript : MonoBehaviour
                 currentTime = 0;
                 isCounting = false;
                 InGameManager.Instance.countdownText.gameObject.SetActive(false);
-                InGameManager.Instance.levelUp.gameObject.SetActive(true);
+                //InGameManager.Instance.levelUp.gameObject.SetActive(true);
             }
 
             if(curKitTimer >= (kitTimer- InGameManager.Instance.repairSpeed))

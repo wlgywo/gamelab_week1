@@ -46,10 +46,12 @@ public class InGameManager : MonoBehaviour
     }
     public void LevelUp()
     {
+        if (gameOver) return;
+
+        levelUp.SetActive(true);
         isLevelUp = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        levelUp.SetActive(true);
     }
     public void RemoveLevelUpUI()
     {

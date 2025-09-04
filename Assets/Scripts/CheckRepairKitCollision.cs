@@ -79,12 +79,11 @@ public class CheckRepairKitCollision : MonoBehaviour
         }
 	}
 
-	/*private void OnTriggerExit(Collider other)
+	private void OnTriggerExit(Collider other)
 	{
 		if (other.CompareTag("RepairKit"))
 		{
 			timerScript.ChanageCountdown(false);
-
         }
-	}*/
+	}
 }

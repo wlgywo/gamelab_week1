@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     Vector3 snapVec = Vector3.zero;
 
     private bool grabKitBox = true; // 현재 박스를 가지고 있는지
-    private bool nearKitBox = false; // 현재 박스가 근처에 있는지
+    public bool nearKitBox = false; // 현재 박스가 근처에 있는지
     public GameObject kitBoxObject; // 손에 있는 키트박스
     public Transform kitBoxPos; // 키트박스 떨어질 위치
 
@@ -396,20 +396,6 @@ public class PlayerController : MonoBehaviour
 
             isGround = true;
         }
-        else if(collision.gameObject.CompareTag("RepairKit"))
-        {
-            nearKitBox = true;
-        }
-
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("RepairKit"))
-        {
-            nearKitBox = false;
-        }
-
     }
 
     public void GetDamage(int damage)
