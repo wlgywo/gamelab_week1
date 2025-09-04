@@ -88,8 +88,12 @@ public class BossDoorScript : MonoBehaviour
         if (other.CompareTag("Player") && doorsAreOpen)
         {
             // 플레이어가 문에 닿았을 때의 동작
-            
-            if(bossAi != null) bossAi.SetActive(true);
+
+            if (bossAi != null)
+            {
+                bossAi.SetActive(true);
+                InGameManager.Instance.BossUI.SetActive(true);
+            }
             CallDoorOpen();
         }
     }
