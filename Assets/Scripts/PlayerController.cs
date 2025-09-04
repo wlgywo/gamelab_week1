@@ -431,6 +431,7 @@ public class PlayerController : MonoBehaviour
     {
         maxHp += hpUpgrade;
         hp = maxHp;
+        UpdateVisual();
     }
 
     private IEnumerator InvincibleBlink()
