@@ -6,7 +6,7 @@ public class TimerScript : MonoBehaviour
 {
     [SerializeField] private CheckRepairKitCollision repairKit;
     [SerializeField] private Slider slider;
-    private float countdownTime = 10f;
+    private float countdownTime = 30f;
 
     private float currentTime = 0;
     [SerializeField] private bool isCounting = false;

@@ -6,9 +6,13 @@ public class EnemyAI : MonoBehaviour
 {
 	[SerializeField] protected Rigidbody rb;
 	[SerializeField] private Slider slider;
+    public ParticleSystem hitEffect;
 
-	// 다른 오브젝트 관련
-	public Transform repairKit;
+    private const string ChaseANIM = "IsChase";
+    private const string ATTACKANIM = "IsAttack";
+
+    // 다른 오브젝트 관련
+    public Transform repairKit;
 	public Transform player;
     private Animator animator;
 
@@ -138,9 +142,13 @@ public class EnemyAI : MonoBehaviour
             // '위' 방향을 기준으로 회전
             Quaternion targetRot = Quaternion.LookRotation(flatDirToTarget, upDir);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, moveRotationSpeed * Time.fixedDeltaTime));
+
+            animator.SetBool(ChaseANIM, true);
         }
         else
         {
+            animator.SetBool(ChaseANIM, false);
+
             // 멈출 때
             rb.MovePosition(rb.position);
 
@@ -183,7 +191,7 @@ public class EnemyAI : MonoBehaviour
             target = repairKit;
         }
 
-        animator.SetBool("isChase", true);
+        animator.SetTrigger(ATTACKANIM);
         //animator.SetTrigger("Attack");
 
         // 시작 상태 저장
@@ -245,6 +253,7 @@ public class EnemyAI : MonoBehaviour
     private void GetDamage()
 	{
 		hp -= PlayerController.Instance.damage;
+        hitEffect.Play();
 		UpdateVisual();
 
         if (hp <= 0)
