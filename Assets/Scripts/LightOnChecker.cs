@@ -6,7 +6,6 @@ public class LightOnChecker : MonoBehaviour
     [SerializeField] private Light[] targetLight;
     [SerializeField] private float blinkInterval = 0.01f;
 
-    private bool isBlinking = false;
     private bool isLightOn = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,9 +30,6 @@ public class LightOnChecker : MonoBehaviour
 
     private IEnumerator BlinkAndStayOn()
     {
-        
-        isBlinking = true;
-
          foreach (Light light in targetLight)
          {
                 if (light != null)
@@ -48,7 +44,6 @@ public class LightOnChecker : MonoBehaviour
                     }
 
                     light.enabled = true;
-                    isBlinking = false;
                 }
          }
     }

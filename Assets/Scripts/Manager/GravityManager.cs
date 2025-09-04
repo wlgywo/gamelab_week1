@@ -1,17 +1,8 @@
 using UnityEngine;
 
-public enum GravityState // < (왼쪽 이동 기준)
-{
-    down, left, up, right
-}
-
 public class GravityManager : MonoBehaviour
 {
     public static GravityManager Instance { get; private set; }
-
-    public GravityState state { get; private set; }
-
-    private int stateLen = 4; // GravityState 길이
 
     private float gravityValue = -9.81f;
     private float gravityAngle = 0f;

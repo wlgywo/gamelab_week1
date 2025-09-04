@@ -25,12 +25,10 @@ public class BossAI : MonoBehaviour
 
 	// 데미지와 사망 관련
 	private bool isDie = false;
-	private bool isDamaged = false; // 지금 맞은 상태인가
-
 
 	// 경계 설정용
 	public float stopRadius = 9.9f;     // 어느 반경에서 멈출지
-	private float stopEpsilon = 0.05f;   // 경계에서 떨림 방지용
+	//private float stopEpsilon = 0.05f;   // 경계에서 떨림 방지용
 
 
 	// 공격 관련
@@ -51,7 +49,7 @@ public class BossAI : MonoBehaviour
     public float timeBetweenShots = 0.05f;  // 각 총알 사이의 발사 간격
     public float timeBetweenBursts = 2f;    // 다음 3발 발사까지의 대기 시간
 
-    private bool isFiring = false; // 현재 발사 중인지 확인하는 변수
+    //private bool isFiring = false; // 현재 발사 중인지 확인하는 변수
 
     [Header("Gravity Settings")]
     public float gravityForce = 9.8f; // 적용할 중력의 크기
@@ -69,18 +67,6 @@ public class BossAI : MonoBehaviour
 		skills = new Action[] { ThrowFileSkile };
         UpdateVisual();
     }
-
-    Quaternion SnapRotation90(Quaternion rot)
-    {
-        Vector3 euler = rot.eulerAngles;
-
-        euler.x = Mathf.Round(euler.x / 90f) * 90f;
-        euler.y = Mathf.Round(euler.y / 90f) * 90f;
-        euler.z = Mathf.Round(euler.z / 90f) * 90f;
-
-        return Quaternion.Euler(euler);
-    }
-
 
     private void ThrowFileSkile()
 	{

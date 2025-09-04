@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     public bool isGround { get; private set; }
 
     private bool isRotate = false;
-    private float rotateSpeed = 10f;
+    //private float rotateSpeed = 10f;
     private float mouseSpeed = 270f;
     private float keyboardSpeed = 270f; // 키보드 마우스 감도
     private float controllerSpeed = 130f; // 컨트롤러 감도

@@ -4,7 +4,6 @@ public class BossBullet : MonoBehaviour
 {
     private Rigidbody bulletRb;
 
-    private int damage = 10;
     public float speed = 5f;
     public float maxTorque = 10f;
     Transform playerPos;

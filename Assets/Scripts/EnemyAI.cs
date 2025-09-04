@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
 
 	// 데미지와 사망 관련
 	private bool isDie = false;
-	private bool isDamaged = false; // 지금 맞은 상태인가
+	//private bool isDamaged = false; // 지금 맞은 상태인가
 
 
 	// 경계 설정용
