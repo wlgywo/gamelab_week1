@@ -34,8 +34,6 @@ public class PlayerController : MonoBehaviour
     private float invincibleTimer = 2f; // 무적 타이머
     private float curInvincibleTimer = 0f;
 
-    public float knockback = 10;
-    public const float knockbackUpgrade = 10f;
 
     private float moveSpeed = 5f;
     private float jumpPower = 70f;
@@ -417,11 +415,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void UpdateKnockback()
-    {
-        knockback += knockbackUpgrade;
-    }
-
+   
     public void UpdateDamage()
     {
         damage += upgraeDamage;
