@@ -24,7 +24,7 @@ public class InGameManager : MonoBehaviour
 
 
     public float repairSpeed { get; private set; }
-    private float upgradeRepairSpeed = 1.5f;
+    private float upgradeRepairSpeed = 5f;
 
     private void Awake()
     {

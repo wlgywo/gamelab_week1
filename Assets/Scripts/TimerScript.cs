@@ -6,13 +6,15 @@ public class TimerScript : MonoBehaviour
 {
     [SerializeField] private CheckRepairKitCollision repairKit;
     [SerializeField] private Slider slider;
-    public float countdownTime = 30f;
+    private float countdownTime = 10f;
 
     private float currentTime = 0;
     [SerializeField] private bool isCounting = false;
 
-    private float curKitTimer = 0f;
-    private float kitTimer = 3f; //  30초로 수정
+    //private float curKitTimer = 0f;
+    //private float kitTimer = 30f; //  30초로 수정
+
+    private bool isRun = false;
 
     private void Start()
     {
@@ -26,11 +28,12 @@ public class TimerScript : MonoBehaviour
         {
             ChanageCountdown(true);
             return;
-        }      
+        }
 
-        currentTime = countdownTime;
+        isRun = true;
+        currentTime = countdownTime - InGameManager.Instance.repairSpeed;
         isCounting = true;
-        curKitTimer = 0;
+        //curKitTimer = 0;
 
         //if()
         InGameManager.Instance.countdownText.gameObject.SetActive(true);
@@ -44,6 +47,7 @@ public class TimerScript : MonoBehaviour
 
     public void CompleteCountdown()
     {
+        isRun = false;
         isCounting = false;
         repairKit.RepairComplete();
         InGameManager.Instance.countdownText.gameObject.SetActive(false);
@@ -55,37 +59,40 @@ public class TimerScript : MonoBehaviour
 
     void Update()
     {
+        if (!isRun) return;
+
         if (isCounting)
         {
             currentTime -= Time.deltaTime;
-            curKitTimer += Time.deltaTime;
+            //curKitTimer += Time.deltaTime;
 
             if (currentTime <= 0)
             {
                 currentTime = 0;
                 isCounting = false;
                 InGameManager.Instance.countdownText.gameObject.SetActive(false);
+                CompleteCountdown();
                 //InGameManager.Instance.levelUp.gameObject.SetActive(true);
             }
 
-            if(curKitTimer >= (kitTimer- InGameManager.Instance.repairSpeed))
+            /*if(curKitTimer >= (kitTimer- InGameManager.Instance.repairSpeed))
             {
                 Debug.Log("클리어 처리");
                 CompleteCountdown();
-            }
+            }*/
         }
         else
         {
 
-            curKitTimer -= Time.deltaTime;
             currentTime += Time.deltaTime;
+            //curKitTimer -= Time.deltaTime;
 
-            if (currentTime > countdownTime)
+            if (currentTime > countdownTime - InGameManager.Instance.repairSpeed)
             {
-                currentTime = countdownTime;
+                currentTime = countdownTime - InGameManager.Instance.repairSpeed;
             }
 
-            if (curKitTimer < 0) curKitTimer = 0;
+            //if (curKitTimer < 0) curKitTimer = 0;
         }
 
         UpdateTimerUI();
@@ -96,8 +103,14 @@ public class TimerScript : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(currentTime / 60);
         int seconds = Mathf.FloorToInt(currentTime % 60);
+
+        Debug.Log("초 : " + seconds);
+
         InGameManager.Instance.countdownText.text = string.Format("{0}:{1:00}", minutes, seconds);
 
-        slider.value = curKitTimer / (kitTimer- InGameManager.Instance.repairSpeed);
+        //slider.value = curKitTimer / (kitTimer- InGameManager.Instance.repairSpeed);
+        float maxCount = countdownTime - InGameManager.Instance.repairSpeed;
+
+        slider.value = (maxCount - currentTime) / maxCount;
     }
 }
