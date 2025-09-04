@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnAttack;
 
     public PlayerInput playerInput {  get; private set; }
+    private bool connectGamePad = false;
 
     private void Awake()
     {
@@ -29,6 +31,29 @@ public class InputManager : MonoBehaviour
         playerInput.Player.Attack.performed += Attack_performed;
     }
 
+    private void Start()
+    {
+        foreach (var device in InputSystem.devices)
+        {
+            if (device is Gamepad)
+            {
+                //connectGamePad = true;
+                ChangeDeviceState(true);
+                break;
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    private void OnDisable()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
     private void OnDestroy()
     {
         playerInput.Player.GravityLeft.performed -= GravityLeft_performed;
@@ -40,6 +65,31 @@ public class InputManager : MonoBehaviour
 
         playerInput.Dispose();
     }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is Gamepad)
+        {
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    //connectGamePad = true;
+                    ChangeDeviceState(true);
+                    break;
+                case InputDeviceChange.Removed:
+                    //connectGamePad = false;
+                    ChangeDeviceState(false);
+                    break;
+            }
+        }
+    }
+
+    private void ChangeDeviceState(bool isController)
+    {
+        connectGamePad = isController;
+        PlayerController.Instance.ChangeSensity(isController);
+    }
+
 
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {

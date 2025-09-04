@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
     private bool isRotate = false;
     private float rotateSpeed = 10f;
     private float mouseSpeed = 270f;
+    private float keyboardSpeed = 270f; // 키보드 마우스 감도
+    private float controllerSpeed = 130f; // 컨트롤러 감도
+
     Quaternion targetRot;
 
     // --- ▼ 아래 두 줄을 추가하세요 ▼ ---
@@ -448,5 +451,11 @@ public class PlayerController : MonoBehaviour
     private void UpdateVisual()
     {
         slider.value = (float)hp / maxHp;
+    }
+
+    public void ChangeSensity(bool isController)
+    {
+        if (isController) mouseSpeed = controllerSpeed;
+        else mouseSpeed = keyboardSpeed;
     }
 }
