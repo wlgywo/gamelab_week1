@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private float curInvincibleTimer = 0f;
 
 
-    private float moveSpeed = 5f;
+    private float moveSpeed = 7.5f;
     private float jumpPower = 70f;
 
     public bool isGround { get; private set; }
