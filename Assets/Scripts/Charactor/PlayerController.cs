@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private int maxHp = 100;
     private int hp = 100;
     private int hpUpgrade = 20;
+    private bool isBorder;
 
     private const string WALKANIM = "IsWalk";
     private const string ATTACKANIM1 = "IsAttack1";
@@ -237,6 +238,9 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 moveDir = transform.forward * InputVector.y + transform.right * InputVector.x;
             moveDir.Normalize();
+
+            isBorder = Physics.Raycast(transform.position, moveDir, 1, LayerMask.GetMask("Wall"));
+            if (isBorder) return;
 
             Vector3 targetPos = rb.position + moveDir * moveSpeed * Time.fixedDeltaTime;
             rb.MovePosition(targetPos);
