@@ -11,7 +11,10 @@ public class PlayerController : MonoBehaviour
     // const
     private const string WALKANIM = "IsWalk";
 
+    // status
     [SerializeField] private float moveSpeed = 10f;
+    private bool isGrounded = false;
+
 
     private void Awake()
     {
@@ -54,6 +57,21 @@ public class PlayerController : MonoBehaviour
 
             rb.MovePosition(rb.position + dir * moveSpeed * Time.fixedDeltaTime);
             anim.SetBool(WALKANIM, true);
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(!isGrounded && GravityManager.Instance.isGravity)
+        {
+            if (collision.gameObject.CompareTag("Ground"))
+            {
+                float dot = Vector3.Dot(transform.up.normalized, collision.transform.up.normalized); // 둘의 내적 이용
+                if (dot > 0.9f) // 1에 가까우면 둘의 내적이 같은 방향이므로
+                {
+                    GravityManager.Instance.GravityCheck(false); // 중력 착지 완료
+                }
+            }
         }
     }
 }

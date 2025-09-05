@@ -119,11 +119,13 @@ public class InputManager : MonoBehaviour
         //if (!PostPlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
         //if (InGameManager.Instance.isLevelUp) return;
 
-        GravityManager.Instance.GravityCheck(true);
+        if (GravityManager.Instance.isGravity) return;
+
+       // GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(true);
 
         OnLeftGravity?.Invoke(this, EventArgs.Empty);
-        GravityManager.Instance.GravityCheck(false);
+        //GravityManager.Instance.GravityCheck(false);
     }
 
     private void GravityRight_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -131,11 +133,13 @@ public class InputManager : MonoBehaviour
         //if (!PostPlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
         //if (InGameManager.Instance.isLevelUp) return;
 
-        GravityManager.Instance.GravityCheck(true);
+        if (GravityManager.Instance.isGravity) return;
+
+        //GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(false);
 
         OnRightGravity?.Invoke(this, EventArgs.Empty);
-        GravityManager.Instance.GravityCheck(false);
+        //GravityManager.Instance.GravityCheck(false);
     }
 
     public Vector2 GetMoveDirNormalized()

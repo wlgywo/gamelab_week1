@@ -17,6 +17,7 @@ public class GravityManager : MonoBehaviour
 
     public void GravityChange(bool isLeft)
     {
+        GravityCheck(true);
         gravityAngle = isLeft ? -90f : 90f;
         SetGravity();
     }
