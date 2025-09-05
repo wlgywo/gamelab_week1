@@ -1,11 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeRender : MonoBehaviour
 {
     public Material[] materials;
+    public Material[] marbleMaterials;
 
     public Renderer[] cubes;
     public Light[] lights;
+    public Renderer[] marbles;
+    public Light[] marbleLights;
 
     public int[] count;
     public int[] indexs;
@@ -23,7 +27,7 @@ public class CubeRender : MonoBehaviour
             if (count[ran] == 0)
             {
                 i--;
-                continue;   
+                continue;
             }
             else
             {
@@ -44,11 +48,34 @@ public class CubeRender : MonoBehaviour
                 }
 
 
-                    indexs[i] = ran;
+                indexs[i] = ran;
                 cubes[i].material = materials[ran];
                 lights[i].color = colors[ran];
                 count[ran]--;
             }
+        }
+
+        MarbleShuffle();
+    }
+
+    public void MarbleShuffle()
+    {
+        List<int> a = new List<int> { 0, 1, 2, 3, 4, 5 };
+
+        for(int i=0; i< marbles.Length; i ++)
+        {
+            int ran = Random.Range(0, marbles.Length);
+            int temp = a[ran];
+            a[ran] = a[i];
+            a[i] = temp;
+        }
+
+        for(int i=0; i< marbles.Length; i++)
+        {
+            marbles[i].material = marbleMaterials[a[i]];
+            marbleLights[i].color = colors[a[i]];
+            //marbles[i].GetComponent<Marble>().SetIndex(a[i]);
+            InGameManager.Instance.SetMarbleUI(colors[a[i]], i);
         }
     }
 }

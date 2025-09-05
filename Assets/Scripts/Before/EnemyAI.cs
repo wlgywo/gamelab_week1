@@ -68,7 +68,7 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         player = PostPlayerController.Instance.transform;
-		repairKit = InGameManager.Instance.kitBox.transform;
+		//repairKit = InGameManager.Instance.kitBox.transform;
 
 		UpdateVisual();
     }
@@ -276,7 +276,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("RepairKit"))
         {
-            InGameManager.Instance.kitBox.SetDamage(damage);
+            //InGameManager.Instance.kitBox.SetDamage(damage);
         }
     }
 

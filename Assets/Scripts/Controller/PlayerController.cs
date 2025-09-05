@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 10f;
     private int hp = 300;
     private int maxHp = 300;
+    public int damage { get; private set; } = 10;
 
     [Header("State")]
     private bool isRotate = false;

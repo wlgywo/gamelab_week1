@@ -183,7 +183,7 @@ public class BossAI : MonoBehaviour
         if (hp <= 0)
         {
             Destroy(gameObject);
-            InGameManager.Instance.GameClear();
+            //InGameManager.Instance.GameClear();
         }
 	}
 

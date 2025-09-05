@@ -25,9 +25,9 @@ public class InputManager : MonoBehaviour
 
         playerInput.Player.GravityLeft.performed += GravityLeft_performed;
         playerInput.Player.GravityRight.performed += GravityRight_performed;
-        playerInput.Player.Jump.performed += Jump_performed;
+        /*playerInput.Player.Jump.performed += Jump_performed;
         playerInput.Player.KitBoxDrop.performed += KitBoxDrop_performed;
-        playerInput.Player.KitBoxGet.performed += KitBoxGet_performed;
+        playerInput.Player.KitBoxGet.performed += KitBoxGet_performed;*/
         playerInput.Player.Attack.performed += Attack_performed;
     }
 
@@ -58,9 +58,9 @@ public class InputManager : MonoBehaviour
     {
         playerInput.Player.GravityLeft.performed -= GravityLeft_performed;
         playerInput.Player.GravityRight.performed -= GravityRight_performed;
-        playerInput.Player.Jump.performed -= Jump_performed;
+        /*playerInput.Player.Jump.performed -= Jump_performed;
         playerInput.Player.KitBoxDrop.performed -= KitBoxDrop_performed;
-        playerInput.Player.KitBoxGet.performed -= KitBoxGet_performed;
+        playerInput.Player.KitBoxGet.performed -= KitBoxGet_performed;*/
         playerInput.Player.Attack.performed -= Attack_performed;
 
         playerInput.Dispose();
@@ -96,7 +96,7 @@ public class InputManager : MonoBehaviour
         OnAttack?.Invoke(this, EventArgs.Empty);
     }
 
-    private void KitBoxGet_performed(InputAction.CallbackContext obj)
+    /*private void KitBoxGet_performed(InputAction.CallbackContext obj)
     {
         if (InGameManager.Instance.isLevelUp) return;
         OnKitBoxGet.Invoke(this, EventArgs.Empty);
@@ -112,7 +112,7 @@ public class InputManager : MonoBehaviour
     {
         if (InGameManager.Instance.isLevelUp) return;
         OnJump?.Invoke(this, EventArgs.Empty);
-    }
+    }*/
 
     private void GravityLeft_performed(InputAction.CallbackContext obj)
     {

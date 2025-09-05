@@ -92,7 +92,7 @@ public class BossDoorScript : MonoBehaviour
             if (bossAi != null)
             {
                 bossAi.SetActive(true);
-                InGameManager.Instance.BossUI.SetActive(true);
+                //InGameManager.Instance.BossUI.SetActive(true);
             }
             CallDoorOpen();
         }

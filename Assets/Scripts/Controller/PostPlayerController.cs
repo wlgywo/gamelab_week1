@@ -141,7 +141,7 @@ public class PostPlayerController : MonoBehaviour
 
         Debug.Log("키드 줍기");
         grabKitBox = true;
-        InGameManager.Instance.GetKitBox();
+        //InGameManager.Instance.GetKitBox();
         kitBoxObject.SetActive(true);
     }
 
@@ -151,7 +151,7 @@ public class PostPlayerController : MonoBehaviour
 
         Debug.Log("키드 놓기");
         grabKitBox = false;
-        InGameManager.Instance.DropKitBox();
+        //InGameManager.Instance.DropKitBox();
         kitBoxObject.SetActive(false);
     }
 
@@ -230,7 +230,7 @@ public class PostPlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(InGameManager.Instance.isLevelUp) return;
+        //if(InGameManager.Instance.isLevelUp) return;
         Vector2 InputVector = InputManager.Instance.GetMoveDirNormalized();
 
         if(InputVector == Vector2.zero)
@@ -265,7 +265,7 @@ public class PostPlayerController : MonoBehaviour
         curAttackDelay -= Time.deltaTime;
 
 
-        if (InGameManager.Instance.isLevelUp) return;
+        //if (InGameManager.Instance.isLevelUp) return;
 
         if (isDamaged)
         {
@@ -412,7 +412,7 @@ public class PostPlayerController : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            InGameManager.Instance.GameOver();
+            //InGameManager.Instance.GameOver();
         }
         else
         {

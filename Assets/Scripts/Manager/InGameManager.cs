@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,24 +9,29 @@ public class InGameManager : MonoBehaviour
 {
     public static InGameManager Instance { get; private set; }
 
-    [SerializeField] public TextMeshProUGUI countdownText;
+    /*[SerializeField] public TextMeshProUGUI countdownText;
 
-    [SerializeField] public GameObject levelUp;
+   [SerializeField] public GameObject levelUp;
     [SerializeField] public GameObject gameoverUI;
     [SerializeField] public GameObject gameClearUI;
     [SerializeField] public GameObject BossUI;
+    */
     [SerializeField] public GameObject playerUI;
-    
 
-    [field: SerializeField] public KitBox kitBox { get; private set; }
+    [SerializeField] public Transform marbleUITrans;
+    [SerializeField] public GameObject marbleUIPrefabs;
 
-    public bool isLevelUp = false;
+    private List<Image> marbleImages = new List<Image>();
+
+    public Marble[] marbles;
+    int cnt = 0;
+    /*public bool isLevelUp = false;
 
     public bool gameOver { get; private set; } = false;
 
 
     public float repairSpeed { get; private set; }
-    private float upgradeRepairSpeed = 5f;
+    private float upgradeRepairSpeed = 5f;*/
 
     private void Awake()
     {
@@ -34,18 +40,25 @@ public class InGameManager : MonoBehaviour
         playerUI.SetActive(true);
     }
 
+    public void SetMarbleUI(Color color, int index)
+    {
+        marbles[cnt++].SetIndex(index);
+        Image marble = Instantiate(marbleUIPrefabs, marbleUITrans).GetComponent<Image>();
+        marble.color = color;
+        marbleImages.Add(marble);
+    }
 
-    public void DropKitBox()
+    public void MarbleHit(int damage, int index)
     {
-        kitBox.transform.position = PostPlayerController.Instance.kitBoxPos.position;
-        kitBox.transform.rotation = PostPlayerController.Instance.transform.rotation;
-        kitBox.gameObject.SetActive(true);
+        marbles[index].Damage(damage);
     }
-    public void GetKitBox()
+
+    public void SetMarbleUIHp(float hp, int index)
     {
-        kitBox.gameObject.SetActive(false);
+        marbleImages[index].fillAmount = hp;
     }
-    public void LevelUp()
+
+    /*public void LevelUp()
     {
         if (gameOver) return;
 
@@ -96,5 +109,5 @@ public class InGameManager : MonoBehaviour
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
-    }
+    }*/
 }
