@@ -1979,10 +1979,10 @@ MonoBehaviour:
   trailRenderer: {fileID: 4092895683540072808}
   slider: {fileID: 0}
   curAttackDelay: 0
-  attackDelay: 1.5
   knockback: 10
   jumpPower: 55
   rotateDuration: 0.5
+  nearKitBox: 0
   kitBoxObject: {fileID: 1414755815862836804}
   kitBoxPos: {fileID: 2801056275548486797}
   cameraTransform: {fileID: 3791746999499101368}
@@ -1990,9 +1990,9 @@ MonoBehaviour:
   maxXAngle: 80
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
-  cameraOffset: {x: 0, y: 0, z: 0}
-  cameraCollisionPadding: 0.2
+    m_Bits: 256
+  cameraOffset: {x: 0, y: 3, z: -5}
+  cameraCollisionPadding: 1
   cameraReturnSpeed: 5
 --- !u!1 &7957899719353480289
 GameObject:

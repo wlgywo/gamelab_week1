@@ -550,7 +550,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769367169129377250}
   - component: {fileID: 5781725800306751285}
-  - component: {fileID: 6045532103917114889}
+  - component: {fileID: 1214059297913168414}
   m_Layer: 8
   m_Name: BossDoorSet
   m_TagString: Untagged
@@ -568,7 +568,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.33, y: 53.76, z: -0.7}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6868282596472048668}
@@ -596,7 +596,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20.346914, y: 39.333527, z: 36.63864}
   m_Center: {x: -7.673457, y: -2.6252785, z: 0.31895065}
---- !u!114 &6045532103917114889
+--- !u!114 &1214059297913168414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -605,13 +605,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 944538072860906677}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 706492443810f6d46bb691098ac7b605, type: 3}
+  m_Script: {fileID: 11500000, guid: bcc7858e32b401948a35c38a0d45ef9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossAi: {fileID: 0}
   leftDoor: {fileID: 6868282596472048668}
   rightDoor: {fileID: 6624527154495642926}
+  leftLight1: {fileID: 8611261230216805667}
+  leftLight2: {fileID: 1317416987343101679}
+  rightLight1: {fileID: 1816972405581947106}
+  rightLight2: {fileID: 9006655500236538670}
   openDistance: 5
   openSpeed: 3
+  isRightSideClear: 0
+  isLeftSideClear: 0
+  doorsAreOpen: 0
 --- !u!1 &1278714885486365131
 GameObject:
   m_ObjectHideFlags: 0
@@ -3257,9 +3265,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
+--- !u!108 &1816972405581947106 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 847787086128067297, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
+  m_PrefabInstance: {fileID: 1365961890847887875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3676617434121175053 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2445778996130517518, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
+  m_PrefabInstance: {fileID: 1365961890847887875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &9006655500236538670 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 7929377070233112877, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
   m_PrefabInstance: {fileID: 1365961890847887875}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1840729910829984782
@@ -3331,8 +3349,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
+--- !u!108 &1317416987343101679 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 847787086128067297, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
+  m_PrefabInstance: {fileID: 1840729910829984782}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4069759895712153088 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2445778996130517518, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
+  m_PrefabInstance: {fileID: 1840729910829984782}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &8611261230216805667 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 7929377070233112877, guid: b8101fce9b34b4b4eba6c165c7cbeada, type: 3}
   m_PrefabInstance: {fileID: 1840729910829984782}
   m_PrefabAsset: {fileID: 0}

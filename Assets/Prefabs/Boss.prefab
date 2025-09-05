@@ -817,7 +817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7048849329357691877
 Transform:
   m_ObjectHideFlags: 0
@@ -920,15 +920,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5445039607221666440}
   player: {fileID: 0}
-  RedZone: {fileID: 0}
-  BlueZone: {fileID: 0}
-  GreenZone: {fileID: 0}
   slider: {fileID: 0}
-  hp: 1000
-  maxHp: 1000
+  onFloor: 0
   speed: 5
   moveRotationSpeed: 10
   damage: 15
+  stopRadius: 9.9
+  attackRange: 10
   spawnBulletDelay: 0.5
   bulletDamage: 10
   bulletPrefab: {fileID: 1789324014450358325, guid: 705da4131e583c34593eae78724d10cd, type: 3}
