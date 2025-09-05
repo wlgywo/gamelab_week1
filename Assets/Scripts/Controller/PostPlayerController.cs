@@ -174,7 +174,8 @@ public class PostPlayerController : MonoBehaviour
     }
 
     private void ChangeGravity(bool isLeft)
-    {/*
+    {
+        /*
         isGround = false;
         snapVec = Vector3.zero;
 
