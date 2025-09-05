@@ -4,13 +4,20 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
 
+    // component
     private Animator anim;
     private Rigidbody rb;
+
+    // const
+    private const string WALKANIM = "IsWalk";
+
+    [SerializeField] private float moveSpeed = 10f;
 
     private void Awake()
     {
         if(Instance == null) Instance = this;
-
+        
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -30,5 +37,23 @@ public class PlayerController : MonoBehaviour
         // 2. Rigidbody의 회전 적용
         rb.MoveRotation(rb.rotation * rotation);
 
+    }
+
+    private void FixedUpdate()
+    {
+        Vector2 moveVec = InputManager.Instance.GetMoveDirNormalized();
+
+        if(moveVec == Vector2.zero)
+        {
+            anim.SetBool(WALKANIM, false);
+        }
+        else
+        {
+            Vector3 dir = transform.forward * moveVec.y + transform.right * moveVec.x; // 현재 보는 방향 기준으로 입력 변경
+            dir.Normalize();
+
+            rb.MovePosition(rb.position + dir * moveSpeed * Time.fixedDeltaTime);
+            anim.SetBool(WALKANIM, true);
+        }
     }
 }

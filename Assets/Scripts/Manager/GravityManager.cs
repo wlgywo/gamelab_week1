@@ -31,7 +31,7 @@ public class GravityManager : MonoBehaviour
         Vector3 newGravity = rotation * Physics.gravity;
         Physics.gravity = newGravity;
 
-        Debug.Log("현재 중력 값 : " + Physics.gravity);
+        //Debug.Log("현재 중력 값 : " + Physics.gravity);
     }
 
     public void GravityCheck(bool isStart)
