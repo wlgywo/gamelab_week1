@@ -1988,7 +1988,7 @@ MonoBehaviour:
   maxXAngle: 80
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   cameraOffset: {x: 0, y: 3, z: -5}
   cameraCollisionPadding: 1
   cameraReturnSpeed: 5

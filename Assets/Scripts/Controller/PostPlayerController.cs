@@ -175,7 +175,7 @@ public class PostPlayerController : MonoBehaviour
 
     private void ChangeGravity(bool isLeft)
     {
-        /*
+        
         isGround = false;
         snapVec = Vector3.zero;
 
@@ -215,7 +215,7 @@ public class PostPlayerController : MonoBehaviour
         // 새로운 목표 각도로 회전하는 코루틴을 시작하고, 변수에 저장합니다.
         rotationCoroutine = StartCoroutine(RotateGravityCoroutine(targetRot));
         // --- ▲ 여기까지 교체 ▲ ---
-        */
+        
     }
 
     // [-180,180) 구간으로 정규화하여 0/±90/180으로 스냅

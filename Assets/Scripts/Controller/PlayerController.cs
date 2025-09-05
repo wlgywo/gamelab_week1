@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class PlayerController : MonoBehaviour
     // component
     private Animator anim;
     private Rigidbody rb;
+    private Renderer[] renderers;
 
     // const
     private const string WALKANIM = "IsWalk";
@@ -31,13 +34,18 @@ public class PlayerController : MonoBehaviour
     public float cameraReturnSpeed = 5f; // 카메라가 원래 위치로 돌아오는 속도
 
     [Header("Status")]
+    [SerializeField] private Slider slider;
     [SerializeField] private float moveSpeed = 10f;
+    private int hp = 300;
+    private int maxHp = 300;
 
+    [Header("State")]
     private bool isRotate = false;
     private bool isGrounded = false;
+    private bool isBorder;
+
     private float cameraXSpeed = 200f;
     private float cameraYSpeed = 120f;
-    private bool isBorder;
     private int wallCounter= 0; // 현재 벽 카운트
 
     private void Awake()
@@ -47,9 +55,15 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
 
+        renderers = GetComponentsInChildren<Renderer>()
+       .Where(r => !(r is TrailRenderer)) // TrailRenderer 제외
+       .ToArray();
+
         // 마우스 숨기고 중앙 고정
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        UpdateVisual();
     }
 
     private void Start()
@@ -124,6 +138,8 @@ public class PlayerController : MonoBehaviour
         // 회전 시작을 알림 (이 시간 동안 마우스 회전이 멈춤)
         isRotate = true;
         isGrounded = false;
+
+        yield return null; // 한프레임 대기
 
         Quaternion startRotation = rb.rotation;
         float elapsedTime = 0f;
@@ -228,6 +244,20 @@ public class PlayerController : MonoBehaviour
     public bool GravityReady()
     {
         return isGrounded && wallCounter == 1;
+    }
+
+    public void GetDamage(int damage)
+    {
+        hp -= damage;
+        UpdateVisual();
+        if (hp < 0)
+        {
+            Debug.Log("게임 오버");
+        }
+    }
+    private void UpdateVisual()
+    {
+        slider.value = (float)hp / maxHp;
     }
 
     private void OnCollisionEnter(Collision collision)
