@@ -13,6 +13,8 @@ public class Marble : MonoBehaviour
     public void SetIndex(int index)
     {
         this.index = index;
+
+        GetComponent<Spawner>().mapDirect = (MapDirect)index;
     }
 
     public void Damage(int damage)

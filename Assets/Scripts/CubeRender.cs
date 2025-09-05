@@ -54,7 +54,10 @@ public class CubeRender : MonoBehaviour
                 count[ran]--;
             }
         }
+    }
 
+    private void Start()
+    {
         MarbleShuffle();
     }
 

@@ -2157,6 +2157,7 @@ GameObject:
   - component: {fileID: 8777525895307158847}
   - component: {fileID: 5580190285669425239}
   - component: {fileID: 3850512299833437757}
+  - component: {fileID: 9046214080728672654}
   m_Layer: 6
   m_Name: Marble
   m_TagString: Untagged
@@ -2270,3 +2271,20 @@ MonoBehaviour:
   index: 0
   isDamaged: 0
   invincibleTimer: 0.1
+--- !u!114 &9046214080728672654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9090245251605113332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb149ea756533b448c53a338927393e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapDirect: 0
+  enemyPrefab: {fileID: 8983513725904500901, guid: a384778282876644683914413c98dd54, type: 3}
+  enemyCount: 8
+  spawnDelay: 3
+  spawnRange: 15
