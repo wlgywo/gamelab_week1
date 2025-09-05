@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public const float knockbackUpgrade = 10f;
 
 
-    private float moveSpeed = 20f;
+    private float moveSpeed = 10f;
     public float jumpPower = 15f;
 
     public bool isGround { get; private set; }

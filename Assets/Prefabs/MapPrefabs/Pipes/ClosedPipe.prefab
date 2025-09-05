@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7884831517774069622}
+  - component: {fileID: 8644748290462370921}
   m_Layer: 0
   m_Name: Mineral Spawn Manager (2)
   m_TagString: Untagged
@@ -31,6 +32,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 498433637199993803}
   m_LocalEulerAnglesHint: {x: 40, y: 80, z: 40}
+--- !u!114 &8644748290462370921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45435412201395819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16064d11f8caefe4c9df6e885ccfc8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mineralPrefabs:
+  - {fileID: 8046025618843878838, guid: fa681d8ea448f324182f334f4cc96dc3, type: 3}
+  - {fileID: 8761149479450002876, guid: 8cbf6a7cd3961204292bb20b412d9e74, type: 3}
+  - {fileID: 6053933147299384489, guid: 3e0cd46666c7c5843af73fc664763c57, type: 3}
+  - {fileID: 3773652470841277221, guid: 3a7326cd8cf0f26439760a491e6bd247, type: 3}
 --- !u!1 &450587804316272376
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,6 +1960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6612171575686329425}
+  - component: {fileID: 4730168459952035465}
   m_Layer: 0
   m_Name: ClosedPipe
   m_TagString: Ground
@@ -1969,6 +1988,19 @@ Transform:
   - {fileID: 498433637199993803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4730168459952035465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3242314305561986684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce231fbbe5230564f9c2a538fd6b170b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 0
 --- !u!1 &3311051867755764767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,6 +2010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2226744083465334721}
+  - component: {fileID: 2011067794159371237}
   m_Layer: 0
   m_Name: Mineral Spawn Manager (1)
   m_TagString: Untagged
@@ -2000,6 +2033,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 498433637199993803}
   m_LocalEulerAnglesHint: {x: 30, y: 71.115, z: 57}
+--- !u!114 &2011067794159371237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3311051867755764767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16064d11f8caefe4c9df6e885ccfc8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mineralPrefabs:
+  - {fileID: 8046025618843878838, guid: fa681d8ea448f324182f334f4cc96dc3, type: 3}
+  - {fileID: 8761149479450002876, guid: 8cbf6a7cd3961204292bb20b412d9e74, type: 3}
+  - {fileID: 6053933147299384489, guid: 3e0cd46666c7c5843af73fc664763c57, type: 3}
+  - {fileID: 3773652470841277221, guid: 3a7326cd8cf0f26439760a491e6bd247, type: 3}
 --- !u!1 &3776319007926997770
 GameObject:
   m_ObjectHideFlags: 0
@@ -3627,6 +3677,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4765298373241826082}
+  - component: {fileID: 8027228057282171201}
   m_Layer: 0
   m_Name: Mineral Spawn Manager (3)
   m_TagString: Untagged
@@ -3649,6 +3700,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 498433637199993803}
   m_LocalEulerAnglesHint: {x: 43, y: 5, z: 20}
+--- !u!114 &8027228057282171201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7587020759259140066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16064d11f8caefe4c9df6e885ccfc8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mineralPrefabs:
+  - {fileID: 8046025618843878838, guid: fa681d8ea448f324182f334f4cc96dc3, type: 3}
+  - {fileID: 8761149479450002876, guid: 8cbf6a7cd3961204292bb20b412d9e74, type: 3}
+  - {fileID: 6053933147299384489, guid: 3e0cd46666c7c5843af73fc664763c57, type: 3}
+  - {fileID: 3773652470841277221, guid: 3a7326cd8cf0f26439760a491e6bd247, type: 3}
 --- !u!1 &7946272992434487347
 GameObject:
   m_ObjectHideFlags: 0
@@ -4198,6 +4266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3037613762275927059}
+  - component: {fileID: 8569911708977500242}
   m_Layer: 0
   m_Name: Mineral Spawn Manager
   m_TagString: Untagged
@@ -4220,6 +4289,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 498433637199993803}
   m_LocalEulerAnglesHint: {x: 5, y: 71.115, z: -0.543}
+--- !u!114 &8569911708977500242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8544839417423707356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16064d11f8caefe4c9df6e885ccfc8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mineralPrefabs:
+  - {fileID: 8046025618843878838, guid: fa681d8ea448f324182f334f4cc96dc3, type: 3}
+  - {fileID: 8761149479450002876, guid: 8cbf6a7cd3961204292bb20b412d9e74, type: 3}
+  - {fileID: 6053933147299384489, guid: 3e0cd46666c7c5843af73fc664763c57, type: 3}
+  - {fileID: 3773652470841277221, guid: 3a7326cd8cf0f26439760a491e6bd247, type: 3}
 --- !u!1 &8614634445208980827
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &168482719560704983
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1203258701756499890}
-  m_Layer: 0
-  m_Name: Mineral Spawn Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1203258701756499890
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 168482719560704983}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.12573163, y: -0.49428737, z: 0.06687601, w: 0.8575542}
-  m_LocalPosition: {x: 31.086792, y: -115.605385, z: -5.37883}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6163706680404365735}
-  m_LocalEulerAnglesHint: {x: 16.365, y: -60, z: -0.573}
 --- !u!1 &1419773671621837411
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,8 +30,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1203258701756499890}
-  - {fileID: 1188469356885502655}
-  - {fileID: 6307637621137932195}
+  - {fileID: 1256068520511401642}
+  - {fileID: 5250432717686184649}
   m_Father: {fileID: 7265013966514240256}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1689336956433770614
@@ -74,6 +43,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7265013966514240256}
+  - component: {fileID: 3587936021457079906}
   m_Layer: 0
   m_Name: 3BlockPipes
   m_TagString: Untagged
@@ -100,68 +70,151 @@ Transform:
   - {fileID: 6163706680404365735}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3286873195470251056
-GameObject:
+--- !u!114 &3587936021457079906
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6307637621137932195}
-  m_Layer: 0
-  m_Name: Mineral Spawn Manager (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6307637621137932195
-Transform:
+  m_GameObject: {fileID: 1689336956433770614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce231fbbe5230564f9c2a538fd6b170b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 0
+--- !u!1001 &1761346608902555570
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3286873195470251056}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.36825952, y: -0.45131814, z: 0.20738174, w: 0.7859324}
-  m_LocalPosition: {x: 7.635803, y: -115.605385, z: 65.40117}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6163706680404365735}
-  m_LocalEulerAnglesHint: {x: 50, y: -60, z: -0.573}
---- !u!1 &3848733006216942758
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1188469356885502655}
-  m_Layer: 0
-  m_Name: Mineral Spawn Manager (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1188469356885502655
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6163706680404365735}
+    m_Modifications:
+    - target: {fileID: -1577395098959209751, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 31.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -115.6054
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14.04117
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8575542
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.12573163
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.49428737
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.06687601
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 16.365
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.573
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016411471209368957, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_Name
+      value: Mineral Spawn Manager (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+--- !u!4 &1256068520511401642 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+  m_PrefabInstance: {fileID: 1761346608902555570}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3848733006216942758}
+--- !u!1001 &1850180826608709290
+PrefabInstance:
+  m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12573163, y: -0.49428737, z: 0.06687601, w: 0.8575542}
-  m_LocalPosition: {x: 37.105804, y: -115.605385, z: 14.041168}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6163706680404365735}
-  m_LocalEulerAnglesHint: {x: 16.365, y: -60, z: -0.573}
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6163706680404365735}
+    m_Modifications:
+    - target: {fileID: -1577395098959209751, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 31.086792
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -115.605385
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.37883
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8575542
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.12573163
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.49428737
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.06687601
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 16.365
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.573
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016411471209368957, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_Name
+      value: Mineral Spawn Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+--- !u!4 &1203258701756499890 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+  m_PrefabInstance: {fileID: 1850180826608709290}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2907652316563517309
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239,6 +292,72 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5283614115972325047, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
   m_PrefabInstance: {fileID: 2907652316563517309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4738548218212529105
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6163706680404365735}
+    m_Modifications:
+    - target: {fileID: -1577395098959209751, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.635803
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -115.6054
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 65.40117
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7859324
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.36825952
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.45131814
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.20738174
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.573
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016411471209368957, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+      propertyPath: m_Name
+      value: Mineral Spawn Manager (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+--- !u!4 &5250432717686184649 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 657521983983462680, guid: 14e310afdcfea65469d59454d540883f, type: 3}
+  m_PrefabInstance: {fileID: 4738548218212529105}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6050304746915147347
 PrefabInstance:

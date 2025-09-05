@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2016411471209368957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 657521983983462680}
+  - component: {fileID: -1577395098959209751}
+  m_Layer: 0
+  m_Name: Mineral Spawn Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &657521983983462680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016411471209368957}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.12573163, y: -0.49428737, z: 0.06687601, w: 0.8575542}
+  m_LocalPosition: {x: 31.086792, y: -115.605385, z: -5.37883}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 16.365, y: -60, z: -0.573}
+--- !u!114 &-1577395098959209751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016411471209368957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16064d11f8caefe4c9df6e885ccfc8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 0
+  mineralPrefabs:
+  - {fileID: 8046025618843878838, guid: fa681d8ea448f324182f334f4cc96dc3, type: 3}
+  - {fileID: 8761149479450002876, guid: 8cbf6a7cd3961204292bb20b412d9e74, type: 3}
+  - {fileID: 6053933147299384489, guid: 3e0cd46666c7c5843af73fc664763c57, type: 3}
+  - {fileID: 3773652470841277221, guid: 3a7326cd8cf0f26439760a491e6bd247, type: 3}
