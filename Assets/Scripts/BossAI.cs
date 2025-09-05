@@ -163,7 +163,7 @@ public class BossAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.Instance.GetDamage(damage);
+            PostPlayerController.Instance.GetDamage(damage);
         }
     }
 
@@ -177,7 +177,7 @@ public class BossAI : MonoBehaviour
 
 	public void GetDamage()
 	{
-		hp -= PlayerController.Instance.damage;
+		hp -= PostPlayerController.Instance.damage;
         hitEffect.Play();
         UpdateVisual();
         if (hp <= 0)

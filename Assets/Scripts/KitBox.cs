@@ -26,11 +26,11 @@ public class KitBox : MonoBehaviour
 
     private void Update()
     {
-        if(Vector3.Distance(PlayerController.Instance.transform.position, transform.position) <= kitRange)
+        if(Vector3.Distance(PostPlayerController.Instance.transform.position, transform.position) <= kitRange)
         {
-            PlayerController.Instance.nearKitBox = true;
+            PostPlayerController.Instance.nearKitBox = true;
         }
-        else PlayerController.Instance.nearKitBox = false;
+        else PostPlayerController.Instance.nearKitBox = false;
 
         if (isDamaged)
         {

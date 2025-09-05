@@ -12,7 +12,7 @@ public class BossBullet : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerPos = PlayerController.Instance.transform;
+        playerPos = PostPlayerController.Instance.transform;
         bulletRb = GetComponent<Rigidbody>();
        // bulletRb.AddForce(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
     }
@@ -20,7 +20,7 @@ public class BossBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerController.Instance == null) return;
+        if (PostPlayerController.Instance == null) return;
         Vector3 lookDirection = (playerPos.position - transform.position).normalized;
         bulletRb.AddForce(lookDirection * speed);
     }
@@ -34,7 +34,7 @@ public class BossBullet : MonoBehaviour
     {
         if (other.CompareTag("Player") )
         {
-            PlayerController.Instance.GetDamage(5);
+            PostPlayerController.Instance.GetDamage(5);
             Destroy(gameObject);
         }
         if(other.CompareTag("Ground"))

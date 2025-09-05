@@ -17671,22 +17671,6 @@ PrefabInstance:
       propertyPath: slider
       value: 
       objectReference: {fileID: 1949569934}
-    - target: {fileID: 2496174806230218251, guid: 3d7a1e16b15fa0f48bdea67fc1cbf293, type: 3}
-      propertyPath: cameraOffset.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2496174806230218251, guid: 3d7a1e16b15fa0f48bdea67fc1cbf293, type: 3}
-      propertyPath: cameraOffset.z
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2496174806230218251, guid: 3d7a1e16b15fa0f48bdea67fc1cbf293, type: 3}
-      propertyPath: obstacleMask.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 2496174806230218251, guid: 3d7a1e16b15fa0f48bdea67fc1cbf293, type: 3}
-      propertyPath: cameraCollisionPadding
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7048849329357691877, guid: 3d7a1e16b15fa0f48bdea67fc1cbf293, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.0591465

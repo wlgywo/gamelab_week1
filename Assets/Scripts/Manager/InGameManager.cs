@@ -37,8 +37,8 @@ public class InGameManager : MonoBehaviour
 
     public void DropKitBox()
     {
-        kitBox.transform.position = PlayerController.Instance.kitBoxPos.position;
-        kitBox.transform.rotation = PlayerController.Instance.transform.rotation;
+        kitBox.transform.position = PostPlayerController.Instance.kitBoxPos.position;
+        kitBox.transform.rotation = PostPlayerController.Instance.transform.rotation;
         kitBox.gameObject.SetActive(true);
     }
     public void GetKitBox()

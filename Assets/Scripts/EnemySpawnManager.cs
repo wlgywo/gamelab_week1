@@ -53,7 +53,7 @@ public class EnemySpawnManager : MonoBehaviour
 
 		int num = Random.Range(0, pivots.Length);
 
-        GameObject enemy = Instantiate(enemyPrefab, pivots[num].position, PlayerController.Instance.transform.rotation);
+        GameObject enemy = Instantiate(enemyPrefab, pivots[num].position, PostPlayerController.Instance.transform.rotation);
         enemyList.Add(enemy);
 	}
 

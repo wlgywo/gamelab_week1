@@ -87,7 +87,7 @@ public class InputManager : MonoBehaviour
     private void ChangeDeviceState(bool isController)
     {
         connectGamePad = isController;
-        PlayerController.Instance.ChangeSensity(isController);
+        PostPlayerController.Instance.ChangeSensity(isController);
     }
 
 
@@ -116,8 +116,8 @@ public class InputManager : MonoBehaviour
 
     private void GravityLeft_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!PlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
-        if (InGameManager.Instance.isLevelUp) return;
+        //if (!PostPlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
+        //if (InGameManager.Instance.isLevelUp) return;
 
         GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(true);
@@ -128,8 +128,8 @@ public class InputManager : MonoBehaviour
 
     private void GravityRight_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!PlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
-        if (InGameManager.Instance.isLevelUp) return;
+        //if (!PostPlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
+        //if (InGameManager.Instance.isLevelUp) return;
 
         GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(false);
