@@ -5742,6 +5742,7 @@ Transform:
   - {fileID: 6586231072857244176}
   - {fileID: 1861328344268290763}
   - {fileID: 2645667232489482451}
+  - {fileID: 4518419745570873538}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2869866588471702249
@@ -11121,6 +11122,70 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5793070128154402296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4518419745570873538}
+  m_Layer: 0
+  m_Name: Mineral Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4518419745570873538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5793070128154402296}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7995861109236184764}
+  - {fileID: 658575981740866323}
+  m_Father: {fileID: 6570852876001068140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5815777563513889554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7995861109236184764}
+  m_Layer: 0
+  m_Name: Mineral Spawn Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7995861109236184764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815777563513889554}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.62831247, y: -0.061792467, z: -0.6966613, w: -0.340688}
+  m_LocalPosition: {x: -4.8458786, y: 6.23, z: 2.3048706}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4518419745570873538}
+  m_LocalEulerAnglesHint: {x: 20, y: 77.536, z: 504}
 --- !u!1 &5815949735488423432
 GameObject:
   m_ObjectHideFlags: 0
@@ -12661,6 +12726,37 @@ Transform:
   - {fileID: 3312122274227720903}
   m_Father: {fileID: 5217322708924222563}
   m_LocalEulerAnglesHint: {x: 45.697, y: 0, z: 0}
+--- !u!1 &6880940250093898877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 658575981740866323}
+  m_Layer: 0
+  m_Name: Mineral Spawn Manager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &658575981740866323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6880940250093898877}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.643146, y: -0.06910328, z: -0.682991, w: -0.33928064}
+  m_LocalPosition: {x: -8.155884, y: 8.86, z: 20.455864}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4518419745570873538}
+  m_LocalEulerAnglesHint: {x: 20, y: 80, z: 504}
 --- !u!1 &6939633356206419649
 GameObject:
   m_ObjectHideFlags: 0
