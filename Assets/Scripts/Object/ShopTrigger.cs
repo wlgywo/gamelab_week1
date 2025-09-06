@@ -4,11 +4,26 @@ public class ShopTrigger: MonoBehaviour
 {
     public GameObject promptUI;
 
-    private bool isPlayerNear = false;
+    public bool isPlayerNear = false;
 
     void Start()
     {
         promptUI.SetActive(false);  // 시작할 땐 꺼두기
+        InputManager.Instance.OnShopOpen += InputManager_OnShopOpen; // 상점 여는 함수 등록
+        InputManager.Instance.OnShopClose += InputManager_OnShopClose; // 상점 닫는 함수 등록
+    }
+
+    private void InputManager_OnShopOpen(object sender, System.EventArgs e)
+    {
+        if (isPlayerNear)
+        {
+            InGameManager.Instance.ShopOpen();
+        }
+    }
+
+    private void InputManager_OnShopClose(object sender, System.EventArgs e)
+    {
+        InGameManager.Instance.ShopClose();
     }
 
     void OnTriggerEnter(Collider other)

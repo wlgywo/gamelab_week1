@@ -9,6 +9,8 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnKitBoxDrop;
     public event EventHandler OnKitBoxGet;
     public event EventHandler OnAttack;
+    public event EventHandler OnShopOpen;
+    public event EventHandler OnShopClose;
 
     [Header("Axes (Old Input)")]
     [SerializeField] private string horizontalAxis = "Horizontal";
@@ -17,8 +19,8 @@ public class InputManager : MonoBehaviour
     [SerializeField] private string mouseYAxis = "Mouse Y";
 
     [Header("Action Keys")]
-    private KeyCode gravityLeftKey = KeyCode.Q;   // <— 필요시 인스펙터에서 변경
-    private KeyCode gravityRightKey = KeyCode.E;
+    private KeyCode ShopClose = KeyCode.Escape; 
+    private KeyCode ShopOpenKey = KeyCode.E;
     private KeyCode jumpKey = KeyCode.Space;
     private KeyCode kitBoxDropKey = KeyCode.G;
     private KeyCode kitBoxGetKey = KeyCode.F;
@@ -61,6 +63,18 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(attackKey))
         {
             OnAttack?.Invoke(this, EventArgs.Empty);
+        }
+
+        // 상점 열기
+        if (Input.GetKeyDown(ShopOpenKey))
+        {
+            OnShopOpen?.Invoke(this, EventArgs.Empty);
+        }
+
+        // 상점 닫기
+        if (Input.GetKeyDown(ShopClose))
+        {
+            OnShopClose?.Invoke(this, EventArgs.Empty);
         }
     }
 

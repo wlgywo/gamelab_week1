@@ -92,4 +92,22 @@ public class InGameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    public void ShopOpen()
+    {
+        if (gameOver) return;
+        ShopUI.SetActive(true);
+        PlayerController.Instance.isShopOpen = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    public void ShopClose()
+    {
+        if (gameOver) return;
+        ShopUI.SetActive(false);
+        PlayerController.Instance.isShopOpen = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
 }

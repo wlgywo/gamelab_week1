@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private int hpUpgrade = 20;
     private bool isBorder;
 
+    public bool isShopOpen = false;
+
     private const string WALKANIM = "IsWalk";
     private const string ATTACKANIM1 = "IsAttack1";
     private const string ATTACKANIM2 = "IsAttack2";
@@ -275,6 +277,11 @@ public class PlayerController : MonoBehaviour
                 isDamaged = false;
                 curInvincibleTimer = invincibleTimer;
             }
+        }
+
+        if (isShopOpen)
+        {
+            return;
         }
 
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
