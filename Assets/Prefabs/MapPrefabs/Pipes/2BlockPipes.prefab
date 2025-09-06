@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1505238504572893330}
   - component: {fileID: 6353988115579317442}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mineral Spawn Manager (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4268798320039041549}
   - component: {fileID: 8504514671780538850}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mineral Spawn Manager (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8618453542441042185}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mineral Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1218499674453303177}
   - component: {fileID: 9176990780932660341}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mineral Spawn Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7880606581887165150}
   - component: {fileID: 4226765165318624152}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 2BlockPipes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
