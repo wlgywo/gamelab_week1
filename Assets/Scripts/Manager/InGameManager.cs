@@ -10,7 +10,14 @@ public class InGameManager : MonoBehaviour
 
     [SerializeField] public TextMeshProUGUI countdownText;
     [SerializeField] public TextMeshProUGUI goldText;
-    [SerializeField] public Button dronBuyBtn;
+    [SerializeField] public Button redPotionBtn;
+    [SerializeField] public Button droneBuyBtn;
+    [SerializeField] public Button droneDamageBtn;
+    [SerializeField] public Button droneAttackSpeedBtn;
+    [SerializeField] public Button sellRedMineralBtn;
+    [SerializeField] public Button sellOrangeMineralBtn;
+    [SerializeField] public Button sellBlueMineralBtn;
+    [SerializeField] public Button sellPurpleMineralBtn;
 
     [SerializeField] public GameObject levelUp;
     [SerializeField] public GameObject gameoverUI;
@@ -21,9 +28,26 @@ public class InGameManager : MonoBehaviour
 
 
     // 캐릭터 관련
-    private int gold = 0;
     public bool isLevelUp = false;
     public bool gameOver { get; private set; } = false;
+
+    // 소지품 관련
+    private int gold = 700;
+    private bool haveDrone = false;
+    public int redMineralCount = 0;
+    public int orangeMineralCount = 0;
+    public int blueMineralCount = 0;
+    public int purpleMineralCount = 0;
+
+    // 상점 관련
+    private int redPotionPrice = 30;
+    private int dronePrice = 500;
+    private int droneDamageUpPrice = 700;
+    private int droneAttackSpeedUpPrice = 1000;
+    private int redMineralPrice = 1;
+    private int orangeMineralPrice = 10;
+    private int blueMineralPrice = 50;
+    private int purpleMineralPrice = 100;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
@@ -102,10 +126,14 @@ public class InGameManager : MonoBehaviour
     {
         if (gameOver) return;
         ShopUI.SetActive(true);
+        SetShop();
         PlayerController.Instance.isShopOpen = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+
     }
+
     public void ShopClose()
     {
         if (gameOver) return;
@@ -114,6 +142,7 @@ public class InGameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
     public void SetGoldText()
     {
         goldText.text = "Gold : " + gold;
@@ -123,5 +152,41 @@ public class InGameManager : MonoBehaviour
     {
         gold += amount;
         SetGoldText();
+        SetShop();
+    }
+
+    public void SetShop()
+    {
+        // 빨간 물약
+        if (gold < redPotionPrice) redPotionBtn.interactable = false;
+        else redPotionBtn.interactable = true;
+
+        // 드론
+        if (gold < dronePrice || haveDrone) droneBuyBtn.interactable = false;
+        else droneBuyBtn.interactable = true;
+
+        // 드론 데미지
+        if(gold < droneDamageUpPrice) droneDamageBtn.interactable = false;
+        else droneDamageBtn.interactable = true;
+
+        // 드론 공속
+        if (gold < droneAttackSpeedUpPrice) droneAttackSpeedBtn.interactable = false;
+        else droneAttackSpeedBtn.interactable = true;
+
+        // 빨간 미네랄
+        if (redMineralCount <= 0) sellRedMineralBtn.interactable = false;
+        else sellRedMineralBtn.interactable = true;
+
+        // 주황 미네랄
+        if (orangeMineralCount <= 0) sellOrangeMineralBtn.interactable = false;
+        else sellOrangeMineralBtn.interactable = true;
+
+        // 파랑 미네랄
+        if (blueMineralCount <= 0) sellBlueMineralBtn.interactable = false;
+        else sellBlueMineralBtn.interactable = true;
+
+        // 보라 미네랄
+        if (purpleMineralCount <= 0) sellPurpleMineralBtn.interactable = false;
+        else sellPurpleMineralBtn.interactable = true;
     }
 }
