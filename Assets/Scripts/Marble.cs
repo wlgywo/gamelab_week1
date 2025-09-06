@@ -22,6 +22,7 @@ public class Marble : MonoBehaviour
         if (isDamaged) return;
 
         isDamaged = true;
+        Debug.Log("수정 다친다..");
 
         hp -= damage;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public MapDirect mapDirect;
-    private Marble marble;
+    public Marble marble { get; private set; }
 
     private float yOffset = 1.75f;
 

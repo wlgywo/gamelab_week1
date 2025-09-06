@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     public static SpawnManager Instance {  get; private set; }
 
     [SerializeField] private Spawner[] spawners;
+    public Spawner[] Spawners => spawners;
 
     [SerializeField] private float curSpawnTimer = 0;
     [SerializeField] private float spawnTimer = 15f; // 임의

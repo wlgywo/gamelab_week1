@@ -4,13 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - RepairKit
-  - Timer
-  - PlayerHand
   - Ground
   - Enemy
   - Weapon
-  - Bullet
+  - Marble
   layers:
   - Default
   - TransparentFX

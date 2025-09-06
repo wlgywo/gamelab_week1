@@ -117,7 +117,7 @@ public abstract class AI : MonoBehaviour
     public void SetMarble(Transform pos, MapDirect dir)
     {
         marble = pos;
-        this.mapDir = dir;
+        mapDir = dir;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -127,6 +127,11 @@ public abstract class AI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Weapon")) GetDamage();
+        if (other.CompareTag("Marble"))
+        {
+            if (target == PlayerController.Instance.transform) return;
+            SpawnManager.Instance.Spawners[(int)mapDir].marble.Damage(damage);
+        }
+        else if (other.CompareTag("Weapon")) GetDamage();
     }
 }
