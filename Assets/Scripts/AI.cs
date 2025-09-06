@@ -101,7 +101,7 @@ public abstract class AI : MonoBehaviour
         if (isHit) return;
         isHit = true;
 
-        curhp -= PlayerController.Instance.damage;
+        curhp -= InGameManager.Instance.power;
         hitEffect.Play();
         UpdateVisual();
         StartCoroutine(DamageCoroutine()); // 연속 공격 방지
@@ -110,7 +110,7 @@ public abstract class AI : MonoBehaviour
         {
             InGameManager.Instance.GetExp();
 
-            StopCoroutine(attackCorutine);
+            if(attackCorutine != null) StopCoroutine(attackCorutine);
             Destroy(gameObject);
         }
     }

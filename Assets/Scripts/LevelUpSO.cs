@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum SkillType
 {
-    gravity
+    gravity, power
 }
 
 [CreateAssetMenu(fileName = "LevelUpSO", menuName = "")]

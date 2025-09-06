@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -49,7 +48,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxHp = 300;
     private float invincibleTimer = 2f; // 무적 타이머
 
-    public int damage { get; private set; } = 10;
+    //public int damage { get; private set; } = 10;
 
     [Header("State")]
     public MapDirect mapDirect;
@@ -233,6 +232,9 @@ public class PlayerController : MonoBehaviour
         curAttackDelay -= Time.deltaTime;
         gravityTimer -= Time.deltaTime;
 
+        // IngameManager에서 1- 현재 남은값으로 처리
+        InGameManager.Instance.UpdateVisual(StatusType.gravity, gravityTimer / InGameManager.Instance.gravityTimer);
+
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
         if (pointerDelta.sqrMagnitude > 0.01f && !isRotate)
         {
@@ -294,7 +296,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("아얏");
 
         hp -= damage; 
-        InGameManager.Instance.UpdateVisual(SliderType.hp, (float)hp / maxHp);
+        InGameManager.Instance.UpdateVisual(StatusType.hp, (float)hp / maxHp);
         if (hp < 0)
         {
             Debug.Log("게임 오버");
