@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412192c7f184ca04989ab876ac97b78e, type: 3}
   m_Name: HealHp
   m_EditorClassIdentifier: 
-  skillType: 2
-  desc: Player Hp Heal
-  curlevel: 0
+  skillType: 6
+  desc: Recover HP 20
   maxlevel: 0

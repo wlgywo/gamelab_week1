@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     private const string ATTACKANIM1 = "IsAttack1";
     private const string ATTACKANIM2 = "IsAttack2";
 
+    private const string ATTACKSPEED = "AttackSpeed";
+
+
     [Header("Gravity Rotation")]
     public float rotateDuration = 0.5f; // 중력 전환에 걸리는 시간 (초)
     private Coroutine rotationCoroutine; // 실행 중인 회전 코루틴을 저장할 변수
@@ -41,11 +44,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TrailRenderer trailRenderer;
 
     [Header("Status")]
-    [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float curAttackDelay = 0f;
-    [SerializeField] private float attackDelay = 0.5f;
-    [SerializeField] private int hp = 300;
-    [SerializeField] private int maxHp = 300;
     private float invincibleTimer = 2f; // 무적 타이머
 
     //public int damage { get; private set; } = 10;
@@ -56,7 +55,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = false;
     private bool isDamaged = false;
     private bool isBorder;
-    private float gravityTimer = 0f;
+    //private float gravityTimer = 0f;
 
 
 
@@ -99,7 +98,7 @@ public class PlayerController : MonoBehaviour
     {
         if (curAttackDelay < 0f)
         {
-            curAttackDelay = attackDelay;
+            curAttackDelay = InGameManager.Instance.attackSpeed;
 
             int num = Random.Range(0, 2);
 
@@ -113,14 +112,14 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator AttackReset()
     {
-        yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(InGameManager.Instance.attackSpeed);
         weapon.SetActive(false);
         trailRenderer.enabled = false;
     }
 
     private void ChangeGravity(bool isLeft)
     {
-        gravityTimer = InGameManager.Instance.gravityTimer;
+        //gravityTimer = InGameManager.Instance.gravityTimer;
 
         // 1) 현재 up 축 기준의 yaw 계산 후 스냅
         Vector3 up = transform.up;
@@ -222,7 +221,7 @@ public class PlayerController : MonoBehaviour
             isBorder = Physics.Raycast(transform.position, dir, 1, LayerMask.GetMask("Wall"));
             if (isBorder) return;
 
-            rb.MovePosition(rb.position + dir * moveSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + dir * InGameManager.Instance.moveSpeed * Time.fixedDeltaTime);
             anim.SetBool(WALKANIM, true);
         }
     }
@@ -230,10 +229,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         curAttackDelay -= Time.deltaTime;
-        gravityTimer -= Time.deltaTime;
+        //gravityTimer -= Time.deltaTime;
 
         // IngameManager에서 1- 현재 남은값으로 처리
-        InGameManager.Instance.UpdateVisual(StatusType.gravity, gravityTimer / InGameManager.Instance.gravityTimer);
+        //InGameManager.Instance.UpdateVisual(StatusType.gravity, gravityTimer / InGameManager.Instance.gravityTimer);
 
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
         if (pointerDelta.sqrMagnitude > 0.01f && !isRotate)
@@ -285,7 +284,7 @@ public class PlayerController : MonoBehaviour
 
     public bool GravityReady()
     {
-        return isGrounded && wallCounter == 1 && gravityTimer < 0;
+        return isGrounded && wallCounter == 1 && InGameManager.Instance.GravityCoolTime;
     }
 
     public void GetDamage(int damage)
@@ -293,14 +292,9 @@ public class PlayerController : MonoBehaviour
         if (isDamaged) return;
         isDamaged = true;
 
-        Debug.Log("아얏");
-
-        hp -= damage; 
-        InGameManager.Instance.UpdateVisual(StatusType.hp, (float)hp / maxHp);
-        if (hp < 0)
-        {
-            Debug.Log("게임 오버");
-        }
+        InGameManager.Instance.GetDamage(damage);
+        //hp -= damage; 
+        //InGameManager.Instance.UpdateVisual(StatusType.hp, (float)hp / maxHp);
 
         StartCoroutine(invincibleTime());
     }
@@ -325,18 +319,23 @@ public class PlayerController : MonoBehaviour
         isDamaged = false;
     }
 
-    public void Heal()
+    /*public void Heal()
     {
         hp += InGameManager.Instance.healValue;
         if(hp > maxHp) hp = maxHp;
 
         InGameManager.Instance.UpdateVisual(StatusType.hp, (float)hp/ maxHp);
-    }
+    }*/
 
     /*private void UpdateVisual()
     {
         slider.value = (float)hp / maxHp;
     }*/
+
+    public void SetAttackAnim(float speed)
+    {
+        anim.SetFloat(ATTACKSPEED, 1.15f - speed);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

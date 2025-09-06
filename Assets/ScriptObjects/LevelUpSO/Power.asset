@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Power
   m_EditorClassIdentifier: 
   skillType: 1
-  desc: Power Up
-  curlevel: 0
+  desc: Power +5
   maxlevel: 5

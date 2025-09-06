@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 412192c7f184ca04989ab876ac97b78e, type: 3}
-  m_Name: Gravity
+  m_Name: Critical
   m_EditorClassIdentifier: 
-  skillType: 0
-  desc: Gravity CoolDown -0.7 sec
+  skillType: 5
+  desc: Critical Chance +5%
   maxlevel: 5

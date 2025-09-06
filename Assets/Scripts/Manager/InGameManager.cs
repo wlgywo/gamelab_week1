@@ -55,13 +55,23 @@ public class InGameManager : MonoBehaviour
     [Header("Skill Status")]
     [field: SerializeField] public float gravityTimer { get; private set; } = 5f;
     [field: SerializeField] public int power { get; private set; } = 10;
+    [field: SerializeField] public float moveSpeed { get; private set; } = 7;
+    [field: SerializeField] public int hp { get; private set; } = 150;
+    [field: SerializeField] public float attackSpeed { get; private set; } = 1f;
     [field: SerializeField] public int ciritical { get; private set; } = 10; // 10퍼
 
     public int healValue = 20;
 
+    public int maxHp { get; private set; } = 150;
+    public float curGravityTimer { get; private set; } = 0;
+    public bool GravityCoolTime => curGravityTimer <= 0;
+
     private const float UpgradeGravityTimer = 0.5f;
-    private const int UpgradePlayerPower = 5;
-    private const float UpgradeCiritical = 5;
+    private const int UpgradePower = 5;
+    private const float UpgradeMoveSpeed = 1.5f;
+    private const int UpgradeHp = 25;
+    private const float UpgradeAttackSpeed = -0.15f;
+    private const int UpgradeCiritical = 5;
     
     
     /*
@@ -80,9 +90,18 @@ public class InGameManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateVisual(StatusType.hp, 1);
-        UpdateVisual(StatusType.exp, 0);
-        UpdateVisual(StatusType.gravity, 1);
+        UpdateVisual(StatusType.hp);
+        UpdateVisual(StatusType.exp);
+        UpdateVisual(StatusType.gravity);
+
+        InputManager.Instance.OnLeftGravity += (a,b) => curGravityTimer = gravityTimer;
+        InputManager.Instance.OnRightGravity += (a, b) => curGravityTimer = gravityTimer;
+    }
+
+    private void Update()
+    {
+        curGravityTimer -= Time.deltaTime;
+        UpdateVisual(StatusType.gravity);
     }
 
     public void SetMarbleUI(Color color, int index)
@@ -115,7 +134,7 @@ public class InGameManager : MonoBehaviour
             Time.timeScale = 0;
         }
 
-        UpdateVisual(StatusType.exp, (float)curExp / expLevel[curLevel]);
+        UpdateVisual(StatusType.exp);//, (float)curExp / expLevel[curLevel]);
     }
 
     public void LevelUp()
@@ -180,10 +199,27 @@ public class InGameManager : MonoBehaviour
                 gravityTimer -= UpgradeGravityTimer;
                 break;
             case SkillType.power:
-                power += UpgradePlayerPower;
+                power += UpgradePower;
+                break;
+            case SkillType.speed:
+                moveSpeed += UpgradeMoveSpeed;
+                break;
+            case SkillType.hp:
+                maxHp += UpgradeHp;
+                hp += UpgradeHp;
+                UpdateVisual(StatusType.hp);
+                break;
+            case SkillType.attackSpeed:
+                attackSpeed += UpgradeAttackSpeed;
+                PlayerController.Instance.SetAttackAnim(skillLevels[(int)skillType] * UpgradeAttackSpeed);
+                break;
+            case SkillType.critical:
+                ciritical += UpgradeCiritical;
                 break;
             case SkillType.fallback:
-                PlayerController.Instance.Heal();
+                hp += healValue;
+                if (hp > maxHp) hp = maxHp;
+                UpdateVisual(StatusType.hp);
                 isFallback = true;
                 break;
         }
@@ -221,22 +257,34 @@ public class InGameManager : MonoBehaviour
         levelUp.SetActive(false);
     }
 
-    public void UpdateVisual(StatusType type, float value = 0)
+    public void UpdateVisual(StatusType type)
     {
         switch(type)
         {
             case StatusType.hp:
-                hpSlider.value = value;
+                hpSlider.value = (float)hp/maxHp;
                 break;
             case StatusType.exp:
-                expSlider.value = value;
+                expSlider.value = (float)curExp/expLevel[curLevel];
                 break;
             case StatusType.gravity:
-                gravityUI.fillAmount = 1 - value;
+                gravityUI.fillAmount = 1- curGravityTimer/gravityTimer;
                 break;
             default:
                 Debug.Log("치명적인 종류 오류");
                 break;
+        }
+    }
+
+    public void GetDamage(int damage)
+    {
+        Debug.Log("아얏");
+        hp -= damage;
+        UpdateVisual(StatusType.hp);
+
+        if (hp < 0)
+        {
+            Debug.Log("게임 오버");
         }
     }
 
