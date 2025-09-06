@@ -43,7 +43,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 0.065157175, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.74709755, b: 0, a: 1}
   m_Intensity: 50
   m_Range: 3
   m_SpotAngle: 30
@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffed8460de4bdb744b36f424ac6a20f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!1 &3995032165428651830
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +402,7 @@ GameObject:
   - component: {fileID: 4710713211600555017}
   - component: {fileID: 1061278532189588354}
   m_Layer: 0
-  m_Name: Mineral Green
+  m_Name: Mineral Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
