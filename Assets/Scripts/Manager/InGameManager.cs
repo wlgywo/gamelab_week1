@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public enum StatusType
 {
-    hp, exp, gravity
+    hp, exp, gravity,
+    fallback // 모든 스킬 강화가 끝나면 나옴
 }
 
 public class InGameManager : MonoBehaviour
@@ -37,6 +38,7 @@ public class InGameManager : MonoBehaviour
 
     [Header("Level Up")]
     [SerializeField] public LevelUpSO[] levelUpSO;
+    [SerializeField] public LevelUpSO[] fallbackLevelUpSO; // 모든 강화가 완료되면 나오는 선택지
     [SerializeField] public Skill skillUIPrefabs;
     [SerializeField] public Transform skillUIPos;
     public bool isLevelUp = false;
@@ -45,13 +47,21 @@ public class InGameManager : MonoBehaviour
     private int[] expLevel = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         //{ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
     private List<Skill> skillList = new List<Skill>();
+    private int[] skillLevels;
+    private int skillUICount = 3; // LevelUp UI에 표시할 스킬 갯수
+    private int completeCount = 0;
+
 
     [Header("Skill Status")]
     [field: SerializeField] public float gravityTimer { get; private set; } = 5f;
     [field: SerializeField] public int power { get; private set; } = 10;
 
+    public int healValue = 20;
+
     private const float UpgradeGravityTimer = 0.7f;
     private const int UpgradePlayerPower = 10;
+    
+    
     /*
     public bool gameOver { get; private set; } = false;
 
@@ -63,6 +73,7 @@ public class InGameManager : MonoBehaviour
         if(Instance == null) Instance = this;
 
         playerUI.SetActive(true);
+        skillLevels = new int[levelUpSO.Length];
     }
 
     private void Start()
@@ -95,8 +106,9 @@ public class InGameManager : MonoBehaviour
         curExp++;
         if(curExp >= expLevel[curLevel])
         {
-            curExp = 0;
-            curLevel++;
+            curExp -= expLevel[curLevel];
+            if(curLevel !=  expLevel.Length) curLevel++; // 만렙부턴 무한 반복
+
             LevelUp();
             Time.timeScale = 0;
         }
@@ -121,12 +133,17 @@ public class InGameManager : MonoBehaviour
         List<int> list = new List<int>();
         int num = -1;
 
-        while (cnt < 3) // 나중에 LevelUp 스크립트를 만들어 맥스 레벨을 찍으면 IngameManager에 카운팅해서 변경
+        int counting = levelUpSO.Length - completeCount;
+        if (counting > skillUICount) counting = skillUICount; // 아직 완료해야할 갯수가 많다면 이렇게 진행
+
+        Debug.Log("카운팅 값 : " + counting + " / 완료한 갯수 : " + completeCount);
+
+        while (cnt < counting) // 현재 만렙이 아닌 구간만
         {
             num = Random.Range(0, levelUpSO.Length);
 
             // 이미 맥스 레벨이거나 리스트에 뽑혔다면 
-            if (levelUpSO[num].maxlevel <= levelUpSO[num].curlevel || list.Contains(num))
+            if (levelUpSO[num].maxlevel <= skillLevels[num] || list.Contains(num))
             {
                 continue; // 다시 뽑기
             }
@@ -139,12 +156,22 @@ public class InGameManager : MonoBehaviour
             cnt++;
 
             yield return null;
+        }
 
+        while (cnt == 0) // 모든 업글 완료
+        {
+            Skill skill = Instantiate(skillUIPrefabs, skillUIPos);
+            skill.SetKill(fallbackLevelUpSO[0]);
+            list.Add(num);
+            skillList.Add(skill);
+            break;
         }
     }
 
     public void SkillUp(SkillType skillType)
     {
+        bool isFallback = false; // 기본 스킬인지 체크
+
         switch(skillType)
         {
             case SkillType.gravity:
@@ -153,6 +180,10 @@ public class InGameManager : MonoBehaviour
             case SkillType.power:
                 power += UpgradePlayerPower;
                 break;
+            case SkillType.fallback:
+                PlayerController.Instance.Heal();
+                isFallback = true;
+                break;
         }
 
         foreach(var s in skillList)
@@ -160,7 +191,12 @@ public class InGameManager : MonoBehaviour
             if (s != null) Destroy(s.gameObject);
         }
 
-        levelUpSO[(int)skillType].curlevel++;
+        if (!isFallback)
+        {
+            skillLevels[(int)skillType]++;
+            if (skillLevels[(int)skillType] == levelUpSO[(int)skillType].maxlevel) completeCount++;
+        }
+
         skillList.Clear();
 
         Time.timeScale = 1;
@@ -183,7 +219,7 @@ public class InGameManager : MonoBehaviour
         levelUp.SetActive(false);
     }
 
-    public void UpdateVisual(StatusType type, float value)
+    public void UpdateVisual(StatusType type, float value = 0)
     {
         switch(type)
         {

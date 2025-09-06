@@ -325,6 +325,14 @@ public class PlayerController : MonoBehaviour
         isDamaged = false;
     }
 
+    public void Heal()
+    {
+        hp += InGameManager.Instance.healValue;
+        if(hp > maxHp) hp = maxHp;
+
+        InGameManager.Instance.UpdateVisual(StatusType.hp, (float)hp/ maxHp);
+    }
+
     /*private void UpdateVisual()
     {
         slider.value = (float)hp / maxHp;

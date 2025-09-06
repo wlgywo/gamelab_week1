@@ -1375,15 +1375,16 @@ MonoBehaviour:
   levelUpSO:
   - {fileID: 11400000, guid: 318366506b57e09469b6f622666d9ebd, type: 2}
   - {fileID: 11400000, guid: 4a60f5587b6317945ba76630f76fd4ac, type: 2}
-  - {fileID: 11400000, guid: 318366506b57e09469b6f622666d9ebd, type: 2}
+  fallbackLevelUpSO:
+  - {fileID: 11400000, guid: e540a7e21acd11f49aaf42a4fcc27872, type: 2}
   skillUIPrefabs: {fileID: 2088482328562956297, guid: 18f0f90fe56c7e545be8e9641727f6b6, type: 3}
   skillUIPos: {fileID: 368976669}
   isLevelUp: 0
   curLevel: 0
   curExp: 0
-  expLevel: 020000000400000006000000080000000a0000000c0000000e000000100000001200000014000000
   <gravityTimer>k__BackingField: 5
   <power>k__BackingField: 10
+  healValue: 20
 --- !u!23 &515418306 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8605087470889834834, guid: 97f60de4e56b2d34cbfdd2a02b7b9fe6, type: 3}
