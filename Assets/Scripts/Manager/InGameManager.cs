@@ -55,11 +55,13 @@ public class InGameManager : MonoBehaviour
     [Header("Skill Status")]
     [field: SerializeField] public float gravityTimer { get; private set; } = 5f;
     [field: SerializeField] public int power { get; private set; } = 10;
+    [field: SerializeField] public int ciritical { get; private set; } = 10; // 10퍼
 
     public int healValue = 20;
 
-    private const float UpgradeGravityTimer = 0.7f;
-    private const int UpgradePlayerPower = 10;
+    private const float UpgradeGravityTimer = 0.5f;
+    private const int UpgradePlayerPower = 5;
+    private const float UpgradeCiritical = 5;
     
     
     /*
@@ -107,7 +109,7 @@ public class InGameManager : MonoBehaviour
         if(curExp >= expLevel[curLevel])
         {
             curExp -= expLevel[curLevel];
-            if(curLevel !=  expLevel.Length) curLevel++; // 만렙부턴 무한 반복
+            if(curLevel < expLevel.Length - 1) curLevel++; // 만렙부턴 무한 반복
 
             LevelUp();
             Time.timeScale = 0;

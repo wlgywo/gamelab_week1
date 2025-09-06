@@ -8,6 +8,7 @@ public abstract class AI : MonoBehaviour
     [Header("Compnent")]
     [SerializeField] protected Slider slider;
     [SerializeField] protected ParticleSystem hitEffect;
+    [SerializeField] protected ParticleSystem criticalEffect;
     protected Rigidbody rb;
     protected Animator anim;
 
@@ -101,8 +102,18 @@ public abstract class AI : MonoBehaviour
         if (isHit) return;
         isHit = true;
 
-        curhp -= InGameManager.Instance.power;
-        hitEffect.Play();
+        int damage = InGameManager.Instance.power;
+
+        int ciritical = Random.Range(0, 100);
+        if (ciritical <= InGameManager.Instance.ciritical)
+        {
+            damage = Mathf.FloorToInt(damage * 1.5f);
+            criticalEffect.Play();
+        }
+        else hitEffect.Play();
+
+        curhp -= damage;
+        
         UpdateVisual();
         StartCoroutine(DamageCoroutine()); // 연속 공격 방지
 
