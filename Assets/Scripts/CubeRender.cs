@@ -77,7 +77,6 @@ public class CubeRender : MonoBehaviour
         {
             marbles[i].material = marbleMaterials[a[i]];
             marbleLights[i].color = colors[a[i]];
-            //marbles[i].GetComponent<Marble>().SetIndex(a[i]);
             InGameManager.Instance.SetMarbleUI(colors[a[i]], i);
         }
     }

@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     public float minXAngle = -80f; // 카메라의 최소 상하 회전 각
     public float maxXAngle = 20f; // 카메라의 최대 상하 회전 각
 
-    // --- 아래 코드 추가 ---
     [Header("Camera Collision")]
     public LayerMask obstacleMask; // 장애물로 인식할 레이어
     public Vector3 cameraOffset; // 플레이어로부터 카메라가 떨어져 있을 기본 위치
@@ -41,6 +40,7 @@ public class PlayerController : MonoBehaviour
     public int damage { get; private set; } = 10;
 
     [Header("State")]
+    public MapDirect mapDirect;
     private bool isRotate = false;
     private bool isGrounded = false;
     private bool isBorder;
@@ -249,6 +249,8 @@ public class PlayerController : MonoBehaviour
 
     public void GetDamage(int damage)
     {
+        Debug.Log("아얏");
+
         hp -= damage;
         UpdateVisual();
         if (hp < 0)
@@ -263,7 +265,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")) wallCounter++;
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            wallCounter++;
+
+            float dot = Vector3.Dot(transform.up.normalized, collision.transform.up.normalized); // 둘의 내적 이용
+            if (dot > 0.9f)
+            {
+                mapDirect = collision.gameObject.GetComponentInChildren<Spawner>().mapDirect;
+            }
+        }
     }
 
     private void OnCollisionStay(Collision collision)
@@ -281,6 +292,7 @@ public class PlayerController : MonoBehaviour
                         GravityManager.Instance.GravityCheck(false);
                     }
                     isGrounded = true; // 착지로 변환
+
                 }
             }
         }

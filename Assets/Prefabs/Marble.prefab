@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4917088682574216345}
   - component: {fileID: 5593362638626920129}
   - component: {fileID: 8884867456984043812}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 3580214954968415526}
   - component: {fileID: 5660481830205505312}
   - component: {fileID: 2324670823892299055}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 1459629032585814700}
   - component: {fileID: 7808612261545402506}
   - component: {fileID: 9174474333068775432}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 8534253813416877116}
   - component: {fileID: 7430962769411358493}
   - component: {fileID: 1808218625763244001}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -964,7 +964,7 @@ GameObject:
   - component: {fileID: 6333007401771815377}
   - component: {fileID: 4883809296557553873}
   - component: {fileID: 5610089075533333497}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1172,7 +1172,7 @@ GameObject:
   - component: {fileID: 5624155750944185533}
   - component: {fileID: 4514901740694186829}
   - component: {fileID: 8605087470889834834}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1259,7 +1259,7 @@ GameObject:
   - component: {fileID: 8454837292572952805}
   - component: {fileID: 6734488117573304979}
   - component: {fileID: 4713620055030469343}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1411,7 +1411,7 @@ GameObject:
   - component: {fileID: 6627618989443684981}
   - component: {fileID: 4951706009393384098}
   - component: {fileID: 5853599144506277384}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1498,7 +1498,7 @@ GameObject:
   - component: {fileID: 9076752940049012172}
   - component: {fileID: 5607519913018238421}
   - component: {fileID: 7171455873229253719}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Floor
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1705,7 +1705,7 @@ GameObject:
   - component: {fileID: 8456725183979662357}
   - component: {fileID: 166326168052777599}
   - component: {fileID: 6088085075361788416}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2286,5 +2286,6 @@ MonoBehaviour:
   mapDirect: 0
   enemyPrefab: {fileID: 8983513725904500901, guid: a384778282876644683914413c98dd54, type: 3}
   enemyCount: 8
-  spawnDelay: 3
+  spawnDelay: 5
   spawnRange: 15
+  spawnTimer: 15

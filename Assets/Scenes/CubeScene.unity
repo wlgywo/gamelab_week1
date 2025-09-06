@@ -4702,6 +4702,7 @@ MonoBehaviour:
   cameraReturnSpeed: 5
   slider: {fileID: 1653365980}
   moveSpeed: 10
+  mapDirect: 0
 --- !u!65 &6016573117690376324
 BoxCollider:
   m_ObjectHideFlags: 0
