@@ -19,7 +19,7 @@ public class MineralSpawnManager : MonoBehaviour
     {
         while (true)
         {
-            int rand = Random.Range(0, 10);
+            int rand = Random.Range(0, 50);
             
             if(rand <= 1)
             {
