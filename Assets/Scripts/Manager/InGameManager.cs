@@ -10,6 +10,10 @@ public class InGameManager : MonoBehaviour
 
     [SerializeField] public TextMeshProUGUI countdownText;
     [SerializeField] public TextMeshProUGUI goldText;
+    [SerializeField] public TextMeshProUGUI redMineralCountText;
+    [SerializeField] public TextMeshProUGUI orangeMineralCountText;
+    [SerializeField] public TextMeshProUGUI blueMineralCountText;
+    [SerializeField] public TextMeshProUGUI purpleMineralCountText;
     [SerializeField] public Button redPotionBtn;
     [SerializeField] public Button droneBuyBtn;
     [SerializeField] public Button droneDamageBtn;
@@ -25,6 +29,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject BossUI;
     [SerializeField] public GameObject playerUI;
     [SerializeField] public GameObject ShopUI;
+    [SerializeField] public GameObject MineralUI;
 
 
     // 캐릭터 관련
@@ -34,10 +39,10 @@ public class InGameManager : MonoBehaviour
     // 소지품 관련
     private int gold = 700;
     private bool haveDrone = false;
-    public int redMineralCount = 0;
-    public int orangeMineralCount = 0;
-    public int blueMineralCount = 0;
-    public int purpleMineralCount = 0;
+    private int redMineralCount = 2;
+    private int orangeMineralCount = 2;
+    private int blueMineralCount = 2;
+    private int purpleMineralCount = 2;
 
     // 상점 관련
     private int redPotionPrice = 30;
@@ -63,6 +68,11 @@ public class InGameManager : MonoBehaviour
 
         playerUI.SetActive(true);
         SetGoldText();
+        redMineralCountText.text = "X " + redMineralCount;
+        orangeMineralCountText.text = "X " + orangeMineralCount;
+        blueMineralCountText.text = "X " + blueMineralCount;
+        purpleMineralCountText.text = "X " + purpleMineralCount;
+
     }
 
 
@@ -212,22 +222,28 @@ public class InGameManager : MonoBehaviour
     }
     public void SellRedMineral()
     {
-        // 빨간미네랄 UI 수정
+        redMineralCount--;
+        redMineralCountText.text = "X " + redMineralCount;
         ChangeGold(redMineralPrice);
     }
     public void SellOrangeMineral()
     {
-        // 주황 미네랄 UI 수정
+        orangeMineralCount--;
+        orangeMineralCountText.text = "X " + orangeMineralCount;
+
         ChangeGold(orangeMineralPrice);
     }
     public void SellBlueMineral()
     {
-        // 파랑 미네랄 UI 수정
+        blueMineralCount--;
+        blueMineralCountText.text = "X " + blueMineralCount;
         ChangeGold(blueMineralPrice);
     }
     public void SellPurpleMineral()
     {
-        // 보라 미네랄 UI 수정
+        purpleMineralCount--;
+        purpleMineralCountText.text = "X " + purpleMineralCount;
         ChangeGold(purpleMineralPrice);
     }
+
 }
