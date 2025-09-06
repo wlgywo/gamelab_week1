@@ -13,7 +13,7 @@ public class PostPlayerController : MonoBehaviour
 
     [SerializeField] private GameObject weapon;
     [SerializeField] private TrailRenderer trailRenderer;
-    [SerializeField] private Slider slider;
+    //[SerializeField] private Slider slider;
 
 
     // 플레이어 상태 관련. 체력등)
@@ -103,7 +103,7 @@ public class PostPlayerController : MonoBehaviour
         //InputManager.Instance.OnKitBoxDrop += InputManager_OnKitBoxDrop;
         //InputManager.Instance.OnKitBoxGet += InputManager_OnKitBoxGet;
         InputManager.Instance.OnAttack += InputManager_OnAttack;
-        UpdateVisual();
+        //UpdateVisual();
 
         // --- 아래 코드 추가 ---
         // 카메라의 기본 거리를 오프셋의 크기로 설정
@@ -408,7 +408,7 @@ public class PostPlayerController : MonoBehaviour
         curInvincibleTimer = invincibleTimer;
 
         hp -= damage;
-        UpdateVisual();
+        //UpdateVisual();
         if (hp <= 0)
         {
             hp = 0;
@@ -430,7 +430,7 @@ public class PostPlayerController : MonoBehaviour
     {
         maxHp += hpUpgrade;
         hp = maxHp;
-        UpdateVisual();
+        //UpdateVisual();
     }
 
     private IEnumerator InvincibleBlink()
@@ -450,11 +450,6 @@ public class PostPlayerController : MonoBehaviour
         foreach (Renderer r in renderers)
             r.enabled = true;
     }
-    private void UpdateVisual()
-    {
-        slider.value = (float)hp / maxHp;
-    }
-
     public void ChangeSensity(bool isController)
     {
         if (isController) mouseSpeed = controllerSpeed;

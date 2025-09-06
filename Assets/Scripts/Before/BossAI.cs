@@ -11,7 +11,7 @@ public class BossAI : MonoBehaviour
 
     // 다른 오브젝트 관련
     public Transform player;
-    [SerializeField] Slider slider;
+    //[SerializeField] Slider slider;
 
     // 보스 상태 관련
     public bool onFloor = false;
@@ -199,6 +199,6 @@ public class BossAI : MonoBehaviour
 	}
     private void UpdateVisual()
     {
-        slider.value = (float)hp / maxHp;
+        //slider.value = (float)hp / maxHp;
     }
 }

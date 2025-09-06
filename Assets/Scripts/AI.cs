@@ -34,7 +34,7 @@ public abstract class AI : MonoBehaviour
     [SerializeField] protected int hp = 50;
     [SerializeField] protected float speed = 5f;
     [SerializeField] protected int damage = 5;
-
+    protected bool isHit = false;
 
     private void Awake()
     {
@@ -98,15 +98,27 @@ public abstract class AI : MonoBehaviour
     }
     private void GetDamage()
     {
-        hp -= PlayerController.Instance.damage;
+        if (isHit) return;
+        isHit = true;
+
+        curhp -= PlayerController.Instance.damage;
         hitEffect.Play();
         UpdateVisual();
+        StartCoroutine(DamageCoroutine()); // 연속 공격 방지
 
-        if (hp <= 0)
+        if (curhp <= 0)
         {
+            InGameManager.Instance.GetExp();
+
             StopCoroutine(attackCorutine);
             Destroy(gameObject);
         }
+    }
+
+    private IEnumerator DamageCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isHit = false;
     }
 
     private void UpdateVisual()

@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     // const
     private const string WALKANIM = "IsWalk";
+    private const string ATTACKANIM1 = "IsAttack1";
+    private const string ATTACKANIM2 = "IsAttack2";
 
     [Header("Gravity Rotation")]
     public float rotateDuration = 0.5f; // 중력 전환에 걸리는 시간 (초)
@@ -25,6 +27,9 @@ public class PlayerController : MonoBehaviour
     private float xRotation = 0f; // 카메라의 상하 회전 각도를 저장할 변수
     public float minXAngle = -80f; // 카메라의 최소 상하 회전 각
     public float maxXAngle = 20f; // 카메라의 최대 상하 회전 각
+    private float cameraXSpeed = 200f;
+    private float cameraYSpeed = 120f;
+    private int wallCounter= 0; // 현재 벽 카운트
 
     [Header("Camera Collision")]
     public LayerMask obstacleMask; // 장애물로 인식할 레이어
@@ -32,22 +37,29 @@ public class PlayerController : MonoBehaviour
     public float cameraCollisionPadding = 0.2f; // 충돌 시 카메라를 벽에서 살짝 뗄 거리
     public float cameraReturnSpeed = 5f; // 카메라가 원래 위치로 돌아오는 속도
 
+    [Header("Weapon")]
+    [SerializeField] private GameObject weapon;
+    [SerializeField] private TrailRenderer trailRenderer;
+
     [Header("Status")]
-    [SerializeField] private Slider slider;
     [SerializeField] private float moveSpeed = 10f;
-    private int hp = 300;
-    private int maxHp = 300;
+    [SerializeField] private float curAttackDelay = 0f;
+    [SerializeField] private float attackDelay = 0.5f;
+    [SerializeField] private int hp = 300;
+    [SerializeField] private int maxHp = 300;
+    private float invincibleTimer = 2f; // 무적 타이머
+
     public int damage { get; private set; } = 10;
 
     [Header("State")]
     public MapDirect mapDirect;
     private bool isRotate = false;
     private bool isGrounded = false;
+    private bool isDamaged = false;
     private bool isBorder;
+    private float gravityTimer = 0f;
 
-    private float cameraXSpeed = 200f;
-    private float cameraYSpeed = 120f;
-    private int wallCounter= 0; // 현재 벽 카운트
+
 
     private void Awake()
     {
@@ -63,14 +75,13 @@ public class PlayerController : MonoBehaviour
         // 마우스 숨기고 중앙 고정
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        UpdateVisual();
     }
 
     private void Start()
     {
         InputManager.Instance.OnLeftGravity += (a,b) => ChangeGravity(true);
         InputManager.Instance.OnRightGravity += (a, b) => ChangeGravity(false);
+        InputManager.Instance.OnAttack += InputManager_OnAttack;
     }
 
     // 플레이어가 현재 보고 있는 forward방향에서 좌면 -90 우면 90으로 회전을 진행하는 함수
@@ -85,8 +96,33 @@ public class PlayerController : MonoBehaviour
         isRotate = false;
     }*/
 
+    private void InputManager_OnAttack(object sender, System.EventArgs e)
+    {
+        if (curAttackDelay < 0f)
+        {
+            curAttackDelay = attackDelay;
+
+            int num = Random.Range(0, 2);
+
+            if (num == 0) anim.SetTrigger(ATTACKANIM1);
+            else anim.SetTrigger(ATTACKANIM2);
+
+            weapon.SetActive(true);
+            trailRenderer.enabled = true;
+            StartCoroutine(AttackReset());
+        }
+    }
+    private IEnumerator AttackReset()
+    {
+        yield return new WaitForSeconds(attackDelay);
+        weapon.SetActive(false);
+        trailRenderer.enabled = false;
+    }
+
     private void ChangeGravity(bool isLeft)
     {
+        gravityTimer = InGameManager.Instance.gravityTimer;
+
         // 1) 현재 up 축 기준의 yaw 계산 후 스냅
         Vector3 up = transform.up;
 
@@ -194,6 +230,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        curAttackDelay -= Time.deltaTime;
+        gravityTimer -= Time.deltaTime;
+
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
         if (pointerDelta.sqrMagnitude > 0.01f && !isRotate)
         {
@@ -244,24 +283,50 @@ public class PlayerController : MonoBehaviour
 
     public bool GravityReady()
     {
-        return isGrounded && wallCounter == 1;
+        return isGrounded && wallCounter == 1 && gravityTimer < 0;
     }
 
     public void GetDamage(int damage)
     {
+        if (isDamaged) return;
+        isDamaged = true;
+
         Debug.Log("아얏");
 
-        hp -= damage;
-        UpdateVisual();
+        hp -= damage; 
+        InGameManager.Instance.UpdateVisual(SliderType.hp, (float)hp / maxHp);
         if (hp < 0)
         {
             Debug.Log("게임 오버");
         }
+
+        StartCoroutine(invincibleTime());
     }
-    private void UpdateVisual()
+
+    private IEnumerator invincibleTime()
+    {
+        float elapsed = 0f;
+        while (elapsed < invincibleTimer)
+        {
+            // 깜빡임 효과 (렌더러 on/off)
+            foreach (Renderer r in renderers)
+                r.enabled = !r.enabled;
+
+            yield return new WaitForSeconds(0.3f); // 깜빡임 간격
+            elapsed += 0.3f;
+        }
+
+        // 무적 해제 + 렌더러 복구
+        foreach (Renderer r in renderers)
+            r.enabled = true;
+
+        isDamaged = false;
+    }
+
+    /*private void UpdateVisual()
     {
         slider.value = (float)hp / maxHp;
-    }
+    }*/
 
     private void OnCollisionEnter(Collision collision)
     {

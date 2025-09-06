@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class EnemyAI : MonoBehaviour
 {
 	[SerializeField] protected Rigidbody rb;
-	[SerializeField] private Slider slider;
+	//[SerializeField] private Slider slider;
     public ParticleSystem hitEffect;
 
     private const string ChaseANIM = "IsChase";
@@ -265,7 +265,7 @@ public class EnemyAI : MonoBehaviour
 
 	private void UpdateVisual()
 	{
-		slider.value = (float)hp / maxHp;
+		//slider.value = (float)hp / maxHp;
     }
 
     private void OnCollisionEnter(Collision collision)
