@@ -30,7 +30,10 @@ public class Marble : MonoBehaviour
 
         if(hp < 0)
         {
+            InGameManager.Instance.Special(); // Special 스킬 획득
+            SpawnManager.Instance.DestroyMarble(index);
             Debug.Log("수정 파괴");
+            Destroy(gameObject);
         }
 
         StartCoroutine(DamageRoutine());

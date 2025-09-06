@@ -50,6 +50,7 @@ public class Spawner : MonoBehaviour
     {
         isSpawn = true;
         cumulationTimer = 0;
+        curEnemyCount = 0;
 
         SpawnEnemy();
         curTimer = spawnDelay;

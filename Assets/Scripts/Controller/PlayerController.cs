@@ -332,6 +332,12 @@ public class PlayerController : MonoBehaviour
         slider.value = (float)hp / maxHp;
     }*/
 
+    public void ActivePartner()
+    {
+        // 게임오브젝트만 켜서 안에서 실행하기
+        Debug.Log("파트너 온");
+    }
+
     public void SetAttackAnim(float speed)
     {
         anim.SetFloat(ATTACKSPEED, 1.15f - speed);

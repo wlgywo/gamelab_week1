@@ -2,13 +2,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Skill : MonoBehaviour
+public class Special : MonoBehaviour
 {
     private Button button;
     public TextMeshProUGUI title;
     public TextMeshProUGUI desc;
 
-    private SkillType skillType;
+    private SpecialType specialType;
 
     private void Awake()
     {
@@ -19,14 +19,14 @@ public class Skill : MonoBehaviour
     private void Start()
     {
         button.onClick.AddListener(() => {
-            InGameManager.Instance.SkillUp(skillType);
-            });
+            InGameManager.Instance.SpecialComplete(specialType);
+        });
     }
 
-    public void SetSkill(LevelUpSO levelUpSO)
+    public void SetSpecial(SpecialSO specialSO)
     {
-        title.text = levelUpSO.name;
-        desc.text = levelUpSO.desc;
-        skillType = levelUpSO.skillType;
+        title.text = specialSO.name;
+        desc.text = specialSO.desc;
+        specialType = specialSO.specialType;
     }
 }
