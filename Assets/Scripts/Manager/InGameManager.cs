@@ -148,7 +148,7 @@ public class InGameManager : MonoBehaviour
         goldText.text = "Gold : " + gold;
     }
 
-    public void ChangeGold(int amount)
+    private void ChangeGold(int amount)
     {
         gold += amount;
         SetGoldText();
@@ -188,5 +188,46 @@ public class InGameManager : MonoBehaviour
         // 보라 미네랄
         if (purpleMineralCount <= 0) sellPurpleMineralBtn.interactable = false;
         else sellPurpleMineralBtn.interactable = true;
+    }
+
+    public void BuyRedPotion()
+    {
+        // 플레이어 체력 회복
+        ChangeGold(-redPotionPrice);
+    }
+    public void BuyDrone()
+    {
+        // 드론 생성
+        ChangeGold(-dronePrice);
+    }
+    public void BuyDroneDamageUp()
+    {
+        // 드론 데미지 업
+        ChangeGold(-droneDamageUpPrice);
+    }
+    public void BuyDroneSpeedUp()
+    {
+        // 드론 공속 업
+        ChangeGold(-droneAttackSpeedUpPrice);
+    }
+    public void SellRedMineral()
+    {
+        // 빨간미네랄 UI 수정
+        ChangeGold(redMineralPrice);
+    }
+    public void SellOrangeMineral()
+    {
+        // 주황 미네랄 UI 수정
+        ChangeGold(orangeMineralPrice);
+    }
+    public void SellBlueMineral()
+    {
+        // 파랑 미네랄 UI 수정
+        ChangeGold(blueMineralPrice);
+    }
+    public void SellPurpleMineral()
+    {
+        // 보라 미네랄 UI 수정
+        ChangeGold(purpleMineralPrice);
     }
 }
