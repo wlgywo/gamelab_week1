@@ -14,6 +14,9 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject gameClearUI;
     [SerializeField] public GameObject BossUI;
     [SerializeField] public GameObject playerUI;
+    [SerializeField] public GameObject ShopUI;
+
+
     
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
