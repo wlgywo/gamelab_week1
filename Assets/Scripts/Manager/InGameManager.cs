@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,8 @@ public class InGameManager : MonoBehaviour
     public static InGameManager Instance { get; private set; }
 
     [SerializeField] public TextMeshProUGUI countdownText;
+    [SerializeField] public TextMeshProUGUI goldText;
+    [SerializeField] public Button dronBuyBtn;
 
     [SerializeField] public GameObject levelUp;
     [SerializeField] public GameObject gameoverUI;
@@ -17,13 +20,14 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject ShopUI;
 
 
-    
+    // 캐릭터 관련
+    private int gold = 0;
+    public bool isLevelUp = false;
+    public bool gameOver { get; private set; } = false;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
-    public bool isLevelUp = false;
 
-    public bool gameOver { get; private set; } = false;
 
 
     public float repairSpeed { get; private set; }
@@ -34,6 +38,7 @@ public class InGameManager : MonoBehaviour
         if(Instance == null) Instance = this;
 
         playerUI.SetActive(true);
+        SetGoldText();
     }
 
 
@@ -109,5 +114,14 @@ public class InGameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+    public void SetGoldText()
+    {
+        goldText.text = "Gold : " + gold;
+    }
 
+    public void ChangeGold(int amount)
+    {
+        gold += amount;
+        SetGoldText();
+    }
 }
