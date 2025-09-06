@@ -28,6 +28,7 @@ public abstract class AI : MonoBehaviour
     protected bool isAttack;
     protected Vector3 flatDir;
     protected Coroutine attackCorutine;
+    protected Coroutine hitCorutine;
     public MapDirect mapDir {  get; protected set; }
 
     [Header("Status")]
@@ -50,7 +51,7 @@ public abstract class AI : MonoBehaviour
         UpdateVisual();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (isAttack) return;
 
@@ -102,6 +103,15 @@ public abstract class AI : MonoBehaviour
         if (isHit) return;
         isHit = true;
 
+        if(InGameManager.Instance.knockBack)
+        {
+            Vector3 dir = transform.position - PlayerController.Instance.transform.position;
+            dir = Vector3.ProjectOnPlane(dir, transform.up); // 뜨는거 방지
+
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(dir.normalized * InGameManager.Instance.knockBackPower, ForceMode.Impulse);
+        }
+
         int damage = InGameManager.Instance.power;
 
         int ciritical = Random.Range(0, 100);
@@ -115,14 +125,14 @@ public abstract class AI : MonoBehaviour
         curhp -= damage;
         
         UpdateVisual();
-        StartCoroutine(DamageCoroutine()); // 연속 공격 방지
+
+        if (hitCorutine != null) StopCoroutine(hitCorutine);
+        hitCorutine = StartCoroutine(DamageCoroutine()); // 연속 공격 방지
 
         if (curhp <= 0)
         {
             InGameManager.Instance.GetExp();
-
-            if(attackCorutine != null) StopCoroutine(attackCorutine);
-            Destroy(gameObject);
+            DestroySelf();
         }
     }
 
@@ -130,6 +140,7 @@ public abstract class AI : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         isHit = false;
+        if (InGameManager.Instance.knockBack) rb.linearVelocity = Vector3.zero; // 밀림 방지
     }
 
     private void UpdateVisual()
@@ -142,6 +153,21 @@ public abstract class AI : MonoBehaviour
         marble = pos;
         mapDir = dir;
     }
+
+    // 파괴된 marble에 위치한 ai 제거
+    public void DestroySelf()
+    {
+        StopAllCoroutine();
+
+        Destroy(gameObject);
+    }
+
+    protected void StopAllCoroutine()
+    {
+        if (attackCorutine != null) StopCoroutine(attackCorutine);
+        if (hitCorutine != null) StopCoroutine(hitCorutine);
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {

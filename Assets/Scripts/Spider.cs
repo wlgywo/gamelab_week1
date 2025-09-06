@@ -7,6 +7,13 @@ public class Spider : AI
     [SerializeField] private float dashRange = 5f;
     [SerializeField] private float dashSpeed = 0.5f;  // 도달 시간
 
+    protected override void FixedUpdate()
+    {
+        if (isHit && InGameManager.Instance.knockBack) return;
+
+        base.FixedUpdate();
+    }
+
     protected override void Attack()
     {
         base.Attack();

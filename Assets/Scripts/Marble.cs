@@ -3,12 +3,20 @@ using UnityEngine;
 
 public class Marble : MonoBehaviour
 {
+    private SphereCollider sphereCol;
+    [SerializeField] private Renderer render;
+
     [SerializeField] private int hp = 200;
     [SerializeField] private int maxHp = 200;
     public int index = 0;
 
     public bool isDamaged = false;
     public float invincibleTimer = 0.1f;
+
+    private void Awake()
+    {
+        sphereCol = GetComponent<SphereCollider>();
+    }
 
     public void SetIndex(int index)
     {
@@ -32,8 +40,11 @@ public class Marble : MonoBehaviour
         {
             InGameManager.Instance.Special(); // Special 스킬 획득
             SpawnManager.Instance.DestroyMarble(index);
+
+            sphereCol.enabled = false;
+            render.enabled = false;
             Debug.Log("수정 파괴");
-            Destroy(gameObject);
+            Destroy(this);
         }
 
         StartCoroutine(DamageRoutine());

@@ -2266,6 +2266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b96c9232778d3d4b882ce7a3e84442f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  render: {fileID: 8777525895307158847}
   hp: 200
   maxHp: 200
   index: 0

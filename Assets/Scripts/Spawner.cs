@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -19,6 +20,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float spawnDelay = 3f; // 스폰 타이머
     [SerializeField] private float spawnRange = 15f; // 스폰 반지름
     [SerializeField] private float spawnTimer = 15f; // 스폰 시간
+
+    private List<AI> ailist = new List<AI>();
 
 
     private void Awake()
@@ -78,9 +81,22 @@ public class Spawner : MonoBehaviour
 
         AI ai = Instantiate(enemyPrefab, spawnPos, transform.rotation).GetComponent<AI>();
         ai.SetMarble(marble.gameObject.transform, mapDirect);
+        ailist.Add(ai);
 
         curEnemyCount++;
     }
+
+    public void DestroyAI()
+    {
+        isSpawn = false;
+
+        foreach(var ai in ailist)
+        {
+            if (ai != null) ai.DestroySelf();
+        }
+    }
+
+
 
     public void EraseEnemy()
     {

@@ -85,6 +85,8 @@ public class InGameManager : MonoBehaviour
     [field: SerializeField] public bool knockBack { get; private set; }
     [field: SerializeField] public bool blood { get; private set; }
     [field: SerializeField] public bool quickMode { get; private set; } // 이건 좀 달라질 가능성 농후
+
+    public float knockBackPower { get; private set; } = 10f;
     /*
     public bool gameOver { get; private set; } = false;
 
@@ -259,6 +261,8 @@ public class InGameManager : MonoBehaviour
     {
         //if (gameOver) return;
 
+        Time.timeScale = 0;
+
         specialUI.SetActive(true);
 
         StartCoroutine(SpecialCoroutine());
@@ -313,7 +317,10 @@ public class InGameManager : MonoBehaviour
                 blood = true;
                 break;
             case SpecialType.quickMode:
-                quickMode = true; 
+                quickMode = true;
+                break;
+            default:
+                Debug.Log("나머지");
                 break;
             
         }
@@ -326,6 +333,7 @@ public class InGameManager : MonoBehaviour
         skillList.Clear();
 
         specialChecks[(int)specialType] = true;
+        specialCount++;
 
         Time.timeScale = 1;
 

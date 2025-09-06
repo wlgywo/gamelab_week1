@@ -54,6 +54,7 @@ public class SpawnManager : MonoBehaviour
     public void DestroyMarble(int index)
     {
         checkMarble[index] = true;
+        spawners[index].DestroyAI();
     }
 
     /*public void EraseEnemy(MapDirect dir)
