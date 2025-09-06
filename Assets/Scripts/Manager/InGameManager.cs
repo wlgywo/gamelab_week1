@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -48,7 +49,7 @@ public class InGameManager : MonoBehaviour
     //public bool isLevelUp = false;
     public int curLevel = 0;
     public int curExp = 0;
-    private int[] expLevel = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    private int[] expLevel = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
         //{ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
     private List<Skill> skillList = new List<Skill>();
     private int[] skillLevels;
@@ -114,7 +115,7 @@ public class InGameManager : MonoBehaviour
 
     private void Update()
     {
-        curGravityTimer -= Time.deltaTime;
+        curGravityTimer -= Time.unscaledDeltaTime;
         UpdateVisual(StatusType.gravity);
     }
 
@@ -139,6 +140,8 @@ public class InGameManager : MonoBehaviour
     public void GetExp() // 몬스터마다 경험치가 달라도 재밌을듯
     {
         curExp++;
+        if (expTwice) curExp++;
+        
         if(curExp >= expLevel[curLevel])
         {
             curExp -= expLevel[curLevel];
@@ -175,7 +178,7 @@ public class InGameManager : MonoBehaviour
 
         while (cnt < counting) // 현재 만렙이 아닌 구간만
         {
-            num = Random.Range(0, levelUpSO.Length);
+            num = UnityEngine.Random.Range(0, levelUpSO.Length);
 
             // 이미 맥스 레벨이거나 리스트에 뽑혔다면 
             if (levelUpSO[num].maxlevel <= skillLevels[num] || list.Contains(num))
@@ -231,9 +234,7 @@ public class InGameManager : MonoBehaviour
                 ciritical += UpgradeCiritical;
                 break;
             case SkillType.fallback:
-                hp += healValue;
-                if (hp > maxHp) hp = maxHp;
-                UpdateVisual(StatusType.hp);
+                Heal(healValue);
                 isFallback = true;
                 break;
         }
@@ -251,7 +252,8 @@ public class InGameManager : MonoBehaviour
 
         skillList.Clear();
 
-        Time.timeScale = 1;
+        if (quickMode) Time.timeScale = 0.5f;
+        else Time.timeScale = 1;
 
         RemoveLevelUpUI();
     }
@@ -281,7 +283,7 @@ public class InGameManager : MonoBehaviour
 
         while (cnt < counting) // 현재 만렙이 아닌 구간만
         {
-            num = Random.Range(0, specialSO.Length);
+            num = UnityEngine.Random.Range(0, specialSO.Length);
 
             // 이미 활성화했거나, 리스트에 뽑혔다면 
             if (specialChecks[num] || list.Contains(num))
@@ -317,7 +319,9 @@ public class InGameManager : MonoBehaviour
                 blood = true;
                 break;
             case SpecialType.quickMode:
-                quickMode = true;
+                QuickMode();
+                //quickMode = true;
+                //OnQuickMode?.Invoke(this, EventArgs.Empty);
                 break;
             default:
                 Debug.Log("나머지");
@@ -335,7 +339,8 @@ public class InGameManager : MonoBehaviour
         specialChecks[(int)specialType] = true;
         specialCount++;
 
-        Time.timeScale = 1;
+        if (quickMode) Time.timeScale = 0.5f;
+        else Time.timeScale = 1;
 
         //RemoveLevelUpUI();
         Cursor.lockState = CursorLockMode.Locked;
@@ -389,6 +394,21 @@ public class InGameManager : MonoBehaviour
         }
     }
 
+    public void Heal(int value)
+    {
+        hp += value;
+        if (hp > maxHp) hp = maxHp;
+        UpdateVisual(StatusType.hp);
+    }
+
+    public void QuickMode()
+    {
+        quickMode = true;
+
+        PlayerController.Instance.QuickModeOn();
+        Time.timeScale = 0.5f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+    }
     /*
     public void UpgradeRepairSpeed()
     {

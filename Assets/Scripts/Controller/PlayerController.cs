@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     [Header("Status")]
     [SerializeField] private float curAttackDelay = 0f;
     private float invincibleTimer = 2f; // 무적 타이머
-
+    public float quickMul = 1f;
     //public int damage { get; private set; } = 10;
 
     [Header("State")]
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     private bool isBorder;
     //private float gravityTimer = 0f;
 
-
+    
 
     private void Awake()
     {
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator AttackReset()
     {
-        yield return new WaitForSeconds(InGameManager.Instance.attackSpeed);
+        yield return new WaitForSecondsRealtime(InGameManager.Instance.attackSpeed);
         weapon.SetActive(false);
         trailRenderer.enabled = false;
     }
@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
             rb.MoveRotation(Quaternion.Slerp(startRotation, targetRotation, t));
 
             // 경과 시간 업데이트
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime * quickMul;
 
             // 다음 프레임까지 대기
             yield return null;
@@ -221,14 +221,14 @@ public class PlayerController : MonoBehaviour
             isBorder = Physics.Raycast(transform.position, dir, 1, LayerMask.GetMask("Wall"));
             if (isBorder) return;
 
-            rb.MovePosition(rb.position + dir * InGameManager.Instance.moveSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + dir * InGameManager.Instance.moveSpeed * Time.fixedDeltaTime * quickMul);
             anim.SetBool(WALKANIM, true);
         }
     }
 
     private void Update()
     {
-        curAttackDelay -= Time.deltaTime;
+        curAttackDelay -= Time.unscaledDeltaTime;
         //gravityTimer -= Time.deltaTime;
 
         // IngameManager에서 1- 현재 남은값으로 처리
@@ -239,11 +239,11 @@ public class PlayerController : MonoBehaviour
         {
             //transform.Rotate(transform.up, pointerDelta.x * mouseSpeed * Time.deltaTime, Space.World);
             // [수정됨] 마우스 X축으로 플레이어 좌우 회전
-            float mouseX = pointerDelta.x * cameraXSpeed * Time.deltaTime;
+            float mouseX = pointerDelta.x * cameraXSpeed * Time.unscaledDeltaTime;
             transform.Rotate(transform.up, mouseX, Space.World);
 
             // [추가됨] 마우스 Y축으로 카메라 상하 회전
-            float mouseY = pointerDelta.y * cameraYSpeed * Time.deltaTime;
+            float mouseY = pointerDelta.y * cameraYSpeed * Time.unscaledDeltaTime;
 
             // 회전 값을 누적 (마우스를 위로 올릴 때 카메라가 위를 보도록 '-' 사용)
             xRotation -= mouseY;
@@ -269,12 +269,12 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, directionToCamera.normalized, out hit, distanceToCamera, obstacleMask))
         {
             // 3. 장애물이 감지되면, 충돌 지점에서 약간 앞으로 카메라 위치를 조정
-            cameraTransform.position = hit.point + hit.normal * cameraCollisionPadding;
+            cameraTransform.position = hit.point + hit.normal * cameraCollisionPadding * quickMul;
         }
         else
         {
             // 4. 장애물이 없으면, 부드럽게(Lerp) 원래의 이상적인 위치로 카메라를 이동
-            cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPosition, Time.deltaTime * cameraReturnSpeed);
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPosition, Time.unscaledDeltaTime * cameraReturnSpeed);
         }
 
         // 5. 카메라의 최종 회전값을 계산합니다.
@@ -308,7 +308,7 @@ public class PlayerController : MonoBehaviour
             foreach (Renderer r in renderers)
                 r.enabled = !r.enabled;
 
-            yield return new WaitForSeconds(0.3f); // 깜빡임 간격
+            yield return new WaitForSecondsRealtime(0.3f); // 깜빡임 간격
             elapsed += 0.3f;
         }
 
@@ -340,7 +340,15 @@ public class PlayerController : MonoBehaviour
 
     public void SetAttackAnim(float speed)
     {
-        anim.SetFloat(ATTACKSPEED, 1.15f - speed);
+        float curSpeed = 1.15f - speed;
+        //curSpeed *= quickMul;
+        anim.SetFloat(ATTACKSPEED, curSpeed);
+    }
+
+    public void QuickModeOn()
+    {
+        quickMul = 2;
+        anim.speed *= 2;
     }
 
     private void OnCollisionEnter(Collision collision)

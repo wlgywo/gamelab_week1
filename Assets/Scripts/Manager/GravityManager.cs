@@ -30,7 +30,7 @@ public class GravityManager : MonoBehaviour
         Quaternion rot = Quaternion.AngleAxis(gravityAngle, PlayerController.Instance.transform.up); // 플레이어의 현재 윗방향 축을 기준으로 좌/우 회전
          Vector3 gravityDir = rot * PlayerController.Instance.transform.forward; // 플레이어의 정면 방향 축을 적용
 
-         Physics.gravity = gravityDir.normalized * Mathf.Abs(gravityValue);
+         Physics.gravity = gravityDir.normalized * Mathf.Abs(gravityValue * PlayerController.Instance.quickMul);
 
         //Debug.Log("현재 중력 값 : " + Physics.gravity);
     }

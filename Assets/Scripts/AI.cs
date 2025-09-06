@@ -112,6 +112,11 @@ public abstract class AI : MonoBehaviour
             rb.AddForce(dir.normalized * InGameManager.Instance.knockBackPower, ForceMode.Impulse);
         }
 
+        if (InGameManager.Instance.blood)
+        {
+            InGameManager.Instance.Heal(Random.Range(1, 4)); // 1~3만큼 랜덤 회복
+        }
+
         int damage = InGameManager.Instance.power;
 
         int ciritical = Random.Range(0, 100);
