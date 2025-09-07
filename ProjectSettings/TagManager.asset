@@ -10,6 +10,8 @@ TagManager:
   - Ground
   - Enemy
   - Weapon
+  - Mineral
+  - Bullet
   layers:
   - Default
   - TransparentFX

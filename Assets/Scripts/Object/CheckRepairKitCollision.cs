@@ -45,7 +45,6 @@ public class CheckRepairKitCollision : MonoBehaviour
         if (gameObject.name == "BrokenPipe_3")
             bossDoor.isRightSideClear = true;
 
-        enemySpawnManager.Complete();
         foreach (var p in particle)
 		{
 			p.Stop();

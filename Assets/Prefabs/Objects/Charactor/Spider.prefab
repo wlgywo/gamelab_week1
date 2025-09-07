@@ -400,8 +400,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: -9131433976971229870}
   slider: {fileID: 7559570669268487432}
-  repairKit: {fileID: 0}
   player: {fileID: 0}
+  level: 0
   hp: 100
   maxHp: 100
   speed: 5
@@ -431,7 +431,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112

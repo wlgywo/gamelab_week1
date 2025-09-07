@@ -1633,7 +1633,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6557820144780045431, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
@@ -5208,7 +5209,8 @@ PrefabInstance:
       value: Crossroad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5455502086675425642, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
@@ -7993,7 +7995,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6557820144780045431, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
@@ -10104,10 +10107,6 @@ MonoBehaviour:
   ShopUI: {fileID: 1821078727}
   MineralUI: {fileID: 0}
   isLevelUp: 0
-  redMineralCount: 0
-  orangeMineralCount: 0
-  blueMineralCount: 0
-  purpleMineralCount: 0
   <kitBox>k__BackingField: {fileID: 1267427272}
 --- !u!1001 &1947330966
 PrefabInstance:
@@ -10784,7 +10783,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6557820144780045431, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
@@ -11250,7 +11250,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6557820144780045431, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
