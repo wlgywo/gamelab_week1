@@ -6,7 +6,7 @@ public class EnemySpawnManager : MonoBehaviour
 {
     // 레벨 관련
     private LevelScript levelScript;
-    int level;
+    private int level;
 
     // 어떤 적 소환할건지. 필요하면 배열로 바꾸기
     public GameObject enemyPrefab;
@@ -19,6 +19,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         levelScript = GetComponentInParent<LevelScript>();
         level = levelScript.level;
+        Debug.Log(level);
         StartCoroutine(SpawnEnemy());
     }
     private IEnumerator SpawnEnemy()
@@ -30,9 +31,14 @@ public class EnemySpawnManager : MonoBehaviour
             {
                 GameObject enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
                 EnemyAI enemyScript = enemy.GetComponent<EnemyAI>();
+                enemyScript.SetManager(this);
                 if (enemyScript != null)
                 {
                     enemyScript.level = level;
+                    enemyScript.maxHp = level * 100;
+                    enemyScript.hp = enemyScript.maxHp;
+                    enemyScript.UpdateVisual();
+
                 }
                 yield break;
             }

@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Data;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,12 +16,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject weapon;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Slider slider;
+    [SerializeField] public TextMeshProUGUI levelUI;
+    [SerializeField] public TextMeshProUGUI expUI;
+
 
 
     // 플레이어 상태 관련. 체력등)
     private int maxHp = 100;
     private int hp = 100;
     private int hpUpgrade = 20;
+    private int level = 0;
+    private int exp = 0;
+    private int needExp = 2;
     private bool isBorder;
 
     public bool isShopOpen = false;
@@ -321,5 +329,28 @@ public class PlayerController : MonoBehaviour
     private void UpdateVisual()
     {
         slider.value = (float)hp / maxHp;
+    }
+
+    private void LevelUp()
+    {
+        InGameManager.Instance.LevelUp();
+        level++;
+        needExp +=5;
+        exp = 0;
+        UpdatePlayerStatusUI();
+    }
+
+    public void GetExp(int mount)
+    {
+        exp += mount;
+        if (exp >= needExp)
+        {
+            LevelUp();
+        }
+    }
+    private void UpdatePlayerStatusUI()
+    {
+        levelUI.text = "level : " + level;
+        expUI.text = "exp : " + exp + " / " + needExp;
     }
 }

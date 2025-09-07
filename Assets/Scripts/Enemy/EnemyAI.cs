@@ -17,8 +17,8 @@ public class EnemyAI : MonoBehaviour
 
     // 몬스터 상태 관련
     public int level;
-	public int hp = 100;
-	public int maxHp = 100;
+    public int hp;
+    public int maxHp;
 	public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
 	public int damage = 5;
@@ -59,8 +59,8 @@ public class EnemyAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-
-        if (animator != null) { 
+        
+        if (animator == null) { 
             Debug.Log("Animator component found.");
         }
     }
@@ -156,11 +156,12 @@ public class EnemyAI : MonoBehaviour
 
         if (hp <= 0)
 		{
+            PlayerController.Instance.GetExp(level * 3);
             Destroy(gameObject);
 		}
 	}
 
-	private void UpdateVisual()
+	public void UpdateVisual()
 	{
 		slider.value = (float)hp / maxHp;
     }
