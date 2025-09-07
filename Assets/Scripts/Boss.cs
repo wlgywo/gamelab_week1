@@ -44,21 +44,21 @@ public class Boss : AI
 
     private void AttackSelect()
     {
-        int num = Random.Range(0, 101);
-        /*
-        if(num < 20) // 20 퍼센트인데 잠시 테스트로 100퍼 센트로 조정
+        int num = Random.Range(0, 100);
+        
+        if(num < 40)
         {
             TurnGraviry();
         }
-        else if(num < 40)
+        else if(num < 60)
         {
             RandomAttack();
         }
-        else if(num < 60) // 60
+        else if(num < 80)
         {
             MeleeAttack();
         }
-        else*/ if(num < 100)
+        else if(num < 100)
         {
             CardAttack();
         }

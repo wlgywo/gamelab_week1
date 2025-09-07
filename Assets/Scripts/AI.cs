@@ -77,10 +77,10 @@ public abstract class AI : MonoBehaviour
         {
             anim.SetBool(CHASEANIM, true);
             rb.MovePosition(rb.position + flatDir.normalized * speed * Time.deltaTime);
-
-            Quaternion targetRot = Quaternion.LookRotation(flatDir, transform.up);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotateSpeed * Time.fixedDeltaTime));
         }
+
+        Quaternion targetRot = Quaternion.LookRotation(flatDir, transform.up);
+        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotateSpeed * Time.fixedDeltaTime));
     }
 
     private void Update()
