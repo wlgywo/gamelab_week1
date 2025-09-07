@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private int exp = 0;
     private int needExp = 5;
     private bool isBorder;
+    public bool isLevelUpOpen=false;
 
     public bool isShopOpen = false;
 
@@ -351,6 +352,7 @@ public class PlayerController : MonoBehaviour
     private void LevelUp()
     {
         InGameManager.Instance.LevelUp();
+        isLevelUpOpen = true;
         level++;
         exp-= needExp;
         needExp +=5;

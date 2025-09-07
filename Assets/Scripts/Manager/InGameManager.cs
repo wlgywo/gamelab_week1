@@ -103,6 +103,7 @@ public class InGameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        PlayerController.Instance.isLevelUpOpen = false;
     }
     public void RemoveLevelUpUI()
     {
@@ -156,6 +157,7 @@ public class InGameManager : MonoBehaviour
     public void ShopClose()
     {
         if (gameOver) return;
+        if (PlayerController.Instance.isLevelUpOpen) return;
         ShopUI.SetActive(false);
         PlayerController.Instance.isShopOpen = false;
         Cursor.lockState = CursorLockMode.Locked;
