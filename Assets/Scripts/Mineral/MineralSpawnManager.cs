@@ -34,7 +34,7 @@ public class MineralSpawnManager : MonoBehaviour
 
     void ChooseMineral()
     {
-        currentMineral = Instantiate(mineralPrefabs[GetWeightedIndex(1)], transform.position,transform.rotation);
+        currentMineral = Instantiate(mineralPrefabs[GetWeightedIndex(level)], transform.position,transform.rotation);
         MineralHpScript mineralHpScript = currentMineral.GetComponent<MineralHpScript>();
         mineralHpScript.SetManager(this);
     }
@@ -46,9 +46,10 @@ public class MineralSpawnManager : MonoBehaviour
         // 높은 레벨일 때는 [20, 30, 30, 20]
         int[] weights;
 
-        if (level < 3) weights = new int[] { 70, 20, 8, 2 };
-        else if (level < 5) weights = new int[] { 40, 30, 20, 10 };
-        else weights = new int[] { 10, 20, 30, 40 };
+        if (level < 2) weights = new int[] { 70, 29, 1, 0 };
+        else if (level < 4) weights = new int[] { 40, 40, 15, 5 };
+        else if (level < 6) weights = new int[] { 10, 50, 30, 10 };
+        else weights = new int[] { 0, 30, 40, 30 };
 
         // 총합
         int sum = 0;
@@ -60,7 +61,7 @@ public class MineralSpawnManager : MonoBehaviour
         for (int i = 0; i < weights.Length; i++)
         {
             cumulative += weights[i];
-            if (rand < cumulative) return i;
+            if (rand <= cumulative) return i;
         }
 
         return 0;   // 오류로 못구했을때 제일 쓰레기 반환
