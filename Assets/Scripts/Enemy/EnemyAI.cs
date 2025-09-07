@@ -53,7 +53,7 @@ public class EnemyAI : MonoBehaviour
     private float detectionRange = 30f;   // 추격 시작 범위
     private float attackRange = 4.0f;     // 공격 범위
     private float stoppingDistance = 3.9f;// 너무 붙지 않기
-    private float bumpPower = 2f;
+    private float bumpPower = 20f;
 
     void Awake()
     {
@@ -137,10 +137,7 @@ public class EnemyAI : MonoBehaviour
 		{
             Vector3 dir = (player.position - transform.position).normalized;
 
-            // 반대 방향으로 충격 주고 싶다면: (transform.position - collision.transform.position).normalized;
-
-            // Rigidbody에 순간적인 힘 가하기
-            rb.AddForce(-dir * bumpPower, ForceMode.Impulse);
+            rb.AddForce(dir * bumpPower, ForceMode.Impulse);
         }
 	}
 
