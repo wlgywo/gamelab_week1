@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -91,6 +92,12 @@ public class InGameManager : MonoBehaviour
 
         levelUp.SetActive(true);
         isLevelUp = true;
+        StartCoroutine(LevelUpDelay());
+    }
+
+    IEnumerator LevelUpDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }

@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     public int maxHp;
 	public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
-	public int damage = 5;
+	public int damage = 3;
 
 	// 데미지와 사망 관련
 	private bool isDie = false;
@@ -170,11 +170,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.Instance.GetDamage(damage);
-        }
-        else if (collision.gameObject.CompareTag("RepairKit"))
-        {
-            InGameManager.Instance.kitBox.SetDamage(damage);
+            PlayerController.Instance.GetDamage(damage * level);
         }
     }
 

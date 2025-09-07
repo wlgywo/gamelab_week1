@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private int hpUpgrade = 20;
     private int level = 0;
     private int exp = 0;
-    private int needExp = 2;
+    private int needExp = 5;
     private bool isBorder;
 
     public bool isShopOpen = false;
@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
         renderers = GetComponentsInChildren<Renderer>()
         .Where(r => !(r is TrailRenderer)) // TrailRenderer 제외
         .ToArray();
+        UpdatePlayerStatusUI();
 
         // 마우스 숨기고 중앙 고정
         Cursor.lockState = CursorLockMode.Locked;
@@ -335,8 +336,8 @@ public class PlayerController : MonoBehaviour
     {
         InGameManager.Instance.LevelUp();
         level++;
+        exp-= needExp;
         needExp +=5;
-        exp = 0;
         UpdatePlayerStatusUI();
     }
 
@@ -346,6 +347,10 @@ public class PlayerController : MonoBehaviour
         if (exp >= needExp)
         {
             LevelUp();
+        }
+        else
+        {
+            UpdatePlayerStatusUI();
         }
     }
     private void UpdatePlayerStatusUI()

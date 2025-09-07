@@ -19,7 +19,6 @@ public class EnemySpawnManager : MonoBehaviour
     {
         levelScript = GetComponentInParent<LevelScript>();
         level = levelScript.level;
-        Debug.Log(level);
         StartCoroutine(SpawnEnemy());
     }
     private IEnumerator SpawnEnemy()
