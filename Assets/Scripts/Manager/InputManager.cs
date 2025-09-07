@@ -120,6 +120,7 @@ public class InputManager : MonoBehaviour
         //if (InGameManager.Instance.isLevelUp) return;
 
         if (GravityManager.Instance.isGravity || !PlayerController.Instance.GravityReady()) return;
+        if (InGameManager.Instance.bossGravity) return; // 보스 중력중에는 일단 막음
 
         // GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(true);
@@ -132,6 +133,7 @@ public class InputManager : MonoBehaviour
     {
         //if (!PostPlayerController.Instance.isGround || GravityManager.Instance.isGravity) return;
         if (GravityManager.Instance.isGravity || !PlayerController.Instance.GravityReady()) return;
+        if (InGameManager.Instance.bossGravity) return; // 보스 중력중에는 일단 막음
 
         //GravityManager.Instance.GravityCheck(true);
         GravityManager.Instance.GravityChange(false);

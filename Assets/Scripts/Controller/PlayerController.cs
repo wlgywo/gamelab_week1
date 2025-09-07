@@ -81,6 +81,9 @@ public class PlayerController : MonoBehaviour
         InputManager.Instance.OnLeftGravity += (a,b) => ChangeGravity(true);
         InputManager.Instance.OnRightGravity += (a, b) => ChangeGravity(false);
         InputManager.Instance.OnAttack += InputManager_OnAttack;
+
+        InGameManager.Instance.OnBossLeftGravity+= (a, b) => ChangeGravity(true);
+        InGameManager.Instance.OnBossRightGravity += (a, b) => ChangeGravity(false);
     }
 
     // 플레이어가 현재 보고 있는 forward방향에서 좌면 -90 우면 90으로 회전을 진행하는 함수
@@ -204,6 +207,8 @@ public class PlayerController : MonoBehaviour
         // 회전이 끝났음을 알림
         isRotate = false;
         rotationCoroutine = null;
+
+        if (InGameManager.Instance.bossGravity) InGameManager.Instance.bossGravity = false;
     }
 
     private void FixedUpdate()

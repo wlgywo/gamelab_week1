@@ -18,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float spawnTimer = 15f; // 임의
 
     public bool[] checkMarble { get; private set; } = new bool[6];// false면 해당 마블 파괴된 상태
+    public bool bossGenerate = false;
+
 
     private void Awake()
     {
@@ -49,6 +51,26 @@ public class SpawnManager : MonoBehaviour
             if (!checkMarble[ran]) break;
         }
         spawners[ran].StartSpawn();
+    }
+
+    public void BossGenerate()
+    {
+        if (bossGenerate) return;
+
+        bossGenerate = true;
+        StartCoroutine(BossGenerateCoroutine());
+    }
+    private IEnumerator BossGenerateCoroutine()
+    {
+        int ran = -1;
+        while (true)
+        {
+            ran = Random.Range(0, spawners.Length);
+            yield return null;
+
+            if (!checkMarble[ran]) break;
+        }
+        spawners[ran].BossGenerate();
     }
 
     public void DestroyMarble(int index)

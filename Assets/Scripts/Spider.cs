@@ -7,11 +7,10 @@ public class Spider : AI
     [SerializeField] private float dashRange = 5f;
     [SerializeField] private float dashSpeed = 0.5f;  // 도달 시간
 
-    protected override void FixedUpdate()
+    protected override void Awake()
     {
-        if (isHit && InGameManager.Instance.knockBack) return;
-
-        base.FixedUpdate();
+        anim = GetComponent<Animator>();
+        base.Awake();
     }
 
     protected override void Attack()
@@ -21,8 +20,14 @@ public class Spider : AI
         curPos = transform.position;
         flatDir = Vector3.ProjectOnPlane((target.position - curPos), transform.up);
 
-        if (attackCorutine != null) StopCoroutine(attackCorutine);
-        attackCorutine = StartCoroutine(DashAttack());
+        if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+        attackCoroutine = StartCoroutine(DashAttack());
+    }
+    protected override void FixedUpdate()
+    {
+        if (isHit && InGameManager.Instance.knockBack) return;
+
+        base.FixedUpdate();
     }
 
     private IEnumerator DashAttack()
@@ -52,5 +57,31 @@ public class Spider : AI
 
         curAttackSpeed = attackSpeed;
         isAttack = false;
+    }
+
+    protected override void GetDamage()
+    {
+        if (InGameManager.Instance.knockBack)
+        {
+            Vector3 dir = transform.position - PlayerController.Instance.transform.position;
+            dir = Vector3.ProjectOnPlane(dir, transform.up); // 뜨는거 방지
+
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(dir.normalized * InGameManager.Instance.knockBackPower, ForceMode.Impulse);
+        }
+
+        base.GetDamage();
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            InGameManager.Instance.GetExp();
+            DestroySelf();
+            criticalEffect.Play();
+        }
+
+        base.OnTriggerEnter(other);
     }
 }

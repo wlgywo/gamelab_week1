@@ -2286,6 +2286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapDirect: 0
   enemyPrefab: {fileID: 8983513725904500901, guid: a384778282876644683914413c98dd54, type: 3}
+  bossPrefab: {fileID: 9163638140034522638, guid: 5876e8fdc755a3e498781f2215187d01, type: 3}
   enemyCount: 8
   spawnDelay: 5
   spawnRange: 15

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +12,8 @@ public abstract class AI : MonoBehaviour
     protected Animator anim;
 
     // 컴파일 변수
-    protected const string CHASEANIM = "IsChase";
-    protected const string ATTACKANIM = "IsAttack";
+    protected const string CHASEANIM = "isChase";
+    protected const string ATTACKANIM = "isAttack";
 
     [Header("State")]
     [SerializeField] protected Transform target;
@@ -27,7 +26,7 @@ public abstract class AI : MonoBehaviour
     [SerializeField] protected float rotateSpeed = 10f;
     protected bool isAttack;
     protected Vector3 flatDir;
-    protected Coroutine attackCorutine;
+    protected Coroutine attackCoroutine;
     protected Coroutine hitCorutine;
     public MapDirect mapDir {  get; protected set; }
 
@@ -38,10 +37,9 @@ public abstract class AI : MonoBehaviour
     [SerializeField] protected int damage = 5;
     protected bool isHit = false;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
 
         rb.useGravity = false;
     }
@@ -98,19 +96,10 @@ public abstract class AI : MonoBehaviour
 
         Debug.Log("공격 실행");
     }
-    private void GetDamage()
+    protected virtual void GetDamage()
     {
         if (isHit) return;
         isHit = true;
-
-        if(InGameManager.Instance.knockBack)
-        {
-            Vector3 dir = transform.position - PlayerController.Instance.transform.position;
-            dir = Vector3.ProjectOnPlane(dir, transform.up); // 뜨는거 방지
-
-            rb.linearVelocity = Vector3.zero;
-            rb.AddForce(dir.normalized * InGameManager.Instance.knockBackPower, ForceMode.Impulse);
-        }
 
         if (InGameManager.Instance.blood)
         {
@@ -141,14 +130,14 @@ public abstract class AI : MonoBehaviour
         }
     }
 
-    private IEnumerator DamageCoroutine()
+    protected IEnumerator DamageCoroutine()
     {
         yield return new WaitForSeconds(0.5f);
         isHit = false;
         if (InGameManager.Instance.knockBack) rb.linearVelocity = Vector3.zero; // 밀림 방지
     }
 
-    private void UpdateVisual()
+    protected void UpdateVisual()
     {
         slider.value = (float)curhp / hp;
     }
@@ -167,9 +156,9 @@ public abstract class AI : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected void StopAllCoroutine()
+    protected virtual void StopAllCoroutine()
     {
-        if (attackCorutine != null) StopCoroutine(attackCorutine);
+        if (attackCoroutine != null) StopCoroutine(attackCoroutine);
         if (hitCorutine != null) StopCoroutine(hitCorutine);
     }
 
@@ -179,7 +168,7 @@ public abstract class AI : MonoBehaviour
         if(collision.gameObject.CompareTag("Player")) PlayerController.Instance.GetDamage(damage);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Marble"))
         {
@@ -187,11 +176,5 @@ public abstract class AI : MonoBehaviour
             SpawnManager.Instance.Spawners[(int)mapDir].marble.Damage(damage);
         }
         else if (other.CompareTag("Weapon")) GetDamage();
-        else if(other.CompareTag("Bullet"))
-        {
-            InGameManager.Instance.GetExp();
-            DestroySelf();
-            criticalEffect.Play();
-        }
     }
 }

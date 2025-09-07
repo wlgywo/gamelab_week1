@@ -23,6 +23,9 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject BossUI;
     */
 
+    public event EventHandler OnBossLeftGravity;
+    public event EventHandler OnBossRightGravity;
+
     [Header("System UI")]
     [SerializeField] public GameObject playerUI;
     [SerializeField] public GameObject levelUp;
@@ -30,6 +33,8 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public Slider hpSlider;
     [SerializeField] public Slider expSlider;
     [SerializeField] private Image gravityUI;
+    [SerializeField] public GameObject bossUI;
+    [SerializeField] public Slider bossSlider;
 
     [Header("Marbles")]
     [SerializeField] public Transform marbleUITrans;
@@ -94,6 +99,9 @@ public class InGameManager : MonoBehaviour
     public float repairSpeed { get; private set; }
     private float upgradeRepairSpeed = 5f;*/
 
+    public bool bossGravity = false;
+
+
     private void Awake()
     {
         if(Instance == null) Instance = this;
@@ -111,6 +119,9 @@ public class InGameManager : MonoBehaviour
 
         InputManager.Instance.OnLeftGravity += (a,b) => curGravityTimer = gravityTimer;
         InputManager.Instance.OnRightGravity += (a, b) => curGravityTimer = gravityTimer;
+
+        Debug.Log(" 보스 생성 테스트");
+        SpawnManager.Instance.BossGenerate();
     }
 
     private void Update()
@@ -414,6 +425,24 @@ public class InGameManager : MonoBehaviour
         Time.timeScale = 0.5f;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
+
+    // 보스 전용
+    public void LeftGravity()
+    {
+        bossGravity = true;
+
+        GravityManager.Instance.GravityChange(true);
+        OnBossLeftGravity?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void RightGravity()
+    {
+        bossGravity = true;
+
+        GravityManager.Instance.GravityChange(false);
+        OnBossRightGravity?.Invoke(this, EventArgs.Empty);
+    }
+
     /*
     public void UpgradeRepairSpeed()
     {
