@@ -1,7 +1,8 @@
 using UnityEngine;
 public enum SpecialType
 {
-    partner, expTwice, knockBack, blood, quickMode
+    partner, expTwice, knockBack, blood, quickMode,
+    Marble
     ,Test
 }
 

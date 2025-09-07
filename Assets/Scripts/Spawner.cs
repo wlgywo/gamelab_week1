@@ -22,7 +22,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float spawnTimer = 15f; // 스폰 시간
 
     private List<AI> ailist = new List<AI>();
-
+    public List<AI> AIList => ailist;
 
     private void Awake()
     {

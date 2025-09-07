@@ -187,5 +187,11 @@ public abstract class AI : MonoBehaviour
             SpawnManager.Instance.Spawners[(int)mapDir].marble.Damage(damage);
         }
         else if (other.CompareTag("Weapon")) GetDamage();
+        else if(other.CompareTag("Bullet"))
+        {
+            InGameManager.Instance.GetExp();
+            DestroySelf();
+            criticalEffect.Play();
+        }
     }
 }

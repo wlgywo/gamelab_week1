@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     private bool isBorder;
     //private float gravityTimer = 0f;
 
+    [SerializeField] private GameObject partner;
     
 
     private void Awake()
@@ -336,6 +337,7 @@ public class PlayerController : MonoBehaviour
     {
         // 게임오브젝트만 켜서 안에서 실행하기
         Debug.Log("파트너 온");
+        partner.SetActive(true);
     }
 
     public void SetAttackAnim(float speed)

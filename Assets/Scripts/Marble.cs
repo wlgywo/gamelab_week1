@@ -38,8 +38,8 @@ public class Marble : MonoBehaviour
 
         if(hp < 0)
         {
-            InGameManager.Instance.Special(); // Special 스킬 획득
             SpawnManager.Instance.DestroyMarble(index);
+            InGameManager.Instance.Special(); // Special 스킬 획득
 
             sphereCol.enabled = false;
             render.enabled = false;

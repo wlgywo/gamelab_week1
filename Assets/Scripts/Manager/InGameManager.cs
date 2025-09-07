@@ -320,8 +320,13 @@ public class InGameManager : MonoBehaviour
                 break;
             case SpecialType.quickMode:
                 QuickMode();
-                //quickMode = true;
-                //OnQuickMode?.Invoke(this, EventArgs.Empty);
+                break;
+            case SpecialType.Marble:
+                int num = SpawnManager.Instance.CurMarbleCount();
+                hp += Mathf.FloorToInt(hp * num * 0.1f);
+                maxHp += Mathf.FloorToInt(maxHp * num * 0.1f);
+                power += Mathf.FloorToInt(power * num * 0.1f);
+                moveSpeed += Mathf.FloorToInt(moveSpeed * num * 0.1f);
                 break;
             default:
                 Debug.Log("나머지");

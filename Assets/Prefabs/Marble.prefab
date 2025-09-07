@@ -2267,7 +2267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   render: {fileID: 8777525895307158847}
-  hp: 200
+  hp: 30
   maxHp: 200
   index: 0
   isDamaged: 0

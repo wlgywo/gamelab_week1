@@ -1388,6 +1388,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae128cb36ae6ee44d9f3774c9e21464e, type: 2}
   - {fileID: 11400000, guid: 557ac9519ca4c1744a2b0a72553acffe, type: 2}
   - {fileID: 11400000, guid: 12ab53a786ac6194aaba53e6643b791a, type: 2}
+  - {fileID: 11400000, guid: 82bda519516368f48acd263309938bae, type: 2}
   - {fileID: 11400000, guid: 4f344b45030de6e498815eaf5d40d7f4, type: 2}
   skillUIPrefabs: {fileID: 2088482328562956297, guid: 18f0f90fe56c7e545be8e9641727f6b6, type: 3}
   skillUIPos: {fileID: 368976669}
@@ -4788,14 +4789,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5012539828301735790, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
-      propertyPath: m_Interpolate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8959904015709234824, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
-      propertyPath: slider
-      value: 
-      objectReference: {fileID: 1653365980}
     - target: {fileID: 9163638140034522638, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
       propertyPath: m_Name
       value: Player
