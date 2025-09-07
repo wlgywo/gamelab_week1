@@ -7,6 +7,7 @@ public class MineralSpawnManager : MonoBehaviour
 {
     private LevelScript levelScript;
     [SerializeField] private GameObject[] mineralPrefabs;
+    private GameObject currentMineral;
     private int level;
     void Start()
     {
@@ -33,7 +34,9 @@ public class MineralSpawnManager : MonoBehaviour
 
     void ChooseMineral()
     {
-         Instantiate(mineralPrefabs[GetWeightedIndex(1)], transform.position,transform.rotation);
+        currentMineral = Instantiate(mineralPrefabs[GetWeightedIndex(1)], transform.position,transform.rotation);
+        MineralHpScript mineralHpScript = currentMineral.GetComponent<MineralHpScript>();
+        mineralHpScript.SetManager(this);
     }
 
     private int GetWeightedIndex(int level)

@@ -37,12 +37,12 @@ public class InGameManager : MonoBehaviour
     public bool gameOver { get; private set; } = false;
 
     // 소지품 관련
-    private int gold = 700;
+    private int gold = 0;
     private bool haveDrone = false;
-    private int redMineralCount = 2;
-    private int orangeMineralCount = 2;
-    private int blueMineralCount = 2;
-    private int purpleMineralCount = 2;
+    private int redMineralCount = 0;
+    private int orangeMineralCount = 0;
+    private int blueMineralCount = 0;
+    private int purpleMineralCount = 0;
 
     // 상점 관련
     private int redPotionPrice = 30;
@@ -72,7 +72,6 @@ public class InGameManager : MonoBehaviour
         orangeMineralCountText.text = "X " + orangeMineralCount;
         blueMineralCountText.text = "X " + blueMineralCount;
         purpleMineralCountText.text = "X " + purpleMineralCount;
-
     }
 
 
@@ -223,31 +222,58 @@ public class InGameManager : MonoBehaviour
     public void SellRedMineral()
     {
         redMineralCount--;
-        redMineralCountText.text = "X " + redMineralCount;
+        ChangeMineralText();
         ChangeGold(redMineralPrice);
     }
     public void SellOrangeMineral()
     {
         orangeMineralCount--;
-        orangeMineralCountText.text = "X " + orangeMineralCount;
-
+        ChangeMineralText();
         ChangeGold(orangeMineralPrice);
     }
     public void SellBlueMineral()
     {
         blueMineralCount--;
-        blueMineralCountText.text = "X " + blueMineralCount;
+        ChangeMineralText();
         ChangeGold(blueMineralPrice);
     }
     public void SellPurpleMineral()
     {
         purpleMineralCount--;
-        purpleMineralCountText.text = "X " + purpleMineralCount;
+        ChangeMineralText();
         ChangeGold(purpleMineralPrice);
     }
     public void ToggleMineralCount()
     {
 
+    }
+    public void AddRedMineral()
+    {
+        redMineralCount++;
+        ChangeMineralText();
+    }
+    public void AddOrangeMineral()
+    {
+        orangeMineralCount++;
+        ChangeMineralText();
+    }
+    public void AddBlueMineral()
+    {
+        blueMineralCount++;
+        ChangeMineralText();
+    }
+    public void AddPurpleMineral()
+    {
+        purpleMineralCount++;
+        ChangeMineralText();
+    }
+
+    private void ChangeMineralText()
+    {
+        redMineralCountText.text = "X " + redMineralCount;
+        orangeMineralCountText.text = "X " + orangeMineralCount;
+        blueMineralCountText.text = "X " + blueMineralCount;
+        purpleMineralCountText.text = "X " + purpleMineralCount;
     }
 
 }
