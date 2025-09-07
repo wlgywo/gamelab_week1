@@ -48,17 +48,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isRotate = false;
     private float rotateSpeed = 10f;
-    private float mouseSpeed = 270f;
+    private float mouseSpeed = 150f;
     Quaternion targetRot;
-
-    // --- ▼ 아래 두 줄을 추가하세요 ▼ ---
-    [Header("Gravity Rotation")]
-    public float rotateDuration = 0.5f; // 중력 전환에 걸리는 시간 (초)
-    private Coroutine rotationCoroutine; // 실행 중인 회전 코루틴을 저장할 변수
-    // --- ▲ 여기까지 추가 ▲ ---
-
-    Vector3 postUp; // 중력 전환 전 transform.up 방향
-    Vector3 snapVec = Vector3.zero;
 
     private bool grabKitBox = true; // 현재 박스를 가지고 있는지
     public bool nearKitBox = false; // 현재 박스가 근처에 있는지
@@ -87,7 +78,6 @@ public class PlayerController : MonoBehaviour
          
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        //renderers = GetComponentsInChildren<Renderer>();
 
         renderers = GetComponentsInChildren<Renderer>()
         .Where(r => !(r is TrailRenderer)) // TrailRenderer 제외
@@ -165,68 +155,6 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(up * jumpPower, ForceMode.Impulse);
     }
 
-    private void InputManager_OnLeftGravity(object sender, System.EventArgs e)
-    {
-        ChangeGravity(true);
-    }
-    private void InputManager_OnRightGravity(object sender, System.EventArgs e)
-    {
-        ChangeGravity(false);
-    }
-
-    private void ChangeGravity(bool isLeft)
-    {
-        isGround = false;
-        snapVec = Vector3.zero;
-
-        // 1) 현재 up 축 기준의 yaw 계산 후 스냅
-        Vector3 up = transform.up;
-
-        // 기준 forward(월드 forward를 up 평면에 정사영). 만약 거의 평행이면 World right로 대체.
-        Vector3 refFwd = Vector3.ProjectOnPlane(Vector3.forward, up);
-        if (refFwd.sqrMagnitude < 1e-6f)
-            refFwd = Vector3.ProjectOnPlane(Vector3.right, up);
-        refFwd.Normalize();
-
-        Vector3 curFwd = Vector3.ProjectOnPlane(transform.forward, up).normalized;
-
-        float yawDeg = Vector3.SignedAngle(refFwd, curFwd, up);
-        float snappedYaw = Snap90(yawDeg);
-        float yawDelta = snappedYaw - yawDeg;
-
-        // 스냅된 yaw를 적용한 회전
-        Quaternion yawSnapRot = Quaternion.AngleAxis(yawDelta, up);
-        Quaternion snappedRot = yawSnapRot * transform.rotation;
-
-        // 2) 스냅된 forward를 기준으로 좌/우 90° 측면 방향을 "새 중력 방향"으로 사용
-        Vector3 snappedFwd = (yawSnapRot * transform.forward).normalized;
-        Quaternion sideRot = Quaternion.AngleAxis(isLeft ? -90f : 90f, up);
-        Vector3 gravityDir = (sideRot * snappedFwd).normalized; // 캐릭터의 '옆' 방향
-
-        // 3) 캐릭터의 up을 -gravityDir로 맞추는 회전(즉시/보간 중 택1)
-        targetRot = Quaternion.FromToRotation(snappedRot * Vector3.up, -gravityDir) * snappedRot;
-
-        // --- ▼ 기존 isRotate = true; 를 아래 코드로 교체하세요 ▼ ---
-        // 만약 이전에 실행 중이던 회전 코루틴이 있다면 중지시킵니다.
-        if (rotationCoroutine != null)
-        {
-            StopCoroutine(rotationCoroutine);
-        }
-        // 새로운 목표 각도로 회전하는 코루틴을 시작하고, 변수에 저장합니다.
-        rotationCoroutine = StartCoroutine(RotateGravityCoroutine(targetRot));
-        // --- ▲ 여기까지 교체 ▲ ---
-    }
-
-    // [-180,180) 구간으로 정규화하여 0/±90/180으로 스냅
-    private static float Snap90(float angleDeg)
-    {
-        float a = Mathf.Repeat(angleDeg + 180f, 360f) - 180f; // [-180,180)
-        if (a >= -45f && a < 45f) return 0f;
-        if (a >= 45f && a < 135f) return 90f;
-        if (a >= 135f || a < -135f) return 180f; // 180과 -180 동일
-        return -90f;
-    }
-
     private void FixedUpdate()
     {
         if(InGameManager.Instance.isLevelUp) return;
@@ -248,18 +176,6 @@ public class PlayerController : MonoBehaviour
             rb.MovePosition(targetPos);
             anim.SetBool(WALKANIM, true);
         }
-
-        // 마우스 회전
-        /*Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
-        if (pointerDelta.sqrMagnitude > 0.0001f && !isRotate)
-        {
-            float turnAmount = pointerDelta.x * rotateSpeed * Time.fixedDeltaTime;
-            Quaternion deltaRot = Quaternion.AngleAxis(turnAmount, transform.up);
-            rb.MoveRotation(rb.rotation * deltaRot);
-        }*/
-
-
-        
     }
 
     private void Update()
@@ -287,8 +203,6 @@ public class PlayerController : MonoBehaviour
         Vector2 pointerDelta = InputManager.Instance.GetPointerNormalized(); // pointer.x 사용
         if (pointerDelta.sqrMagnitude > 0.01f && !isRotate)
         {
-            //transform.Rotate(transform.up, pointerDelta.x * mouseSpeed * Time.deltaTime, Space.World);
-            // [수정됨] 마우스 X축으로 플레이어 좌우 회전
             float mouseX = pointerDelta.x * mouseSpeed * Time.deltaTime;
             transform.Rotate(transform.up, mouseX, Space.World);
 
@@ -307,72 +221,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private IEnumerator RotateGravityCoroutine(Quaternion targetRotation)
-    {
-        // 회전 시작을 알림 (이 시간 동안 마우스 회전이 멈춤)
-        isRotate = true;
-
-        Quaternion startRotation = rb.rotation;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < rotateDuration)
-        {
-            // 경과 시간을 0과 1 사이의 값으로 정규화
-            float t = elapsedTime / rotateDuration;
-
-            // (선택사항) SmoothStep을 사용하면 시작과 끝에서 가감속 효과를 주어 더 부드러워 보입니다.
-            t = Mathf.SmoothStep(0, 1, t);
-
-            // Slerp를 사용하여 시작 각도와 목표 각도 사이를 부드럽게 보간
-            rb.MoveRotation(Quaternion.Slerp(startRotation, targetRotation, t));
-
-            // 경과 시간 업데이트
-            elapsedTime += Time.deltaTime;
-
-            // 다음 프레임까지 대기
-            yield return null;
-        }
-
-        // 회전이 끝난 후, 정확한 목표 각도로 맞춰줌 (오차 보정)
-        rb.MoveRotation(targetRotation);
-
-        // 회전이 끝났음을 알림
-        isRotate = false;
-        rotationCoroutine = null;
-    }
-    // --- ▲ 여기까지 추가 ▲ ---
 
     private void LateUpdate()
-    {/*
-        // 카메라의 회전값(Quaternion)을 플레이어의 회전과 곱하여 최종 회전 방향을 계산
-        Quaternion rotation = Quaternion.Euler(xRotation, transform.eulerAngles.y, 0);
-
-        // 1. 카메라가 있어야 할 이상적인 위치 계산
-        // 플레이어 위치 + 회전값을 적용한 오프셋
-        Vector3 desiredPosition = transform.position + rotation * cameraOffset;
-
-        // 2. 레이캐스트로 충돌 감지
-        RaycastHit hit;
-        // 플레이어 위치에서 이상적인 카메라 위치 방향으로 광선을 발사
-        if (Physics.Raycast(transform.position, desiredPosition - transform.position, out hit, cameraDistance, obstacleMask))
-        {
-            // 3. 장애물이 감지되면, 충돌 지점에서 약간 앞으로 카메라 위치를 조정
-            // hit.point는 광선이 부딪힌 정확한 위치
-            // hit.normal은 부딪힌 표면의 법선(수직) 벡터. 카메라를 벽에서 밀어내는 데 사용
-            cameraTransform.position = hit.point + hit.normal * cameraCollisionPadding;
-        }
-        else
-        {
-            // 4. 장애물이 없으면, 부드럽게(Lerp) 원래의 이상적인 위치로 카메라를 이동
-            cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPosition, Time.deltaTime * cameraReturnSpeed);
-        }
-
-        // 카메라의 회전도 업데이트
-        cameraTransform.rotation = rotation; */
-
-        // 1. 플레이어의 로컬 좌표계 기준 cameraOffset을 월드 좌표로 변환하여
-        //    카메라가 있어야 할 이상적인 위치를 계산합니다.
-        //    transform.TransformPoint()가 이 모든 복잡한 계산을 한 번에 처리해 줍니다.
+    {
         Vector3 desiredPosition = transform.TransformPoint(cameraOffset);
 
         // 레이캐스트의 방향과 거리를 다시 계산
