@@ -36,7 +36,7 @@ public class EnemyAI : MonoBehaviour
     private float wanderInterval = 3.0f;  // 3초마다 방향 갱신
     private Vector3 wanderDir = Vector3.zero;
     private float nextWanderTime = 0f;
-    private float chaseSpeed = 3.5f;
+    private float chaseSpeed = 5f;
 
     // 공격 관련
     private bool isAttacking = false;
@@ -50,7 +50,7 @@ public class EnemyAI : MonoBehaviour
     private float maxAttackTime = 0.6f;    // 전체 공격 안전시간(무한 표류 방지)
     private float attackDrag = 2.0f;       // 공격 중에만 드래그를 잠깐 높여 관성 억제
     private bool useVelocityChange = false; // true면 질량 무시하고 속도변화 기반(일관성↑)
-    private float detectionRange = 10f;   // 추격 시작 범위
+    private float detectionRange = 30f;   // 추격 시작 범위
     private float attackRange = 4.0f;     // 공격 범위
     private float stoppingDistance = 3.9f;// 너무 붙지 않기
     private float bumpPower = 2f;
