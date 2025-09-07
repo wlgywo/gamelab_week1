@@ -79,6 +79,12 @@ public class PlayerController : MonoBehaviour
     public float cameraCollisionPadding = 0.2f; // 충돌 시 카메라를 벽에서 살짝 뗄 거리
     public float cameraReturnSpeed = 5f; // 카메라가 원래 위치로 돌아오는 속도
 
+    // 귀환
+    private float recallTime = 3f;        // 카운트다운 시간(초)
+    private Vector3 recallTarget = Vector3.zero; // 텔레포트 위치
+    [SerializeField] private Slider recallSlider;
+    private Coroutine recallCo;
+
 
     private void Awake()
     {
@@ -95,6 +101,10 @@ public class PlayerController : MonoBehaviour
         // 마우스 숨기고 중앙 고정
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // 귀환
+        InputManager.Instance.OnRecall += InputManager_OnRecall; // 귀환 함수 등록
+
     }
 
     private void Start()
@@ -110,7 +120,13 @@ public class PlayerController : MonoBehaviour
         cameraDistance = cameraOffset.magnitude;
         // --- 여기까지 추가 ---
     }
+    private void InputManager_OnRecall(object sender, System.EventArgs e)
+    {
+        InGameManager.Instance.Recall();
 
+        if (recallCo != null) StopCoroutine(recallCo);
+        recallCo = StartCoroutine(RecallRoutine());
+    }
     private void InputManager_OnAttack(object sender, System.EventArgs e)
     {
         if (curAttackDelay < 0f)
@@ -339,6 +355,42 @@ public class PlayerController : MonoBehaviour
         exp-= needExp;
         needExp +=5;
         UpdatePlayerStatusUI();
+    }
+
+    private IEnumerator RecallRoutine()
+    {
+        float t = recallTime;
+
+        if (recallSlider != null)
+        {
+            recallSlider.gameObject.SetActive(true);
+            recallSlider.value = 1f; // 1 → 0으로 줄어들게 표시
+        }
+
+        while (t > 0f)
+        {
+            t -= Time.deltaTime;
+
+            if (recallSlider != null)
+                recallSlider.value = Mathf.Clamp01(t / recallTime); // 남은 비율
+
+            yield return null;
+        }
+
+        // 텔레포트
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.position = recallTarget;    // 물리객체는 transform.position 대신 rb.position 권장
+            InGameManager.Instance.RecallFinish();
+        }
+        else
+        {
+            transform.position = recallTarget;
+        }
+
+        recallCo = null;
     }
 
     public void GetExp(int mount)

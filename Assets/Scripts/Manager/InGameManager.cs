@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,6 +32,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject playerUI;
     [SerializeField] public GameObject ShopUI;
     [SerializeField] public GameObject MineralUI;
+    [SerializeField] public GameObject RecallUI;
 
     // 캐릭터 관련
     public bool isLevelUp = false;
@@ -69,6 +71,7 @@ public class InGameManager : MonoBehaviour
 
         playerUI.SetActive(true);
         SetGoldText();
+        
         redMineralCountText.text = "X " + redMineralCount;
         orangeMineralCountText.text = "X " + orangeMineralCount;
         blueMineralCountText.text = "X " + blueMineralCount;
@@ -282,6 +285,16 @@ public class InGameManager : MonoBehaviour
         orangeMineralCountText.text = "X " + orangeMineralCount;
         blueMineralCountText.text = "X " + blueMineralCount;
         purpleMineralCountText.text = "X " + purpleMineralCount;
+    }
+
+    public void Recall()
+    {
+        RecallUI.SetActive(true);
+    }
+
+    public void RecallFinish()
+    {
+        RecallUI.SetActive(false);
     }
 
 }

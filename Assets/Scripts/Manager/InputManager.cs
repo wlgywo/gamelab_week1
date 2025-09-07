@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnAttack;
     public event EventHandler OnShopOpen;
     public event EventHandler OnShopClose;
+    public event EventHandler OnRecall;
 
     [Header("Axes (Old Input)")]
     [SerializeField] private string horizontalAxis = "Horizontal";
@@ -20,6 +22,7 @@ public class InputManager : MonoBehaviour
 
     [Header("Action Keys")]
     private KeyCode ShopClose = KeyCode.Escape; 
+    private KeyCode Recall = KeyCode.B; 
     private KeyCode ShopOpenKey = KeyCode.E;
     private KeyCode jumpKey = KeyCode.Space;
     private KeyCode kitBoxDropKey = KeyCode.G;
@@ -29,6 +32,8 @@ public class InputManager : MonoBehaviour
     [Header("Tuning")]
     [Range(0f, 1f)] public float moveDeadzone = 0.15f; // 미세 오입력 방지
     public bool useMouseDeltaForLook = true;           // true: Mouse X/Y, false: 화면좌표 정규화
+
+    
 
     private void Awake()
     {
@@ -76,8 +81,14 @@ public class InputManager : MonoBehaviour
         {
             OnShopClose?.Invoke(this, EventArgs.Empty);
         }
-    }
+        // 귀환
+        if (Input.GetKeyDown(Recall))
+        {
+            OnRecall?.Invoke(this, EventArgs.Empty);
+        }
 
+    }
+    
     // 이동 입력(정규화)
     public Vector2 GetMoveDirNormalized()   // 항상 일정한 속도로 움직이기 위함.
     {
