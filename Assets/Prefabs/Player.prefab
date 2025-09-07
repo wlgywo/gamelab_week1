@@ -2098,6 +2098,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -85.205
       objectReference: {fileID: 0}
+    - target: {fileID: 2036263170084696293, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036263170084696293, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.23584908
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036263170084696293, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.23584908
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036263170084696293, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.23584908
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036263170084696293, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036263170084696293, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036263170084696293, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.5377358
+      objectReference: {fileID: 0}
     - target: {fileID: 2487148979678498165, guid: 233e996805d14434bab40ac777b54a9b, type: 3}
       propertyPath: m_Name
       value: Hammer

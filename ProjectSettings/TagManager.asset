@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Weapon
   - Marble
+  - Bullet
+  - Card
   layers:
   - Default
   - TransparentFX

@@ -5,9 +5,14 @@ public class Boss : AI
 {
     public static Boss Instance { get; private set; }
 
+    [SerializeField] private TrailRenderer trailRenderer;
+    [SerializeField] private GameObject weapon;
+    [SerializeField] private Transform hand;
+
     // const
     protected const float gravityTimer = 4f;
     protected const float randomTimer = 4f;
+    protected const float basicAttackTimer = 2f;
     private const string LEFTANIM = "isLeft";
     private const string RIGHTANIM = "isRight";
     private const string MELEEANIM = "isMelee";
@@ -45,9 +50,17 @@ public class Boss : AI
         {
             TurnGraviry();
         }
-        else*/ if(num < 100) // 40
+        else if(num < 40)
         {
             RandomAttack();
+        }
+        else if(num < 60) // 60
+        {
+            MeleeAttack();
+        }
+        else*/ if(num < 100)
+        {
+            CardAttack();
         }
     }
 
@@ -104,8 +117,6 @@ public class Boss : AI
         {
             randomDir = Random.onUnitSphere;
 
-            bool isReverse = false;
-
             // 캐릭터 local up 기준으로 반구 위쪽만 남기기
             if (Vector3.Dot(randomDir, transform.up) < 0f)
             {
@@ -116,8 +127,6 @@ public class Boss : AI
             }
 
             Quaternion rotation = Quaternion.LookRotation(randomDir, transform.up);
-            // 필요시 Z축 -90도 회전
-            //rotation *= Quaternion.AngleAxis(-90f, transform.forward);
 
             cnt++;
 
@@ -133,6 +142,51 @@ public class Boss : AI
         isAttack = false;
     }
 
+    private void MeleeAttack()
+    {
+        curAttackSpeed = basicAttackTimer;
+
+        if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+        attackCoroutine = StartCoroutine(AttackReset());
+    }
+
+    private IEnumerator AttackReset()
+    {
+        weapon.SetActive(true);
+        trailRenderer.enabled = true;
+        anim.SetTrigger(MELEEANIM);
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        weapon.SetActive(false);
+        trailRenderer.enabled = false;
+        isAttack = false;
+    }
+
+    private void CardAttack()
+    {
+        curAttackSpeed = basicAttackTimer;
+
+        if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+        attackCoroutine = StartCoroutine(CardAttackReset());
+    }
+
+    private IEnumerator CardAttackReset()
+    {
+        Vector3 dir = target.position - transform.position;
+        dir.Normalize();
+        anim.SetTrigger(CARDANIM);
+
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        GameObject cardObject = Instantiate(card, hand.position, transform.rotation);
+        Rigidbody rb = cardObject.GetComponent<Rigidbody>();
+        rb.AddForce(dir * 15f, ForceMode.Impulse);
+
+        yield return new WaitForSecondsRealtime(0.8f);
+
+        isAttack = false;
+    }
 
 
     protected override void GetDamage()
