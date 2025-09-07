@@ -393,6 +393,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1879448250}
     m_Modifications:
+    - target: {fileID: 4226765165318624152, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
+      propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7388473788763492305, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
       propertyPath: m_Name
       value: 2BlockPipes
@@ -720,6 +724,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -987,6 +995,10 @@ PrefabInstance:
     - target: {fileID: 3592593193048306117, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_Name
       value: MonsterRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 8692731028020321564, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
+      propertyPath: level
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9217588648666150920, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1257,6 +1269,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 561168207}
     m_Modifications:
+    - target: {fileID: 4226765165318624152, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7388473788763492305, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
       propertyPath: m_Name
       value: 2BlockPipes (1)
@@ -1632,6 +1648,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6557820144780045431, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
@@ -1649,6 +1669,10 @@ PrefabInstance:
     - target: {fileID: 1689336956433770614, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_Name
       value: 3BlockPipes
+      objectReference: {fileID: 0}
+    - target: {fileID: 3587936021457079906, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
+      propertyPath: level
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7265013966514240256, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2622,6 +2646,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2647,6 +2675,10 @@ PrefabInstance:
     - target: {fileID: 3159631365092550968, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: level
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3587936021457079906, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
+      propertyPath: level
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7265013966514240256, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2978,6 +3010,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 561168207}
     m_Modifications:
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 269.1034
@@ -3083,6 +3119,10 @@ PrefabInstance:
     - target: {fileID: 6570852876001068140, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3541,6 +3581,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClosedPipe
       objectReference: {fileID: 0}
+    - target: {fileID: 4730168459952035465, guid: 7528d58c164294d4b981df3505bde31a, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6612171575686329425, guid: 7528d58c164294d4b981df3505bde31a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 57.960007
@@ -3813,6 +3857,10 @@ PrefabInstance:
     - target: {fileID: 1689336956433770614, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_Name
       value: 3BlockPipes
+      objectReference: {fileID: 0}
+    - target: {fileID: 3587936021457079906, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7265013966514240256, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4089,6 +4137,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1879448250}
     m_Modifications:
+    - target: {fileID: 4226765165318624152, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
+      propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7388473788763492305, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
       propertyPath: m_Name
       value: 2BlockPipes (1)
@@ -4291,6 +4343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 3BlockPipes
       objectReference: {fileID: 0}
+    - target: {fileID: 3587936021457079906, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7265013966514240256, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 30.513
@@ -4392,6 +4448,10 @@ PrefabInstance:
     - target: {fileID: 6570852876001068140, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4503,6 +4563,10 @@ PrefabInstance:
     - target: {fileID: 5283614115972325047, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4941,6 +5005,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4966,6 +5034,10 @@ PrefabInstance:
     - target: {fileID: 2585276794379390688, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: level
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5164,6 +5236,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1990945265}
     m_Modifications:
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.851473
@@ -5222,6 +5298,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 942161946}
     m_Modifications:
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 183.94342
@@ -5459,6 +5539,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 3BlockPipes
       objectReference: {fileID: 0}
+    - target: {fileID: 3587936021457079906, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7265013966514240256, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 198.52185
@@ -5674,6 +5758,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5810,6 +5898,10 @@ PrefabInstance:
     - target: {fileID: 6570852876001068140, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6265,6 +6357,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 942161946}
     m_Modifications:
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -101.50852
@@ -6505,6 +6601,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterRoom (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8692731028020321564, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 9217588648666150920, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_LocalPosition.x
       value: 317.72504
@@ -6563,6 +6663,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1879448250}
     m_Modifications:
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 114.41513
@@ -7106,6 +7210,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterRoom
       objectReference: {fileID: 0}
+    - target: {fileID: 8692731028020321564, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 9217588648666150920, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_LocalPosition.x
       value: -291.91
@@ -7208,6 +7316,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7269,6 +7381,10 @@ PrefabInstance:
     - target: {fileID: 6570852876001068140, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7570,6 +7686,10 @@ PrefabInstance:
     - target: {fileID: 3592593193048306117, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_Name
       value: MonsterRoom (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8692731028020321564, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9217588648666150920, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7994,6 +8114,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6557820144780045431, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
@@ -8273,6 +8397,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1879448250}
     m_Modifications:
+    - target: {fileID: 4226765165318624152, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
+      propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7388473788763492305, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
       propertyPath: m_Name
       value: 2BlockPipes (3)
@@ -8506,6 +8634,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 561168207}
     m_Modifications:
+    - target: {fileID: 4226765165318624152, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7388473788763492305, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
       propertyPath: m_Name
       value: 2BlockPipes
@@ -9600,6 +9732,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 942161946}
     m_Modifications:
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 194.13152
@@ -9842,6 +9978,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10025,6 +10165,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10119,6 +10263,10 @@ PrefabInstance:
     - target: {fileID: 3242314305561986684, guid: 7528d58c164294d4b981df3505bde31a, type: 3}
       propertyPath: m_Name
       value: ClosedPipe (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730168459952035465, guid: 7528d58c164294d4b981df3505bde31a, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6612171575686329425, guid: 7528d58c164294d4b981df3505bde31a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10386,6 +10534,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6586051453767536710, guid: 98bd7240b6effb14b9c36f6c192d2819, type: 3}
+      propertyPath: level
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10441,6 +10593,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1879448250}
     m_Modifications:
+    - target: {fileID: 4226765165318624152, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
+      propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7388473788763492305, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
       propertyPath: m_Name
       value: 2BlockPipes
@@ -10546,6 +10702,10 @@ PrefabInstance:
     - target: {fileID: 5283614115972325047, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10782,6 +10942,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6557820144780045431, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
@@ -10799,6 +10963,10 @@ PrefabInstance:
     - target: {fileID: 1689336956433770614, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_Name
       value: 3BlockPipes (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3587936021457079906, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
+      propertyPath: level
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7265013966514240256, guid: e3d6e4bf373511f44bf7ebf411e4372c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10994,6 +11162,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 561168207}
     m_Modifications:
+    - target: {fileID: 4226765165318624152, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7388473788763492305, guid: d6edac6eef9a9844a904585a6d74f599, type: 3}
       propertyPath: m_Name
       value: 2BlockPipes
@@ -11247,6 +11419,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5283614115972325047, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949397803757098618, guid: 505529f3497a05b4d90a7596ab96e18c, type: 3}
+      propertyPath: level
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -11783,6 +11959,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 561168207}
     m_Modifications:
+    - target: {fileID: 2838425901568447878, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3064391740509974123, guid: ef027ef26f725f84d8054fad1b4875f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 162.03148
@@ -12566,6 +12746,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterRoom
       objectReference: {fileID: 0}
+    - target: {fileID: 8692731028020321564, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
+      propertyPath: level
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9217588648666150920, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_LocalPosition.x
       value: 208.00867
@@ -12889,6 +13073,10 @@ PrefabInstance:
     - target: {fileID: 3592593193048306117, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_Name
       value: MonsterRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 8692731028020321564, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
+      propertyPath: level
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9217588648666150920, guid: a7753f2be0d39f74f9d5a01c962d5d60, type: 3}
       propertyPath: m_LocalPosition.x

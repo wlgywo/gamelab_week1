@@ -8,9 +8,11 @@ public class EnemyAI : MonoBehaviour
 	[SerializeField] private Slider slider;
     private EnemySpawnManager manager;
 
+   
+
 
     // 다른 오브젝트 관련
-	public Transform player;
+    public Transform player;
     private Animator animator;
 
     // 몬스터 상태 관련
@@ -30,10 +32,14 @@ public class EnemyAI : MonoBehaviour
 	private float stopRadius = 3.9f;     // 어느 반경에서 멈출지
 	private float stopEpsilon = 0.05f;   // 경계에서 떨림 방지용
 
+    // 이동 관련
+    private float wanderInterval = 3.0f;  // 3초마다 방향 갱신
+    private Vector3 wanderDir = Vector3.zero;
+    private float nextWanderTime = 0f;
+    private float chaseSpeed = 3.5f;
 
-	// 공격 관련
-	private bool isAttacking = false;
-	private float attackRange = 4f;       // 공격 사거리
+    // 공격 관련
+    private bool isAttacking = false;
 	private float attackCooldown;         // 공격 쿨타임
 	private float attackDelay = 3f;
     private float forwardImpulse = 50f;     // 전진(박치기) 임펄스
@@ -44,8 +50,10 @@ public class EnemyAI : MonoBehaviour
     private float maxAttackTime = 0.6f;    // 전체 공격 안전시간(무한 표류 방지)
     private float attackDrag = 2.0f;       // 공격 중에만 드래그를 잠깐 높여 관성 억제
     private bool useVelocityChange = false; // true면 질량 무시하고 속도변화 기반(일관성↑)
-
-	private Coroutine dashCorutine;
+    private float detectionRange = 10f;   // 추격 시작 범위
+    private float attackRange = 4.0f;     // 공격 범위
+    private float stoppingDistance = 3.9f;// 너무 붙지 않기
+    private float bumpPower = 2f;
 
     void Awake()
     {
@@ -61,34 +69,64 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         player = PlayerController.Instance.transform;
-
-		UpdateVisual();
+        PickNewWanderDir();
+        UpdateVisual();
     }
 
     private void FixedUpdate()
-	{
-		if (isDie) return;
+    {
+        if (isDie) return;
         if (isAttacking) return;
 
-		Transform target;
-		target = player;
-		
+        attackCooldown -= Time.fixedDeltaTime;
 
-        float centerDistance = Vector3.Distance(transform.position, target.position);
+        Transform target = player;
 
-		if(attackCooldown < 0 && centerDistance <= attackRange) {
-			attackCooldown = attackDelay;
-			Attack();
-			return;
-		}
+        float dist = Vector3.Distance(transform.position, target.position);
 
-        
+        // 1)공격
+        if (attackCooldown <= 0 && dist <= attackRange)
+        {
+            attackCooldown = attackDelay;
+            Attack();
+            return;
+        }
+
+        // 2) 추격
+        if (dist <= detectionRange)
+        {
+            Vector3 dir = (target.position - transform.position);
+            dir.y = 0f;
+            float d = dir.magnitude;
+            if (d > stoppingDistance) // 너무 붙었으면 멈춤
+            {
+                dir /= d; // normalized
+                Move(dir, chaseSpeed);
+                FaceTowards(dir);
+            }
+            else
+            {
+                // 정지 + 플레이어 바라보기만
+                FaceTowards(dir.sqrMagnitude > 0.0001f ? dir.normalized : transform.forward);
+            }
+            return;
+
+        }
     }
 
-    private void Update()
-	{
-		attackCooldown -= Time.deltaTime;
-	}
+    void FaceTowards(Vector3 dir)
+    {
+        if (dir.sqrMagnitude < 1e-6f) return;
+        Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
+        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, 10f * Time.fixedDeltaTime)); // 회전 부드럽게
+    }
+    void Move(Vector3 dir, float speed)
+    {
+        if (dir.sqrMagnitude < 1e-6f) return;
+        Vector3 targetPos = rb.position + dir * speed * Time.fixedDeltaTime;
+        rb.MovePosition(targetPos);
+    }
+
     public void SetManager(EnemySpawnManager spawnManager)
     {
         manager = spawnManager;
@@ -97,21 +135,22 @@ public class EnemyAI : MonoBehaviour
 	{
 		if(!isAttacking && !isDie)
 		{
-            //Vector3 dir = (collision.transform.position - transform.position).normalized;
+            Vector3 dir = (player.position - transform.position).normalized;
 
-            //// 반대 방향으로 충격 주고 싶다면: (transform.position - collision.transform.position).normalized;
+            // 반대 방향으로 충격 주고 싶다면: (transform.position - collision.transform.position).normalized;
 
-            //// Rigidbody에 순간적인 힘 가하기
-            //rb.AddForce(-dir * bumpPower, ForceMode.Impulse);
-
-            //// Player도 튕기게 하고 싶다면 Player의 Rigidbody에 Force 추가
-            //Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
-            //if (playerRb != null)
-            //{
-            //    playerRb.AddForce(dir * bumpPower, ForceMode.Impulse);
-            //}
+            // Rigidbody에 순간적인 힘 가하기
+            rb.AddForce(-dir * bumpPower, ForceMode.Impulse);
         }
 	}
+
+    void PickNewWanderDir()
+    {
+        Vector2 v = Random.insideUnitCircle.normalized;
+        wanderDir = new Vector3(v.x, 0f, v.y);
+        nextWanderTime = Time.time + wanderInterval;
+    }
+
 
     private void GetDamage()
 	{
@@ -120,7 +159,6 @@ public class EnemyAI : MonoBehaviour
 
         if (hp <= 0)
 		{
-            StopCoroutine(dashCorutine);
             Destroy(gameObject);
 		}
 	}
