@@ -437,10 +437,16 @@ public class PlayerController : MonoBehaviour
         damage += upgraeDamage;
     }
 
-    public void UpdateHp()
+    public void UpdateMaxHp()
     {
         maxHp += hpUpgrade;
         hp = maxHp;
+        UpdateVisual();
+    }
+
+    public void healHp(int heal)
+    {
+        hp += heal;
         UpdateVisual();
     }
 

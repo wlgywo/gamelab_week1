@@ -31,7 +31,6 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject ShopUI;
     [SerializeField] public GameObject MineralUI;
 
-
     // 캐릭터 관련
     public bool isLevelUp = false;
     public bool gameOver { get; private set; } = false;
@@ -53,6 +52,7 @@ public class InGameManager : MonoBehaviour
     private int orangeMineralPrice = 10;
     private int blueMineralPrice = 50;
     private int purpleMineralPrice = 100;
+    private int healRate = 10;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
@@ -202,6 +202,7 @@ public class InGameManager : MonoBehaviour
     public void BuyRedPotion()
     {
         // 플레이어 체력 회복
+        PlayerController.Instance.healHp(healRate);
         ChangeGold(-redPotionPrice);
     }
     public void BuyDrone()
