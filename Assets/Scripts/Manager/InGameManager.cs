@@ -245,5 +245,9 @@ public class InGameManager : MonoBehaviour
         purpleMineralCountText.text = "X " + purpleMineralCount;
         ChangeGold(purpleMineralPrice);
     }
+    public void ToggleMineralCount()
+    {
+
+    }
 
 }
