@@ -270,9 +270,16 @@ public class Boss : AI
     {
         if (other.CompareTag("Bullet"))
         {
-            InGameManager.Instance.GetExp();
-            DestroySelf();
+            curhp -= Mathf.FloorToInt(InGameManager.Instance.power * 1.5f);
             criticalEffect.Play();
+            UpdateVisual();
+
+            if (curhp <= 0)
+            {
+                //InGameManager.Instance.GetExp();
+                InGameManager.Instance.GameClear();
+                DestroySelf();
+            }
         }
 
         base.OnTriggerEnter(other);

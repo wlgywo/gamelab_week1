@@ -78,8 +78,8 @@ public class Spider : AI
         if (other.CompareTag("Bullet"))
         {
             InGameManager.Instance.GetExp();
-            DestroySelf();
             criticalEffect.Play();
+            DestroySelf();
         }
 
         base.OnTriggerEnter(other);

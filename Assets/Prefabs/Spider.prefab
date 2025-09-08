@@ -11653,7 +11653,7 @@ MonoBehaviour:
   criticalEffect: {fileID: 4152295031792172664}
   target: {fileID: 0}
   marble: {fileID: 0}
-  detectionRange: 8.5
+  detectionRange: 9.5
   attackRange: 5
   curAttackSpeed: 3
   attackSpeed: 3
@@ -11662,7 +11662,7 @@ MonoBehaviour:
   curhp: 50
   hp: 50
   speed: 5
-  damage: 5
+  <damage>k__BackingField: 5
   dashRange: 5
   dashSpeed: 0.4
 --- !u!1 &9201090859256861871

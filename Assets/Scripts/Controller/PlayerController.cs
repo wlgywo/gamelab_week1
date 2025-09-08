@@ -150,24 +150,26 @@ public class PlayerController : MonoBehaviour
         Quaternion sideRot = Quaternion.AngleAxis(isLeft ? -90f : 90f, up);
         Vector3 gravityDir = (sideRot * snappedFwd).normalized; // 캐릭터의 '옆' 방향
 
-        // 3) 캐릭터의 up을 -gravityDir로 맞추는 회전(즉시/보간 중 택1)
-        targetRot = Quaternion.FromToRotation(snappedRot * Vector3.up, -gravityDir) * snappedRot;
+        // 3) 캐릭터의 up을 -gravityDir로 맞추되, roll 틸트 없이 "헤딩 유지"
+        Vector3 newUp = (-gravityDir).normalized;
 
-
-
-        // 코드 수정중
-
-
-
-        // --- ▼ 기존 isRotate = true; 를 아래 코드로 교체하세요 ▼ ---
-        // 만약 이전에 실행 중이던 회전 코루틴이 있다면 중지시킵니다.
-        if (rotationCoroutine != null)
+        // 스냅된 전방을 새 up 평면에 투영해 roll 0 상태의 heading을 만듦
+        Vector3 newFwd = Vector3.ProjectOnPlane(snappedFwd, newUp);
+        if (newFwd.sqrMagnitude < 1e-6f)
         {
-            StopCoroutine(rotationCoroutine);
+            // 투영이 너무 작으면, 이전 회전의 전방(rb.rotation * Vector3.forward)으로 대체
+            newFwd = Vector3.ProjectOnPlane(rb.rotation * Vector3.forward, newUp);
+            if (newFwd.sqrMagnitude < 1e-6f)
+                newFwd = Vector3.Cross(newUp, Vector3.right).normalized; // 최후 보정
         }
-        // 새로운 목표 각도로 회전하는 코루틴을 시작하고, 변수에 저장합니다.
+        newFwd.Normalize();
+
+        // 직교기저로 타깃 회전 생성(롤 틸트 없음)
+        targetRot = Quaternion.LookRotation(newFwd, newUp);
+
+        // 코루틴은 그대로
+        if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         rotationCoroutine = StartCoroutine(RotateGravityCoroutine(targetRot));
-        // --- ▲ 여기까지 교체 ▲ ---
 
     }
     private static float Snap90(float angleDeg)

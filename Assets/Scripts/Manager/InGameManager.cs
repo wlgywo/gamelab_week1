@@ -209,17 +209,19 @@ public class InGameManager : MonoBehaviour
         //Debug.Log("카운팅 값 : " + counting + " / 완료한 갯수 : " + completeCount);
 
         bool isSpecialCard = false;
+        int curSpecialCount = 0; // 현재 레벨업으로 등록된 이벤트 카드 갯수
 
         while (cnt < counting) // 현재 만렙이 아닌 구간만
         {
-            ran = UnityEngine.Random.Range(0, 7); // 7분의1
+            ran = UnityEngine.Random.Range(0, 2); // 7분의1
            
-            if((isSpecialCard || ran == 0) && (specialCount< specialSO.Length)) // 0으로 스페셜이거나, 이전이 스페셜카드였는데 다시 뽑은거라면
+            if((isSpecialCard || ran == 0) && (specialCount + curSpecialCount < specialSO.Length)) // 0으로 스페셜이거나, 이전이 스페셜카드였는데 다시 뽑은거라면
             {
                 isSpecialCard = true;
                 num = UnityEngine.Random.Range(0, specialSO.Length);
                 if (specialChecks[num] || list.Contains(num)) continue; // 다시 뽑기
                 isSpecialCard = false; // 다시 안뽑으니
+                curSpecialCount++;
 
                 Special special = Instantiate(specialUIPrefabs, skillUIPos);
                 special.SetSpecial(specialSO[num]);
@@ -515,6 +517,8 @@ public class InGameManager : MonoBehaviour
     */
     public void GameOver()
     {
+        if (GameEnd) return;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         
@@ -527,6 +531,8 @@ public class InGameManager : MonoBehaviour
     
     public void GameClear()
     {
+        if (GameEnd) return;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 

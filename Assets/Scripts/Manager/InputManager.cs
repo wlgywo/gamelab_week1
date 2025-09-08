@@ -8,13 +8,11 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler OnLeftGravity;
     public event EventHandler OnRightGravity;
-    public event EventHandler OnJump;
-    public event EventHandler OnKitBoxDrop;
-    public event EventHandler OnKitBoxGet;
+    //public event EventHandler OnJump;
     public event EventHandler OnAttack;
 
     public PlayerInput playerInput {  get; private set; }
-    private bool connectGamePad = false;
+    //private bool connectGamePad = false;
 
     private void Awake()
     {
@@ -38,7 +36,7 @@ public class InputManager : MonoBehaviour
             if (device is Gamepad)
             {
                 //connectGamePad = true;
-                ChangeDeviceState(true);
+                //ChangeDeviceState(true);
                 break;
             }
         }
@@ -74,21 +72,21 @@ public class InputManager : MonoBehaviour
             {
                 case InputDeviceChange.Added:
                     //connectGamePad = true;
-                    ChangeDeviceState(true);
+                    //ChangeDeviceState(true);
                     break;
                 case InputDeviceChange.Removed:
                     //connectGamePad = false;
-                    ChangeDeviceState(false);
+                    //ChangeDeviceState(false);
                     break;
             }
         }
     }
 
-    private void ChangeDeviceState(bool isController)
+    /*private void ChangeDeviceState(bool isController)
     {
         connectGamePad = isController;
-        PostPlayerController.Instance.ChangeSensity(isController);
-    }
+        //PlayerController.Instance.ChangeSensity(isController);
+    }*/
 
 
     private void Attack_performed(InputAction.CallbackContext obj)

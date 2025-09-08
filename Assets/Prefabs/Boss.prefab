@@ -5823,12 +5823,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4106812898633428478}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.9047619, y: 1.9047619, z: 1.9047619}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 354395686141978798}
+  m_Father: {fileID: 5822423306010659082}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8323393900782881776
 BoxCollider:
@@ -10946,6 +10946,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3776752872372878251}
+  - {fileID: 7611382511503937789}
   m_Father: {fileID: 7042657068958808585}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1360782958916134130
@@ -11950,7 +11951,7 @@ GameObject:
   - component: {fileID: 1667580138967046473}
   - component: {fileID: 5012539828301735790}
   - component: {fileID: 8979571612190465308}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -11973,7 +11974,6 @@ Transform:
   - {fileID: 9023185057866155964}
   - {fileID: 9031364500571777396}
   - {fileID: 7125156754940082761}
-  - {fileID: 7611382511503937789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1667580138967046473
@@ -12041,7 +12041,7 @@ MonoBehaviour:
   criticalEffect: {fileID: 5456075843363532589}
   target: {fileID: 0}
   marble: {fileID: 0}
-  detectionRange: 10
+  detectionRange: 13
   attackRange: 7
   curAttackSpeed: 3
   attackSpeed: 3

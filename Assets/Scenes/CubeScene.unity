@@ -1246,7 +1246,6 @@ MonoBehaviour:
   - {fileID: 985692627}
   - {fileID: 1445987575}
   curSpawnTimer: 0
-  spawnTimer: 15
   bossGenerate: 0
   bossMarbleIndex: 0
 --- !u!23 &443739740 stripped
@@ -1570,7 +1569,6 @@ MonoBehaviour:
   skillUIPrefabs: {fileID: 2088482328562956297, guid: 18f0f90fe56c7e545be8e9641727f6b6, type: 3}
   skillUIPos: {fileID: 368976669}
   specialUIPrefabs: {fileID: 4334919358872521166, guid: da990432d7e54804181fe7d6e8922711, type: 3}
-  specialUIPos: {fileID: 731140858}
   curLevel: 0
   curExp: 0
   levelUpCount: 0
@@ -6804,7 +6802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 354395686141978798, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 354395686141978798, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6812,7 +6810,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 354395686141978798, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 354395686141978798, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
       propertyPath: m_LocalRotation.z
@@ -6824,7 +6822,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 354395686141978798, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 354395686141978798, guid: fa975ab32bf3ed54dadc21910a9562f0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
