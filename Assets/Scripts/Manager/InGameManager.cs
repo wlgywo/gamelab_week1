@@ -33,18 +33,20 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject ShopUI;
     [SerializeField] public GameObject MineralUI;
     [SerializeField] public GameObject RecallUI;
-
+    [SerializeField] public Transform Drone;
+    [SerializeField] public GameObject DronePrefab;
     // 캐릭터 관련
     public bool isLevelUp = false;
     public bool gameOver { get; private set; } = false;
 
     // 소지품 관련
-    private int gold = 0;
-    private bool haveDrone = false;
+    private int gold = 100000;
     private int redMineralCount = 0;
     private int orangeMineralCount = 0;
     private int blueMineralCount = 0;
     private int purpleMineralCount = 0;
+    private bool haveDrone = false;
+
 
     // 상점 관련
     private int redPotionPrice = 30;
@@ -56,6 +58,7 @@ public class InGameManager : MonoBehaviour
     private int blueMineralPrice = 50;
     private int purpleMineralPrice = 100;
     private int healRate = 20;
+    private int droneCount = 0;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
@@ -219,7 +222,8 @@ public class InGameManager : MonoBehaviour
     }
     public void BuyDrone()
     {
-        // 드론 생성
+        if (haveDrone) return;
+        SpawnDrone();
         ChangeGold(-dronePrice);
     }
     public void BuyDroneDamageUp()
@@ -299,4 +303,9 @@ public class InGameManager : MonoBehaviour
         RecallUI.SetActive(false);
     }
 
+    public void SpawnDrone()
+    {
+        Instantiate(DronePrefab, Drone);
+        haveDrone = true;
+    }
 }

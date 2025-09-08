@@ -149,7 +149,7 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    private void GetDamage()
+    public void GetDamage()
 	{
 		hp -= PlayerController.Instance.damage;
 		UpdateVisual();
@@ -161,7 +161,19 @@ public class EnemyAI : MonoBehaviour
 		}
 	}
 
-	public void UpdateVisual()
+    public void GetDroneDamage(int a)
+    {
+        hp -= a;
+        UpdateVisual();
+
+        if (hp <= 0)
+        {
+            PlayerController.Instance.GetExp(level * 3);
+            Destroy(gameObject);
+        }
+    }
+
+    public void UpdateVisual()
 	{
 		slider.value = (float)hp / maxHp;
     }
