@@ -21,6 +21,7 @@ public class SpawnManager : MonoBehaviour
     public bool bossGenerate = false;
 
     public int bossMarbleIndex = 0;
+    public int destroyMarbleCount { get; private set; } = 0;
 
     private void Awake()
     {
@@ -29,7 +30,9 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-        if(InGameManager.Instance.quickMode) curSpawnTimer -= Time.deltaTime * 2;
+        if (InGameManager.Instance.GameEnd) return;
+
+        if (InGameManager.Instance.quickMode) curSpawnTimer -= Time.deltaTime * 2;
         else curSpawnTimer -= Time.deltaTime;
         if(curSpawnTimer <0)
         {
@@ -87,8 +90,11 @@ public class SpawnManager : MonoBehaviour
 
     public void DestroyMarble(int index)
     {
+        destroyMarbleCount++;
         checkMarble[index] = true;
         spawners[index].DestroyAI();
+
+        if (destroyMarbleCount == spawners.Length) InGameManager.Instance.GameOver();
     }
 
     public int CurMarbleCount()

@@ -36,6 +36,8 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject bossUI;
     [SerializeField] public Slider bossSlider;
     [SerializeField] public Slider statgeSlider;
+    [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject gameClearUI;
 
     [Header("Marbles")]
     [SerializeField] public Transform marbleUITrans;
@@ -97,9 +99,9 @@ public class InGameManager : MonoBehaviour
     [field: SerializeField] public bool quickMode { get; private set; } // 이건 좀 달라질 가능성 농후
 
     public float knockBackPower { get; private set; } = 10f;
+    
+    public bool GameEnd { get; private set; } = false;
     /*
-    public bool gameOver { get; private set; } = false;
-
     public float repairSpeed { get; private set; }
     private float upgradeRepairSpeed = 5f;*/
 
@@ -433,6 +435,7 @@ public class InGameManager : MonoBehaviour
 
         if (hp < 0)
         {
+            GameOver();
             Debug.Log("게임 오버");
         }
     }
@@ -456,6 +459,7 @@ public class InGameManager : MonoBehaviour
     // 보스 전용
     public void LeftGravity()
     {
+        if (GravityManager.Instance.isGravity) return; // 이미 중력중에는 반환
         bossGravity = true;
 
         GravityManager.Instance.GravityChange(true);
@@ -464,6 +468,7 @@ public class InGameManager : MonoBehaviour
 
     public void RightGravity()
     {
+        if (GravityManager.Instance.isGravity) return; // 이미 중력중에는 반환
         bossGravity = true;
 
         GravityManager.Instance.GravityChange(false);
@@ -475,28 +480,32 @@ public class InGameManager : MonoBehaviour
     {
         repairSpeed += upgradeRepairSpeed;
     }
-
+    */
     public void GameOver()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        gameOver = true;
-        gameoverUI.SetActive(true);
-        BossUI.SetActive(false);
-        playerUI.SetActive(false);
+        
+        GameEnd= true;
+        gameOverUI.SetActive(true);
+
+        //BossUI.SetActive(false);
+        //playerUI.SetActive(false);
     }
+    
     public void GameClear()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        gameOver = true;
+
+        GameEnd = true;
         gameClearUI.SetActive(true);
-        BossUI.SetActive(false);
-        playerUI.SetActive(false);
+        //BossUI.SetActive(false);
+       // playerUI.SetActive(false);
     }
 
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
-    }*/
+    }
 }

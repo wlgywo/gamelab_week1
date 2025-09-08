@@ -173,6 +173,11 @@ public class BossAI : MonoBehaviour
         {
             GetDamage();
         }
+
+        else if(other.CompareTag("Player"))
+        {
+
+        }
     }
 
 	public void GetDamage()

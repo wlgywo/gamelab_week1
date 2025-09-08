@@ -6,6 +6,7 @@ public class GameStart : MonoBehaviour
     private void Awake()
     {
         Physics.gravity = new Vector3(0, -9.81f, 0);
+        Time.timeScale = 1;
     }
 
 

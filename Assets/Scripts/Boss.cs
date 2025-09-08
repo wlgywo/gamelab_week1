@@ -223,18 +223,18 @@ public class Boss : AI
             InGameManager.Instance.Heal(Random.Range(1, 4)); // 1~3만큼 랜덤 회복
         }
 
-        int damage = InGameManager.Instance.power;
+        int power = InGameManager.Instance.power;
 
         int ciritical = Random.Range(0, 100);
         if (ciritical <= InGameManager.Instance.ciritical || isCritical)
         {
             isCritical = false;
-            damage = Mathf.FloorToInt(damage * 1.5f);
+            power = Mathf.FloorToInt(power * 1.5f);
             criticalEffect.Play();
         }
         else hitEffect.Play();
 
-        curhp -= damage;
+        curhp -= power;
 
         UpdateVisual();
 
@@ -244,7 +244,7 @@ public class Boss : AI
         if (curhp <= 0)
         {
             //InGameManager.Instance.GetExp();
-            Debug.Log("게임 승리");
+            InGameManager.Instance.GameClear();
             DestroySelf();
         }
     }

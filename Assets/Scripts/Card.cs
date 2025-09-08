@@ -31,5 +31,10 @@ public class Card : MonoBehaviour
             Attack();
             Destroy(gameObject);
         }
+        else if (other.CompareTag("Player"))
+        {
+            PlayerController.Instance.GetDamage(Boss.Instance.damage);
+            Destroy(gameObject);
+        }
     }
 }

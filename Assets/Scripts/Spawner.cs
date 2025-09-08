@@ -34,6 +34,8 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
+        if (InGameManager.Instance.GameEnd) return;
+
         if(isSpawn)
         {
             if(cumulationTimer > spawnTimer)
@@ -162,10 +164,5 @@ public class Spawner : MonoBehaviour
         Vector3 spawnPos = transform.position - transform.up * 1 + spawnDir * spawnRange;
 
         Boss.Instance.ChangeMarble(spawnPos, transform.rotation, marble.gameObject.transform, mapDirect);
-    }
-
-    public void EraseEnemy()
-    {
-        enemyCount--;
     }
 }

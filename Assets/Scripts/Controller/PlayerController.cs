@@ -185,6 +185,8 @@ public class PlayerController : MonoBehaviour
 
         while (elapsedTime < rotateDuration)
         {
+            //if (InGameManager.Instance.bossGravity) break;
+
             // 경과 시간을 0과 1 사이의 값으로 정규화
             float t = elapsedTime / rotateDuration;
 
@@ -195,7 +197,7 @@ public class PlayerController : MonoBehaviour
             rb.MoveRotation(Quaternion.Slerp(startRotation, targetRotation, t));
 
             // 경과 시간 업데이트
-            elapsedTime += Time.unscaledDeltaTime * quickMul;
+            elapsedTime += Time.deltaTime * quickMul;
 
             // 다음 프레임까지 대기
             yield return null;

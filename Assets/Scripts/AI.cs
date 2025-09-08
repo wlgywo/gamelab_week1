@@ -162,12 +162,6 @@ public abstract class AI : MonoBehaviour
         if (hitCorutine != null) StopCoroutine(hitCorutine);
     }
 
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Player")) PlayerController.Instance.GetDamage(damage);
-    }
-
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Marble"))
@@ -176,5 +170,6 @@ public abstract class AI : MonoBehaviour
             SpawnManager.Instance.Spawners[(int)mapDir].marble.Damage(damage);
         }
         else if (other.CompareTag("Weapon")) GetDamage();
+        else if(other.CompareTag("Player")) PlayerController.Instance.GetDamage(damage);
     }
 }
