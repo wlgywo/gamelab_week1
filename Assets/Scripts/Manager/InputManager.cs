@@ -8,11 +8,11 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler OnLeftGravity;
     public event EventHandler OnRightGravity;
-    //public event EventHandler OnJump;
+    public event EventHandler OnSetting;
     public event EventHandler OnAttack;
 
     public PlayerInput playerInput {  get; private set; }
-    //private bool connectGamePad = false;
+    public bool connectGamePad { get; private set; } = false;
 
     private void Awake()
     {
@@ -23,8 +23,8 @@ public class InputManager : MonoBehaviour
 
         playerInput.Player.GravityLeft.performed += GravityLeft_performed;
         playerInput.Player.GravityRight.performed += GravityRight_performed;
-        /*playerInput.Player.Jump.performed += Jump_performed;
-        playerInput.Player.KitBoxDrop.performed += KitBoxDrop_performed;
+        playerInput.Player.Cancle.performed += OnSetting_performed;
+        /*playerInput.Player.KitBoxDrop.performed += KitBoxDrop_performed;
         playerInput.Player.KitBoxGet.performed += KitBoxGet_performed;*/
         playerInput.Player.Attack.performed += Attack_performed;
     }
@@ -35,8 +35,8 @@ public class InputManager : MonoBehaviour
         {
             if (device is Gamepad)
             {
-                //connectGamePad = true;
-                //ChangeDeviceState(true);
+                connectGamePad = true;
+                ChangeDeviceState(true);
                 break;
             }
         }
@@ -56,6 +56,7 @@ public class InputManager : MonoBehaviour
     {
         playerInput.Player.GravityLeft.performed -= GravityLeft_performed;
         playerInput.Player.GravityRight.performed -= GravityRight_performed;
+        playerInput.Player.Cancle.performed -= OnSetting_performed;
         /*playerInput.Player.Jump.performed -= Jump_performed;
         playerInput.Player.KitBoxDrop.performed -= KitBoxDrop_performed;
         playerInput.Player.KitBoxGet.performed -= KitBoxGet_performed;*/
@@ -71,22 +72,22 @@ public class InputManager : MonoBehaviour
             switch (change)
             {
                 case InputDeviceChange.Added:
-                    //connectGamePad = true;
-                    //ChangeDeviceState(true);
+                    connectGamePad = true;
+                    ChangeDeviceState(true);
                     break;
                 case InputDeviceChange.Removed:
-                    //connectGamePad = false;
-                    //ChangeDeviceState(false);
+                    connectGamePad = false;
+                    ChangeDeviceState(false);
                     break;
             }
         }
     }
 
-    /*private void ChangeDeviceState(bool isController)
+    private void ChangeDeviceState(bool isController)
     {
         connectGamePad = isController;
-        //PlayerController.Instance.ChangeSensity(isController);
-    }*/
+        PlayerController.Instance.ChangeSensity(isController);
+    }
 
 
     private void Attack_performed(InputAction.CallbackContext obj)
@@ -105,12 +106,12 @@ public class InputManager : MonoBehaviour
         if (InGameManager.Instance.isLevelUp) return;
         OnKitBoxDrop.Invoke(this, EventArgs.Empty);
     }
-
-    private void Jump_performed(InputAction.CallbackContext obj)
+    */
+    private void OnSetting_performed(InputAction.CallbackContext obj)
     {
         if (InGameManager.Instance.isLevelUp) return;
-        OnJump?.Invoke(this, EventArgs.Empty);
-    }*/
+        OnSetting?.Invoke(this, EventArgs.Empty);
+    }
 
     private void GravityLeft_performed(InputAction.CallbackContext obj)
     {

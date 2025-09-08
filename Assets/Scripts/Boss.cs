@@ -176,6 +176,7 @@ public class Boss : AI
 
     private IEnumerator AttackReset()
     {
+        isAttack = true;
         weapon.SetActive(true);
         trailRenderer.enabled = true;
         anim.SetTrigger(MELEEANIM);

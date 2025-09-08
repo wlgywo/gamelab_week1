@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -36,8 +39,12 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject bossUI;
     [SerializeField] public Slider bossSlider;
     [SerializeField] public Slider statgeSlider;
+    [SerializeField] public GameObject settingUI;
+    [SerializeField] public Slider settingSilder;
+    public float settingCamValue => settingSilder.value;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameClearUI;
+    
 
     [Header("Marbles")]
     [SerializeField] public Transform marbleUITrans;
@@ -107,6 +114,7 @@ public class InGameManager : MonoBehaviour
 
     public bool bossGravity = false;
 
+    [field: SerializeField] public bool isPause { get; private set; } = false;
 
     private void Awake()
     {
@@ -125,7 +133,48 @@ public class InGameManager : MonoBehaviour
 
         InputManager.Instance.OnLeftGravity += (a,b) => curGravityTimer = gravityTimer;
         InputManager.Instance.OnRightGravity += (a, b) => curGravityTimer = gravityTimer;
+
+        InputManager.Instance.OnSetting += InputManager_OnSetting;
     }
+
+    private void InputManager_OnSetting(object sender, EventArgs e)
+    {
+        CheckSettingMenu(isPause);
+    }
+
+    public void CheckSettingMenu(bool check)
+    {
+        if(check)
+        {
+            if(!InputManager.Instance.connectGamePad)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+
+            isPause = false;
+
+            Time.timeScale = (float)1 / PlayerController.Instance.quickMul;
+
+            settingUI.SetActive(false);
+        }
+        else
+        {
+            if (!InputManager.Instance.connectGamePad)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+
+            isPause = true;
+
+            Time.timeScale = 0;
+
+            settingUI.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(settingSilder.gameObject);
+        }
+    }
+
 
     private void Update()
     {
@@ -211,9 +260,12 @@ public class InGameManager : MonoBehaviour
         bool isSpecialCard = false;
         int curSpecialCount = 0; // 현재 레벨업으로 등록된 이벤트 카드 갯수
 
+        bool isFirst = false;
+        EventSystem.current.SetSelectedGameObject(null);
+
         while (cnt < counting) // 현재 만렙이 아닌 구간만
         {
-            ran = UnityEngine.Random.Range(0, 2); // 7분의1
+            ran = UnityEngine.Random.Range(0, 8); // 8분의1
            
             if((isSpecialCard || ran == 0) && (specialCount + curSpecialCount < specialSO.Length)) // 0으로 스페셜이거나, 이전이 스페셜카드였는데 다시 뽑은거라면
             {
@@ -227,6 +279,12 @@ public class InGameManager : MonoBehaviour
                 special.SetSpecial(specialSO[num]);
                 list.Add(num);
                 specialList.Add(special);
+
+                if(!isFirst)
+                {
+                    isFirst = true;
+                    EventSystem.current.SetSelectedGameObject(special.gameObject);
+                }
             }
             else
             {
@@ -237,6 +295,12 @@ public class InGameManager : MonoBehaviour
                 skill.SetSkill(levelUpSO[num]);
                 list.Add(num);
                 skillList.Add(skill);
+
+                if (!isFirst)
+                {
+                    isFirst = true;
+                    EventSystem.current.SetSelectedGameObject(skill.gameObject);
+                }
             }
 
             cnt++;
@@ -427,7 +491,7 @@ public class InGameManager : MonoBehaviour
 
     IEnumerator OpenMouse()
     {
-        yield return new WaitForSecondsRealtime(1.25f);
+        yield return new WaitForSecondsRealtime(0.75f);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -524,7 +588,7 @@ public class InGameManager : MonoBehaviour
         
         GameEnd= true;
         gameOverUI.SetActive(true);
-
+        EventSystem.current.SetSelectedGameObject(gameOverUI.GetComponentInChildren<Button>().gameObject);
         //BossUI.SetActive(false);
         //playerUI.SetActive(false);
     }
@@ -539,7 +603,8 @@ public class InGameManager : MonoBehaviour
         GameEnd = true;
         gameClearUI.SetActive(true);
         //BossUI.SetActive(false);
-       // playerUI.SetActive(false);
+        // playerUI.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(gameClearUI.GetComponentInChildren<Button>().gameObject);
     }
 
     public void MainMenu()

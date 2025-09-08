@@ -58,7 +58,11 @@ public class PlayerController : MonoBehaviour
     //private float gravityTimer = 0f;
 
     [SerializeField] private GameObject partner;
-    
+
+    private float mouseSpeed = 1f;
+    private float keyboardSpeed = 1f; // 키보드 마우스 감도
+    private float controllerSpeed = 0.6f;
+
 
     private void Awake()
     {
@@ -84,6 +88,12 @@ public class PlayerController : MonoBehaviour
 
         InGameManager.Instance.OnBossLeftGravity+= (a, b) => ChangeGravity(true);
         InGameManager.Instance.OnBossRightGravity += (a, b) => ChangeGravity(false);
+    }
+
+    public void ChangeSensity(bool isController)
+    {
+        if (isController) mouseSpeed = controllerSpeed;
+        else mouseSpeed = keyboardSpeed;
     }
 
     // 플레이어가 현재 보고 있는 forward방향에서 좌면 -90 우면 90으로 회전을 진행하는 함수
@@ -256,12 +266,13 @@ public class PlayerController : MonoBehaviour
         {
             //transform.Rotate(transform.up, pointerDelta.x * mouseSpeed * Time.deltaTime, Space.World);
             // [수정됨] 마우스 X축으로 플레이어 좌우 회전
-            float mouseX = pointerDelta.x * cameraXSpeed * Time.unscaledDeltaTime;
+            float mouseX = pointerDelta.x * cameraXSpeed * mouseSpeed * Time.unscaledDeltaTime;
+            mouseX *= InGameManager.Instance.settingCamValue;
             transform.Rotate(transform.up, mouseX, Space.World);
 
             // [추가됨] 마우스 Y축으로 카메라 상하 회전
-            float mouseY = pointerDelta.y * cameraYSpeed * Time.unscaledDeltaTime;
-
+            float mouseY = pointerDelta.y * cameraYSpeed * mouseSpeed * Time.unscaledDeltaTime;
+            mouseY *= InGameManager.Instance.settingCamValue;
             // 회전 값을 누적 (마우스를 위로 올릴 때 카메라가 위를 보도록 '-' 사용)
             xRotation -= mouseY;
 
@@ -301,7 +312,7 @@ public class PlayerController : MonoBehaviour
 
     public bool GravityReady()
     {
-        return isGrounded && wallCounter == 1 && InGameManager.Instance.GravityCoolTime;
+        return isGrounded && InGameManager.Instance.GravityCoolTime;
     }
 
     public void GetDamage(int damage)
