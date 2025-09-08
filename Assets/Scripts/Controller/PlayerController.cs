@@ -413,11 +413,19 @@ public class PlayerController : MonoBehaviour
                         GravityManager.Instance.GravityCheck(false);
                     }
                     isGrounded = true; // 착지로 변환
-
                 }
+
+                StartCoroutine(SetGround());
             }
         }
     }
+
+    private IEnumerator SetGround()
+    {
+        yield return new WaitForSeconds(3f);
+        if (isGrounded) isGrounded = true;
+    }
+
 
     private void OnCollisionExit(Collision collision)
     {

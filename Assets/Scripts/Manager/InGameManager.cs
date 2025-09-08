@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -65,7 +66,7 @@ public class InGameManager : MonoBehaviour
     public int curLevel = 0;
     public int curExp = 0;
     private int[] expLevel = //{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        { 1, 2, 3, 5, 7, 9, 12, 15};
+        { 1, 2, 3, 5, 7, 9, 11, 13};
     private List<Skill> skillList = new List<Skill>();
     private int[] skillLevels;
     private int skillUICount = 3; // LevelUp UI에 표시할 스킬 갯수
@@ -76,7 +77,7 @@ public class InGameManager : MonoBehaviour
     private bool[] specialChecks;
     private int specialCount = 0; // 특수 스킬 완료 횟수
     private float timer = 0;
-    private float maxTimer = 120; // 180초(3분)
+    private float maxTimer = 120; // 180초(2분)
 
     [Header("Skill Status")]
     [field: SerializeField] public float gravityTimer { get; private set; } = 5f;
@@ -214,7 +215,9 @@ public class InGameManager : MonoBehaviour
         if (levelUpCount == 0)
         {
             curExp++;
-            if (expTwice) curExp++;
+            if (expTwice) curExp += 3; //cur++;
+
+            Debug.Log("경험치 아직 수정중임 빌드전 수정");
         }
         else levelUpCount--;
 
@@ -265,14 +268,23 @@ public class InGameManager : MonoBehaviour
 
         while (cnt < counting) // 현재 만렙이 아닌 구간만
         {
+            int tempCnt = cnt;
+
             ran = UnityEngine.Random.Range(0, 8); // 8분의1
            
-            if((isSpecialCard || ran == 0) && (specialCount + curSpecialCount < specialSO.Length)) // 0으로 스페셜이거나, 이전이 스페셜카드였는데 다시 뽑은거라면
+            if((ran == 0 || isSpecialCard))
             {
+                if(specialCount + curSpecialCount >=  specialSO.Length)
+                {
+                    isSpecialCard = false;
+                    continue;
+                }
+
                 isSpecialCard = true;
-                num = UnityEngine.Random.Range(0, specialSO.Length);
-                if (specialChecks[num] || list.Contains(num)) continue; // 다시 뽑기
-                isSpecialCard = false; // 다시 안뽑으니
+                num = UnityEngine.Random.Range(0, specialSO.Length);     
+                if (specialChecks[num] || list.Contains(num)) continue;
+
+                isSpecialCard = false;
                 curSpecialCount++;
 
                 Special special = Instantiate(specialUIPrefabs, skillUIPos);
@@ -280,13 +292,16 @@ public class InGameManager : MonoBehaviour
                 list.Add(num);
                 specialList.Add(special);
 
-                if(!isFirst)
+                if (!isFirst)
                 {
                     isFirst = true;
                     EventSystem.current.SetSelectedGameObject(special.gameObject);
                 }
+
+                tempCnt++;
             }
-            else
+
+            if(tempCnt == cnt)
             {
                 num = UnityEngine.Random.Range(0, levelUpSO.Length);
                 if (levelUpSO[num].maxlevel <= skillLevels[num] || list.Contains(num)) continue; // 다시 뽑기
@@ -368,6 +383,7 @@ public class InGameManager : MonoBehaviour
         }
 
         skillList.Clear();
+        specialList.Clear();
 
         if (quickMode) Time.timeScale = 0.5f;
         else Time.timeScale = 1;
@@ -469,6 +485,7 @@ public class InGameManager : MonoBehaviour
         }
 
         skillList.Clear();
+        specialList.Clear();
 
         specialChecks[(int)specialType] = true;
         specialCount++;

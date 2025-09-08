@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
         if (!bossGenerate)
         {
-            upgradeTimer -= Time.deltaTime;
+            upgradeTimer -= Time.deltaTime * PlayerController.Instance.quickMul;
             if (upgradeTimer < 0)
             {
                 upgradeTimer = 30f;
@@ -122,8 +122,8 @@ public class SpawnManager : MonoBehaviour
 
     public void UpgradeSpawn()
     {
-        spawnDelay -= 0.5f;
-        spawnTimer -= 1.5f;
+        spawnDelay -= 0.3f;
+        spawnTimer -= 0.8f;
     }
     
     /*public void EraseEnemy(MapDirect dir)
