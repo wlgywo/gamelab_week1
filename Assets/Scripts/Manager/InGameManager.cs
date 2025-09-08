@@ -234,27 +234,27 @@ public class InGameManager : MonoBehaviour
     }
     public void SellRedMineral()
     {
-        ChangeMineralText();
         ChangeGold(redMineralPrice * redMineralCount);
         redMineralCount = 0;
+        ChangeMineralText();
     }
     public void SellOrangeMineral()
     {
-        ChangeMineralText();
         ChangeGold(orangeMineralPrice * orangeMineralCount);
         orangeMineralCount = 0;
+        ChangeMineralText();
     }
     public void SellBlueMineral()
     {
-        ChangeMineralText();
         ChangeGold(blueMineralPrice * blueMineralCount);
         blueMineralCount = 0;
+        ChangeMineralText();
     }
     public void SellPurpleMineral()
     {
-        ChangeMineralText();
         ChangeGold(purpleMineralPrice * purpleMineralCount);
         purpleMineralCount = 0;
+        ChangeMineralText();
     }
     public void ToggleMineralCount()
     {
