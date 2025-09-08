@@ -160,7 +160,7 @@ public class InGameManager : MonoBehaviour
     public void ShopClose()
     {
         if (gameOver) return;
-        if (PlayerController.Instance.isLevelUpOpen) return;
+        if (isLevelUp) return;
         ShopUI.SetActive(false);
         PlayerController.Instance.isShopOpen = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -182,7 +182,7 @@ public class InGameManager : MonoBehaviour
     public void SetShop()
     {
         // 빨간 물약
-        if (gold < redPotionPrice || !PlayerController.Instance.IsHpFull()) redPotionBtn.interactable = false;
+        if (gold < redPotionPrice || PlayerController.Instance.IsHpFull()) redPotionBtn.interactable = false;
         else redPotionBtn.interactable = true;
 
         // 드론

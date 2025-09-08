@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6853841822018254009}
   - component: {fileID: 1518931512542570978}
   - component: {fileID: 718017907456195584}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eyes (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4386911745813732427}
   - component: {fileID: 8515874687868955466}
   - component: {fileID: 7888774284174901898}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightHand
   m_TagString: PlayerHand
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 5186116434840966696}
   - component: {fileID: 7322092820428570919}
   - component: {fileID: 5127184482873693765}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Boby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 3026146654152048952}
   - component: {fileID: 5772808407010709855}
   - component: {fileID: 5309585419700672066}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -498,7 +498,7 @@ GameObject:
   - component: {fileID: 1999210438316706188}
   - component: {fileID: 5069023591312993735}
   - component: {fileID: 1865212299667667117}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Brim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,7 +586,7 @@ GameObject:
   - component: {fileID: 5662780861229268135}
   - component: {fileID: 7813721319340018395}
   - component: {fileID: 7109015521863894341}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftHand
   m_TagString: PlayerHand
   m_Icon: {fileID: 0}
@@ -811,7 +811,7 @@ GameObject:
   - component: {fileID: 5445039607221666440}
   - component: {fileID: 7118096688464520426}
   - component: {fileID: 3109828025045272394}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -924,7 +924,6 @@ MonoBehaviour:
   onFloor: 0
   speed: 5
   moveRotationSpeed: 10
-  damage: 15
   stopRadius: 9.9
   attackRange: 10
   spawnBulletDelay: 0.5
@@ -945,7 +944,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7474746362163393063}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +979,7 @@ GameObject:
   - component: {fileID: 5062471785752356296}
   - component: {fileID: 8365807019667861216}
   - component: {fileID: 6400833740153741352}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1066,7 +1065,7 @@ GameObject:
   - component: {fileID: 14224058833775760}
   - component: {fileID: 542582603155262503}
   - component: {fileID: 3351528008766047259}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     // 플레이어 상태 관련. 체력등)
     private int maxHp = 100;
     private int hp = 100;
-    private int hpUpgrade = 20;
+    private int hpUpgrade = 30;
     private int level = 0;
     private int exp = 0;
     private int needExp = 5;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isRotate = false;
     private float rotateSpeed = 10f;
-    private float mouseSpeed = 200f;
+    private float mouseSpeed = 300f;
     Quaternion targetRot;
 
     private bool grabKitBox = true; // 현재 박스를 가지고 있는지

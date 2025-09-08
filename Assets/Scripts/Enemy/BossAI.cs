@@ -16,11 +16,11 @@ public class BossAI : MonoBehaviour
     public bool onFloor = false;
 
     // 보스 능력치 관련
-    private int hp = 3000;
-    private int maxHp = 3000;
+    private int hp = 10000;
+    private int maxHp = 10000;
     public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
-	public int damage = 30;
+	private int damage = 30;
     private int bumpPower = 70;
 
     // 데미지와 사망 관련
@@ -42,7 +42,7 @@ public class BossAI : MonoBehaviour
 
     [Header("발사 설정")]
     public float spawnBulletDelay = 0.5f;
-    public int bulletDamage = 10;
+    public int bulletDamage = 50;
     public GameObject bulletPrefab;  // 발사할 총알의 프리팹
     public Transform firePoint;      // 총알이 발사될 위치 (보스의 손)
 
