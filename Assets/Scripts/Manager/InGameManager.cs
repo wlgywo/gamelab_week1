@@ -55,7 +55,7 @@ public class InGameManager : MonoBehaviour
     private int orangeMineralPrice = 10;
     private int blueMineralPrice = 50;
     private int purpleMineralPrice = 100;
-    private int healRate = 10;
+    private int healRate = 20;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
