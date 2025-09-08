@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isRotate = false;
     private float rotateSpeed = 10f;
-    private float mouseSpeed = 150f;
+    private float mouseSpeed = 200f;
     Quaternion targetRot;
 
     private bool grabKitBox = true; // 현재 박스를 가지고 있는지

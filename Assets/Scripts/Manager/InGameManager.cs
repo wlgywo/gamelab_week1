@@ -39,7 +39,7 @@ public class InGameManager : MonoBehaviour
     public bool gameOver { get; private set; } = false;
 
     // 소지품 관련
-    private int gold = 100000;
+    private int gold = 0;
     private int redMineralCount = 0;
     private int orangeMineralCount = 0;
     private int blueMineralCount = 0;
@@ -49,16 +49,15 @@ public class InGameManager : MonoBehaviour
 
 
     // 상점 관련
-    private int redPotionPrice = 30;
-    private int dronePrice = 500;
-    private int droneDamageUpPrice = 700;
-    private int droneAttackSpeedUpPrice = 1000;
-    private int redMineralPrice = 1;
+    private int redPotionPrice = 10;
+    private int dronePrice = 50;
+    private int droneDamageUpPrice = 70;
+    private int droneAttackSpeedUpPrice = 100;
+    private int redMineralPrice = 5;
     private int orangeMineralPrice = 10;
     private int blueMineralPrice = 50;
     private int purpleMineralPrice = 100;
     private int healRate = 20;
-    private int droneCount = 0;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
@@ -103,7 +102,7 @@ public class InGameManager : MonoBehaviour
 
     IEnumerator LevelUpDelay()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         PlayerController.Instance.isLevelUpOpen = false;

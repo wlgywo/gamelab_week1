@@ -513,7 +513,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Drone                            500G
+  m_text: Drone                            50G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1290,7 +1290,8 @@ Transform:
   m_LocalPosition: {x: -0.012, y: 3.162, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 961421214}
   m_Father: {fileID: 2096518379}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &248902968
@@ -2461,6 +2462,75 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &417850083
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 248902967}
+    m_Modifications:
+    - target: {fileID: 870913250998166179, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_Name
+      value: Drone
+      objectReference: {fileID: 0}
+    - target: {fileID: 870913250998166179, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570879536864046538, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5440027140787282356, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: parentDrone
+      value: 
+      objectReference: {fileID: 961421210}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
 --- !u!1 &430245953
 GameObject:
   m_ObjectHideFlags: 0
@@ -3630,7 +3700,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Red Potion (Heal)           30G
+  m_text: Red Potion (Heal)           10G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5265,6 +5335,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 948395016}
   m_CullTransparentMesh: 1
+--- !u!1 &961421210 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 870913250998166179, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+  m_PrefabInstance: {fileID: 417850083}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &961421214 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7835631245241782040, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+  m_PrefabInstance: {fileID: 417850083}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &962058517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7126,7 +7206,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1G
+  m_text: 5G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8320,7 +8400,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DroneAttackSpeedUp  1000G
+  m_text: DroneAttackSpeedUp  100G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9750,7 +9830,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DroneDamageUp          700G
+  m_text: DroneDamageUp          70G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10118,7 +10198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1821078728
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10675,8 +10755,7 @@ MonoBehaviour:
   ShopUI: {fileID: 1821078727}
   MineralUI: {fileID: 0}
   RecallUI: {fileID: 253762295}
-  Drone: {fileID: 248902967}
-  DronePrefab: {fileID: 870913250998166179, guid: 25dd7dce207e24b438ea2e10b9296a1b, type: 3}
+  DronePrefab: {fileID: 961421210}
   isLevelUp: 0
   <kitBox>k__BackingField: {fileID: 1267427272}
 --- !u!1001 &1947330966
@@ -11259,6 +11338,10 @@ PrefabInstance:
       propertyPath: recallSlider
       value: 
       objectReference: {fileID: 2098752796}
+    - target: {fileID: 2496174806230218251, guid: 3d7a1e16b15fa0f48bdea67fc1cbf293, type: 3}
+      propertyPath: obstacleMask.m_Bits
+      value: 264
+      objectReference: {fileID: 0}
     - target: {fileID: 7048849329357691877, guid: 3d7a1e16b15fa0f48bdea67fc1cbf293, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
