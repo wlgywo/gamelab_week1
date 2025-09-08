@@ -69,6 +69,7 @@ public class MineralSpawnManager : MonoBehaviour
 
     public void ReSpawnMineral()
     {
-        StartCoroutine(SpawnMineral());
+        if (!InGameManager.Instance.gameOver)
+            StartCoroutine(SpawnMineral());
     }
 }

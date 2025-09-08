@@ -34,6 +34,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject MineralUI;
     [SerializeField] public GameObject RecallUI;
     [SerializeField] public GameObject DronePrefab;
+    [SerializeField] public GameObject Boss;
     // 캐릭터 관련
     public bool isLevelUp = false;
     public bool gameOver { get; private set; } = false;

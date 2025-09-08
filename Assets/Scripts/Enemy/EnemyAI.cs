@@ -196,7 +196,7 @@ public class EnemyAI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (manager != null)
+        if (manager != null )
         {
             manager.ReSpawnEnemy();
         }

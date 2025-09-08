@@ -80,6 +80,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void ReSpawnEnemy()
     {
-        StartCoroutine(SpawnEnemy());
+        if(!InGameManager.Instance.gameOver)
+            StartCoroutine(SpawnEnemy());
     }
 }
