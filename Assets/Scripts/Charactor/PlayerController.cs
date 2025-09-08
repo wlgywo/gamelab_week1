@@ -327,6 +327,16 @@ public class PlayerController : MonoBehaviour
         UpdateVisual();
     }
 
+    public bool IsHpFull()
+    { 
+        if(hp >= maxHp)
+        {
+            hp = maxHp;
+            return true;
+        }
+        return false;
+    }
+
     private IEnumerator InvincibleBlink()
     {
         float elapsed = 0f;

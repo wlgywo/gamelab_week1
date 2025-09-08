@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class DroneScript : MonoBehaviour
 {
-    private int attackDamage = 10;
+    public static DroneScript Instance { get; private set; }
+    public int attackDamage = 10;
     public float retargetInterval = 3.0f;
     public LayerMask enemyMask;
     readonly HashSet<EnemyAI> inRange = new();
+    [SerializeField] GameObject parentDrone;
 
     // 공격
     public Transform firePoint;          // 총구 위치(없으면 드론 위치 사용)
@@ -17,7 +19,11 @@ public class DroneScript : MonoBehaviour
     public EnemyAI current { get; private set; }
 
     void Awake() {
-
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        parentDrone.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,6 +47,7 @@ public class DroneScript : MonoBehaviour
         {
             AcquireTarget();
             Attack();
+            wait = new WaitForSeconds(retargetInterval);
             yield return wait;
         }
     }

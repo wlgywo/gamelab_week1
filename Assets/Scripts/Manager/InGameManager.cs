@@ -33,7 +33,6 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public GameObject ShopUI;
     [SerializeField] public GameObject MineralUI;
     [SerializeField] public GameObject RecallUI;
-    [SerializeField] public Transform Drone;
     [SerializeField] public GameObject DronePrefab;
     // 캐릭터 관련
     public bool isLevelUp = false;
@@ -46,6 +45,7 @@ public class InGameManager : MonoBehaviour
     private int blueMineralCount = 0;
     private int purpleMineralCount = 0;
     private bool haveDrone = false;
+    private bool droneMaxSpeed = false;
 
 
     // 상점 관련
@@ -182,7 +182,7 @@ public class InGameManager : MonoBehaviour
     public void SetShop()
     {
         // 빨간 물약
-        if (gold < redPotionPrice) redPotionBtn.interactable = false;
+        if (gold < redPotionPrice || !PlayerController.Instance.IsHpFull()) redPotionBtn.interactable = false;
         else redPotionBtn.interactable = true;
 
         // 드론
@@ -190,11 +190,11 @@ public class InGameManager : MonoBehaviour
         else droneBuyBtn.interactable = true;
 
         // 드론 데미지
-        if(gold < droneDamageUpPrice) droneDamageBtn.interactable = false;
+        if(gold < droneDamageUpPrice || !haveDrone) droneDamageBtn.interactable = false;
         else droneDamageBtn.interactable = true;
 
         // 드론 공속
-        if (gold < droneAttackSpeedUpPrice) droneAttackSpeedBtn.interactable = false;
+        if (gold < droneAttackSpeedUpPrice || !haveDrone || droneMaxSpeed) droneAttackSpeedBtn.interactable = false;
         else droneAttackSpeedBtn.interactable = true;
 
         // 빨간 미네랄
@@ -228,12 +228,17 @@ public class InGameManager : MonoBehaviour
     }
     public void BuyDroneDamageUp()
     {
-        // 드론 데미지 업
+        DroneScript.Instance.attackDamage += 10;
         ChangeGold(-droneDamageUpPrice);
     }
     public void BuyDroneSpeedUp()
     {
-        // 드론 공속 업
+        DroneScript.Instance.retargetInterval -= 0.3f;
+        if (DroneScript.Instance.retargetInterval <= 0.31f)
+        {
+            DroneScript.Instance.retargetInterval = 0.3f;
+            droneMaxSpeed = true;
+        }
         ChangeGold(-droneAttackSpeedUpPrice);
     }
     public void SellRedMineral()
@@ -305,7 +310,7 @@ public class InGameManager : MonoBehaviour
 
     public void SpawnDrone()
     {
-        Instantiate(DronePrefab, Drone);
+        DronePrefab.SetActive(true);
         haveDrone = true;
     }
 }
