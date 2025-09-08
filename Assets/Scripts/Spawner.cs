@@ -11,16 +11,15 @@ public class Spawner : MonoBehaviour
     [Header("Enemy Informations")]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject bossPrefab;
-    [SerializeField] private int enemyCount = 8; // 일단 max값 임의로
+    [SerializeField] private int enemyCount = 15; // 일단 max값 임의로
     private int curEnemyCount = 0;
 
     [Header("Spawn Settings")]
     private bool isSpawn = false;
     private float curTimer = 3f;
     private float cumulationTimer = 0f; // 누적 타이머
-    [SerializeField] private float spawnDelay = 3f; // 스폰 타이머
+    //[SerializeField] private float spawnDelay = 3f; // 스폰 타이머
     [SerializeField] private float spawnRange = 15f; // 스폰 반지름
-    [SerializeField] private float spawnTimer = 15f; // 스폰 시간
 
     private List<AI> ailist = new List<AI>();
     public List<AI> AIList => ailist;
@@ -38,7 +37,7 @@ public class Spawner : MonoBehaviour
 
         if(isSpawn)
         {
-            if(cumulationTimer > spawnTimer)
+            if(cumulationTimer > SpawnManager.Instance.spawnTimer)
             {
                 isSpawn = false;
             }
@@ -56,7 +55,7 @@ public class Spawner : MonoBehaviour
 
             if (curTimer < 0 && curEnemyCount < enemyCount)
             {
-                curTimer = spawnDelay;
+                curTimer = SpawnManager.Instance.spawnDelay;
                 SpawnEnemy();
             }
         }
@@ -69,7 +68,7 @@ public class Spawner : MonoBehaviour
         curEnemyCount = 0;
 
         SpawnEnemy();
-        curTimer = spawnDelay;
+        curTimer = SpawnManager.Instance.spawnDelay;
     }
 
     public void SpawnEnemy()

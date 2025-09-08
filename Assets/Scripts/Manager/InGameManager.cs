@@ -53,12 +53,12 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public Skill skillUIPrefabs;
     [SerializeField] public Transform skillUIPos;
     [SerializeField] public Special specialUIPrefabs;
-    [SerializeField] public Transform specialUIPos;
+    //[SerializeField] public Transform specialUIPos;
     public bool isLevelUp { get; private set; } = false;
     public int curLevel = 0;
     public int curExp = 0;
-    private int[] expLevel = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        //{ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
+    private int[] expLevel = //{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+        { 1, 2, 3, 5, 7, 9, 12, 15};
     private List<Skill> skillList = new List<Skill>();
     private int[] skillLevels;
     private int skillUICount = 3; // LevelUp UI에 표시할 스킬 갯수
@@ -69,7 +69,7 @@ public class InGameManager : MonoBehaviour
     private bool[] specialChecks;
     private int specialCount = 0; // 특수 스킬 완료 횟수
     private float timer = 0;
-    private float maxTimer = 5; // 180초(3분)
+    private float maxTimer = 120; // 180초(3분)
 
     [Header("Skill Status")]
     [field: SerializeField] public float gravityTimer { get; private set; } = 5f;
@@ -201,26 +201,41 @@ public class InGameManager : MonoBehaviour
         int cnt = 0;
         List<int> list = new List<int>();
         int num = -1;
+        int ran = -1;
 
-        int counting = levelUpSO.Length - completeCount;
+        int counting = levelUpSO.Length + specialSO.Length - completeCount - specialCount;
         if (counting > skillUICount) counting = skillUICount; // 아직 완료해야할 갯수가 많다면 이렇게 진행
 
-        Debug.Log("카운팅 값 : " + counting + " / 완료한 갯수 : " + completeCount);
+        //Debug.Log("카운팅 값 : " + counting + " / 완료한 갯수 : " + completeCount);
+
+        bool isSpecialCard = false;
 
         while (cnt < counting) // 현재 만렙이 아닌 구간만
         {
-            num = UnityEngine.Random.Range(0, levelUpSO.Length);
-
-            // 이미 맥스 레벨이거나 리스트에 뽑혔다면 
-            if (levelUpSO[num].maxlevel <= skillLevels[num] || list.Contains(num))
+            ran = UnityEngine.Random.Range(0, 7); // 7분의1
+           
+            if((isSpecialCard || ran == 0) && (specialCount< specialSO.Length)) // 0으로 스페셜이거나, 이전이 스페셜카드였는데 다시 뽑은거라면
             {
-                continue; // 다시 뽑기
-            }
+                isSpecialCard = true;
+                num = UnityEngine.Random.Range(0, specialSO.Length);
+                if (specialChecks[num] || list.Contains(num)) continue; // 다시 뽑기
+                isSpecialCard = false; // 다시 안뽑으니
 
-            Skill skill = Instantiate(skillUIPrefabs, skillUIPos);
-            skill.SetSkill(levelUpSO[num]);
-            list.Add(num);
-            skillList.Add(skill);
+                Special special = Instantiate(specialUIPrefabs, skillUIPos);
+                special.SetSpecial(specialSO[num]);
+                list.Add(num);
+                specialList.Add(special);
+            }
+            else
+            {
+                num = UnityEngine.Random.Range(0, levelUpSO.Length);
+                if (levelUpSO[num].maxlevel <= skillLevels[num] || list.Contains(num)) continue; // 다시 뽑기
+
+                Skill skill = Instantiate(skillUIPrefabs, skillUIPos);
+                skill.SetSkill(levelUpSO[num]);
+                list.Add(num);
+                skillList.Add(skill);
+            }
 
             cnt++;
 
@@ -275,6 +290,11 @@ public class InGameManager : MonoBehaviour
             if (s != null) Destroy(s.gameObject);
         }
 
+        foreach (var s in specialList) // 이제 통합해서 둘다 돌림
+        {
+            if (s != null) Destroy(s.gameObject);
+        }
+
         if (!isFallback)
         {
             skillLevels[(int)skillType]++;
@@ -295,7 +315,7 @@ public class InGameManager : MonoBehaviour
 
         RemoveLevelUpUI();
     }
-
+    /*
     
     public void Special()
     {
@@ -338,7 +358,7 @@ public class InGameManager : MonoBehaviour
 
             yield return null;
         }
-    }
+    }*/
 
     public void SpecialComplete(SpecialType specialType)
     {
@@ -372,6 +392,11 @@ public class InGameManager : MonoBehaviour
             
         }
 
+        foreach (var s in skillList)
+        {
+            if (s != null) Destroy(s.gameObject);
+        }
+
         foreach (var s in specialList)
         {
             if (s != null) Destroy(s.gameObject);
@@ -385,10 +410,17 @@ public class InGameManager : MonoBehaviour
         if (quickMode) Time.timeScale = 0.5f;
         else Time.timeScale = 1;
 
-        //RemoveLevelUpUI();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        specialUI.SetActive(false);
+        isLevelUp = false;
+
+        if (levelUpCount > 0) // 레벨업이 동시에 터졌을 경우
+        {
+            GetExp();
+        }
+
+        RemoveLevelUpUI();
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //specialUI.SetActive(false);
     }
 
     IEnumerator OpenMouse()

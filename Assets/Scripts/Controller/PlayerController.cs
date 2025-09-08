@@ -146,11 +146,18 @@ public class PlayerController : MonoBehaviour
 
         // 2) 스냅된 forward를 기준으로 좌/우 90° 측면 방향을 "새 중력 방향"으로 사용
         Vector3 snappedFwd = (yawSnapRot * transform.forward).normalized;
+
         Quaternion sideRot = Quaternion.AngleAxis(isLeft ? -90f : 90f, up);
         Vector3 gravityDir = (sideRot * snappedFwd).normalized; // 캐릭터의 '옆' 방향
 
         // 3) 캐릭터의 up을 -gravityDir로 맞추는 회전(즉시/보간 중 택1)
         targetRot = Quaternion.FromToRotation(snappedRot * Vector3.up, -gravityDir) * snappedRot;
+
+
+
+        // 코드 수정중
+
+
 
         // --- ▼ 기존 isRotate = true; 를 아래 코드로 교체하세요 ▼ ---
         // 만약 이전에 실행 중이던 회전 코루틴이 있다면 중지시킵니다.

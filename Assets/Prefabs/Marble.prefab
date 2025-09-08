@@ -2267,7 +2267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   render: {fileID: 8777525895307158847}
-  hp: 30
+  hp: 200
   maxHp: 200
   index: 0
   isDamaged: 0
@@ -2291,3 +2291,4 @@ MonoBehaviour:
   spawnDelay: 5
   spawnRange: 15
   spawnTimer: 15
+  isBossPos: 0

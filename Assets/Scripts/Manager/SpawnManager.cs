@@ -15,7 +15,8 @@ public class SpawnManager : MonoBehaviour
     public Spawner[] Spawners => spawners;
 
     [SerializeField] private float curSpawnTimer = 0;
-    [SerializeField] private float spawnTimer = 15f; // 임의
+    [SerializeField] public float spawnTimer { get; private set; } = 15f; // 새로운 땅 스폰 지정 시간
+    [SerializeField] public float spawnDelay { get; private set; } = 3f; // 몬스터 스폰 시간
 
     public bool[] checkMarble { get; private set; } = new bool[6];// false면 해당 마블 파괴된 상태
     public bool bossGenerate = false;
@@ -107,6 +108,12 @@ public class SpawnManager : MonoBehaviour
         return num;
     }
 
+    public void UpgradeSpawn()
+    {
+        spawnDelay -= 0.5f;
+        spawnTimer -= 1.5f;
+    }
+    
     /*public void EraseEnemy(MapDirect dir)
     {
         spawners[(int)dir].EraseEnemy();
