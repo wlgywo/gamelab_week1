@@ -20,10 +20,11 @@ public class BossAI : MonoBehaviour
     private int maxHp = 3000;
     public float speed = 5.0f;
 	public float moveRotationSpeed = 10.0f;
-	public int damage = 50;
+	public int damage = 30;
+    private int bumpPower = 70;
 
-	// 데미지와 사망 관련
-	private bool isDie = false;
+    // 데미지와 사망 관련
+    private bool isDie = false;
 	private bool isDamaged = false; // 지금 맞은 상태인가
 
 
@@ -65,7 +66,7 @@ public class BossAI : MonoBehaviour
 
     private void Start()
     {
-		skills = new Action[] { ThrowFileSkile };
+		skills = new Action[] { ThrowFileSkile, Bump };
         UpdateVisual();
     }
 
@@ -85,6 +86,17 @@ public class BossAI : MonoBehaviour
 	{
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
+
+    private void Bump()
+    {
+        if (!isAttacking && !isDie)
+        {
+            Vector3 dir = (player.position - transform.position).normalized;
+
+            rb.AddForce(dir * bumpPower, ForceMode.Impulse);
+        }
+    }
+
 
 
     private void FixedUpdate()
@@ -139,7 +151,6 @@ public class BossAI : MonoBehaviour
         {
             // 이동을 멈춤
             rb.MovePosition(rb.position);
-            rb.linearVelocity = Vector3.Project(rb.linearVelocity, upDir); // 평면 이동 관성 제거
 
             // 플레이어를 바라보도록 회전
             if (flatDirToTarget.sqrMagnitude > 0.001f)
@@ -168,7 +179,11 @@ public class BossAI : MonoBehaviour
 	{
 		if(!isAttacking && !isDie)
 		{
-            skills[0].Invoke();
+            int n = UnityEngine.Random.Range(0, 10);
+            if(n <= 3)
+                skills[1].Invoke();
+            else
+                skills[0].Invoke();
 		}
 	}
 
