@@ -256,6 +256,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         curAttackDelay -= Time.unscaledDeltaTime;
+
+        if (InGameManager.Instance.isLevelUp || InGameManager.Instance.isPause) return;
+
+
         //gravityTimer -= Time.deltaTime;
 
         // IngameManager에서 1- 현재 남은값으로 처리

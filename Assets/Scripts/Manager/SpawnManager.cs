@@ -24,6 +24,8 @@ public class SpawnManager : MonoBehaviour
     public int bossMarbleIndex = 0;
     public int destroyMarbleCount { get; private set; } = 0;
 
+    private float upgradeTimer = 30f;
+
     private void Awake()
     {
         if(Instance == null) Instance = this;
@@ -32,6 +34,16 @@ public class SpawnManager : MonoBehaviour
     private void Update()
     {
         if (InGameManager.Instance.GameEnd) return;
+
+        if (!bossGenerate)
+        {
+            upgradeTimer -= Time.deltaTime;
+            if (upgradeTimer < 0)
+            {
+                upgradeTimer = 30f;
+                UpgradeSpawn();
+            }
+        }
 
         if (InGameManager.Instance.quickMode) curSpawnTimer -= Time.deltaTime * 2;
         else curSpawnTimer -= Time.deltaTime;
