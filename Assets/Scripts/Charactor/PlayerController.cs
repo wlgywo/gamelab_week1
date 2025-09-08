@@ -317,10 +317,17 @@ public class PlayerController : MonoBehaviour
     public void UpdateMaxHp()
     {
         maxHp += hpUpgrade;
-        hp = maxHp;
+        SetWidth(hpUpgrade);
         UpdateVisual();
     }
 
+    public void SetWidth(float width)
+    {
+        RectTransform rt = slider.GetComponent<RectTransform>();
+        Vector2 size = rt.sizeDelta;
+        size.x += width;
+        rt.sizeDelta = size;
+    }
     public void healHp(int heal)
     {
         hp += heal;
