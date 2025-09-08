@@ -2,11 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -215,9 +212,8 @@ public class InGameManager : MonoBehaviour
         if (levelUpCount == 0)
         {
             curExp++;
-            if (expTwice) curExp += 3; //cur++;
-
-            Debug.Log("경험치 아직 수정중임 빌드전 수정");
+            if (expTwice) curExp++;
+            Debug.Log("치명적인 테스트");
         }
         else levelUpCount--;
 
@@ -251,7 +247,8 @@ public class InGameManager : MonoBehaviour
     private IEnumerator LevelUpCoroutine()
     {
         int cnt = 0;
-        List<int> list = new List<int>();
+        List<int> tempSpecialList = new List<int>();
+        List<int> tempSkillList = new List<int>();
         int num = -1;
         int ran = -1;
 
@@ -282,14 +279,14 @@ public class InGameManager : MonoBehaviour
 
                 isSpecialCard = true;
                 num = UnityEngine.Random.Range(0, specialSO.Length);     
-                if (specialChecks[num] || list.Contains(num)) continue;
+                if (specialChecks[num] || tempSpecialList.Contains(num)) continue;
 
                 isSpecialCard = false;
                 curSpecialCount++;
 
                 Special special = Instantiate(specialUIPrefabs, skillUIPos);
                 special.SetSpecial(specialSO[num]);
-                list.Add(num);
+                tempSpecialList.Add(num);
                 specialList.Add(special);
 
                 if (!isFirst)
@@ -304,11 +301,11 @@ public class InGameManager : MonoBehaviour
             if(tempCnt == cnt)
             {
                 num = UnityEngine.Random.Range(0, levelUpSO.Length);
-                if (levelUpSO[num].maxlevel <= skillLevels[num] || list.Contains(num)) continue; // 다시 뽑기
+                if (levelUpSO[num].maxlevel <= skillLevels[num] || tempSkillList.Contains(num)) continue; // 다시 뽑기
 
                 Skill skill = Instantiate(skillUIPrefabs, skillUIPos);
                 skill.SetSkill(levelUpSO[num]);
-                list.Add(num);
+                tempSkillList.Add(num);
                 skillList.Add(skill);
 
                 if (!isFirst)
@@ -327,7 +324,7 @@ public class InGameManager : MonoBehaviour
         {
             Skill skill = Instantiate(skillUIPrefabs, skillUIPos);
             skill.SetSkill(fallbackLevelUpSO[0]);
-            list.Add(num);
+            tempSkillList.Add(num);
             skillList.Add(skill);
             break;
         }
@@ -544,14 +541,14 @@ public class InGameManager : MonoBehaviour
 
     public void GetDamage(int damage)
     {
-        Debug.Log("아얏");
+        //.Log("아얏");
         hp -= damage;
         UpdateVisual(StatusType.hp);
 
         if (hp < 0)
         {
             GameOver();
-            Debug.Log("게임 오버");
+           // Debug.Log("게임 오버");
         }
     }
 

@@ -94,7 +94,7 @@ public abstract class AI : MonoBehaviour
         anim.SetTrigger(ATTACKANIM);
         isAttack = true;
 
-        Debug.Log("공격 실행");
+        //Debug.Log("공격 실행");
     }
     protected virtual void GetDamage()
     {

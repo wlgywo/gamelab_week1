@@ -30,7 +30,7 @@ public class Marble : MonoBehaviour
         if (isDamaged) return;
 
         isDamaged = true;
-        Debug.Log("수정 다친다..");
+        //Debug.Log("수정 다친다..");
 
         hp -= damage;
 
@@ -43,7 +43,7 @@ public class Marble : MonoBehaviour
 
             sphereCol.enabled = false;
             render.enabled = false;
-            Debug.Log("수정 파괴");
+            //Debug.Log("수정 파괴");
             Destroy(this);
         }
 

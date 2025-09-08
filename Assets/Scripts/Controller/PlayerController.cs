@@ -367,7 +367,7 @@ public class PlayerController : MonoBehaviour
     public void ActivePartner()
     {
         // 게임오브젝트만 켜서 안에서 실행하기
-        Debug.Log("파트너 온");
+        //Debug.Log("파트너 온");
         partner.SetActive(true);
     }
 
@@ -423,7 +423,11 @@ public class PlayerController : MonoBehaviour
     private IEnumerator SetGround()
     {
         yield return new WaitForSeconds(3f);
-        if (isGrounded) isGrounded = true;
+        if (isGrounded)
+        {
+            isGrounded = true;
+            if(!InGameManager.Instance.bossGravity) GravityManager.Instance.GravityCheck(false);
+        }
     }
 
 

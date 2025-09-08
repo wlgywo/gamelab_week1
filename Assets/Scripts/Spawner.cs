@@ -73,7 +73,7 @@ public class Spawner : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        Debug.Log(mapDirect);
+        //Debug.Log(mapDirect);
         Vector3 up = transform.up;
 
         Vector3 forward = Vector3.Cross(up, Vector3.right);
