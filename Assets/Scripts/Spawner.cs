@@ -41,8 +41,16 @@ public class Spawner : MonoBehaviour
                 isSpawn = false;
             }
 
-            curTimer -= Time.deltaTime;
-            cumulationTimer += Time.deltaTime;
+            if(InGameManager.Instance.quickMode)
+            {
+                curTimer -= Time.deltaTime *2;
+                cumulationTimer += Time.deltaTime * 2;
+            }
+            else
+            {
+                curTimer -= Time.deltaTime;
+                cumulationTimer += Time.deltaTime;
+            }
 
             if (curTimer < 0 && curEnemyCount < enemyCount)
             {
@@ -151,7 +159,7 @@ public class Spawner : MonoBehaviour
         Vector3 spawnDir = rotation * forward;
 
         // 5. 반지름 곱해서 위치 계산
-        Vector3 spawnPos = transform.position - transform.up * yOffset/3f + spawnDir * spawnRange;
+        Vector3 spawnPos = transform.position - transform.up * 1 + spawnDir * spawnRange;
 
         Boss.Instance.ChangeMarble(spawnPos, transform.rotation, marble.gameObject.transform, mapDirect);
     }

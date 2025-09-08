@@ -12057,4 +12057,4 @@ MonoBehaviour:
   card: {fileID: 3863293128280168073, guid: bfc93a611d9de8e4cb6f6e3b81e054f4, type: 3}
   isGravity: 0
   isMarbleChange: 0
-  marRot: {x: 0, y: 0, z: 0}
+  marPos: {x: 0, y: 0, z: 0}

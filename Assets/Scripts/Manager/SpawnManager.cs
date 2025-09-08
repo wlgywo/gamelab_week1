@@ -29,7 +29,8 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-        curSpawnTimer -= Time.deltaTime;
+        if(InGameManager.Instance.quickMode) curSpawnTimer -= Time.deltaTime * 2;
+        else curSpawnTimer -= Time.deltaTime;
         if(curSpawnTimer <0)
         {
             curSpawnTimer = spawnTimer;

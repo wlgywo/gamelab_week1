@@ -67,7 +67,7 @@ public class InGameManager : MonoBehaviour
     private bool[] specialChecks;
     private int specialCount = 0; // 특수 스킬 완료 횟수
     private float timer = 0;
-    private float maxTimer = 2; // 180; // 180초(3분)
+    private float maxTimer = 5; // 180초(3분)
 
     [Header("Skill Status")]
     [field: SerializeField] public float gravityTimer { get; private set; } = 5f;
@@ -130,10 +130,11 @@ public class InGameManager : MonoBehaviour
         curGravityTimer -= Time.unscaledDeltaTime;
         if (!isLevelUp && !SpawnManager.Instance.bossGenerate)
         { 
-            timer += Time.unscaledDeltaTime;
+            timer += Time.deltaTime * PlayerController.Instance.quickMul; // unsacle이면 이미 씬 들어올 때 계산하는중
             if(timer >= maxTimer)
             {
                 SpawnManager.Instance.BossGenerate();
+                bossUI.SetActive(true);
             }
         }
         UpdateVisual(StatusType.gravity);
