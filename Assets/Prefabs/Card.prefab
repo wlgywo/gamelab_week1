@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 2215669383904148391}
   - component: {fileID: 2014375434395852449}
   - component: {fileID: 1202602374103800910}
+  - component: {fileID: 6341954529656663535}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -340,6 +341,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &6341954529656663535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863293128280168073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b45a43217df514385ad34578cccd56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3875758490973215535
 GameObject:
   m_ObjectHideFlags: 0

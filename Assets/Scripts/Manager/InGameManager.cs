@@ -35,6 +35,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private Image gravityUI;
     [SerializeField] public GameObject bossUI;
     [SerializeField] public Slider bossSlider;
+    [SerializeField] public Slider statgeSlider;
 
     [Header("Marbles")]
     [SerializeField] public Transform marbleUITrans;
@@ -51,7 +52,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public Transform skillUIPos;
     [SerializeField] public Special specialUIPrefabs;
     [SerializeField] public Transform specialUIPos;
-    //public bool isLevelUp = false;
+    public bool isLevelUp { get; private set; } = false;
     public int curLevel = 0;
     public int curExp = 0;
     private int[] expLevel = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
@@ -60,10 +61,13 @@ public class InGameManager : MonoBehaviour
     private int[] skillLevels;
     private int skillUICount = 3; // LevelUp UI에 표시할 스킬 갯수
     private int completeCount = 0;
+    public int levelUpCount = 0; // 현재 레벨업을 진행해야하는 카운트
 
     private List<Special> specialList = new List<Special>();
     private bool[] specialChecks;
     private int specialCount = 0; // 특수 스킬 완료 횟수
+    private float timer = 0;
+    private float maxTimer = 2; // 180; // 180초(3분)
 
     [Header("Skill Status")]
     [field: SerializeField] public float gravityTimer { get; private set; } = 5f;
@@ -119,14 +123,19 @@ public class InGameManager : MonoBehaviour
 
         InputManager.Instance.OnLeftGravity += (a,b) => curGravityTimer = gravityTimer;
         InputManager.Instance.OnRightGravity += (a, b) => curGravityTimer = gravityTimer;
-
-        Debug.Log(" 보스 생성 테스트");
-        SpawnManager.Instance.BossGenerate();
     }
 
     private void Update()
     {
         curGravityTimer -= Time.unscaledDeltaTime;
+        if (!isLevelUp && !SpawnManager.Instance.bossGenerate)
+        { 
+            timer += Time.unscaledDeltaTime;
+            if(timer >= maxTimer)
+            {
+                SpawnManager.Instance.BossGenerate();
+            }
+        }
         UpdateVisual(StatusType.gravity);
     }
 
@@ -150,9 +159,13 @@ public class InGameManager : MonoBehaviour
 
     public void GetExp() // 몬스터마다 경험치가 달라도 재밌을듯
     {
-        curExp++;
-        if (expTwice) curExp++;
-        
+        if (levelUpCount == 0)
+        {
+            curExp++;
+            if (expTwice) curExp++;
+        }
+        else levelUpCount--;
+
         if(curExp >= expLevel[curLevel])
         {
             curExp -= expLevel[curLevel];
@@ -168,11 +181,15 @@ public class InGameManager : MonoBehaviour
     public void LevelUp()
     {
         //if (gameOver) return;
+        if (isLevelUp)
+        {
+            levelUpCount++;
+            return;
+        }
 
         levelUp.SetActive(true);
-        //isLevelUp = true;
+        isLevelUp = true;
         StartCoroutine(LevelUpCoroutine());
-
         StartCoroutine(OpenMouse());
     }
 
@@ -265,6 +282,13 @@ public class InGameManager : MonoBehaviour
 
         if (quickMode) Time.timeScale = 0.5f;
         else Time.timeScale = 1;
+
+        isLevelUp = false;
+
+        if(levelUpCount > 0) // 레벨업이 동시에 터졌을 경우
+        {
+            GetExp();
+        }
 
         RemoveLevelUpUI();
     }
@@ -396,6 +420,8 @@ public class InGameManager : MonoBehaviour
                 Debug.Log("치명적인 종류 오류");
                 break;
         }
+
+        statgeSlider.value = timer / maxTimer;
     }
 
     public void GetDamage(int damage)

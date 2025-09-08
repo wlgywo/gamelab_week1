@@ -12050,9 +12050,11 @@ MonoBehaviour:
   curhp: 1000
   hp: 1000
   speed: 10
-  damage: 5
+  <damage>k__BackingField: 15
   trailRenderer: {fileID: 6729252169111789218}
   weapon: {fileID: 4106812898633428478}
   hand: {fileID: 2176886755672631545}
   card: {fileID: 3863293128280168073, guid: bfc93a611d9de8e4cb6f6e3b81e054f4, type: 3}
   isGravity: 0
+  isMarbleChange: 0
+  marRot: {x: 0, y: 0, z: 0}

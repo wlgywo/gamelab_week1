@@ -34,7 +34,7 @@ public abstract class AI : MonoBehaviour
     [SerializeField] protected int curhp = 50;
     [SerializeField] protected int hp = 50;
     [SerializeField] protected float speed = 5f;
-    [SerializeField] protected int damage = 5;
+    [field: SerializeField] public int damage { get; private set; } = 5;
     protected bool isHit = false;
 
     protected virtual void Awake()

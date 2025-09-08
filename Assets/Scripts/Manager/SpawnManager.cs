@@ -20,6 +20,7 @@ public class SpawnManager : MonoBehaviour
     public bool[] checkMarble { get; private set; } = new bool[6];// false면 해당 마블 파괴된 상태
     public bool bossGenerate = false;
 
+    public int bossMarbleIndex = 0;
 
     private void Awake()
     {
@@ -58,19 +59,29 @@ public class SpawnManager : MonoBehaviour
         if (bossGenerate) return;
 
         bossGenerate = true;
-        StartCoroutine(BossGenerateCoroutine());
+
+        BossSetMarblePos();
+
+        spawners[bossMarbleIndex].BossGenerate();
     }
-    private IEnumerator BossGenerateCoroutine()
+
+
+    public void BossSetMarblePos()
     {
-        int ran = -1;
+        int num = 0;
+        foreach(var c in checkMarble)
+        {
+            if (c) num++;
+        }
+        if (num == checkMarble.Length) return;
+
         while (true)
         {
-            ran = Random.Range(0, spawners.Length);
-            yield return null;
+            bossMarbleIndex = Random.Range(0, spawners.Length);
+            //yield return null;
 
-            if (!checkMarble[ran]) break;
+            if (!checkMarble[bossMarbleIndex]) break;
         }
-        spawners[ran].BossGenerate();
     }
 
     public void DestroyMarble(int index)

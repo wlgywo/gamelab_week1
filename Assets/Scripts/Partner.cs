@@ -17,6 +17,7 @@ public class Partner : MonoBehaviour
 
     private void Update()
     {
+        if (InGameManager.Instance.isLevelUp) return;
         curAttackTimer -= Time.deltaTime;
 
         if(curAttackTimer < 0)

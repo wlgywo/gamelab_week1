@@ -25,6 +25,7 @@ public class Spawner : MonoBehaviour
     private List<AI> ailist = new List<AI>();
     public List<AI> AIList => ailist;
 
+    public bool isBossPos = false; // 현재 보스가 위치한 스폰인지
 
     private void Awake()
     {
@@ -90,6 +91,8 @@ public class Spawner : MonoBehaviour
 
     public void BossGenerate()
     {
+        isBossPos = true;
+
         Vector3 up = transform.up;
 
         Vector3 forward = Vector3.Cross(up, Vector3.right);
@@ -121,9 +124,37 @@ public class Spawner : MonoBehaviour
         {
             if (ai != null) ai.DestroySelf();
         }
+
+        if(isBossPos)
+        {
+            SpawnManager.Instance.BossSetMarblePos();
+            SpawnManager.Instance.Spawners[SpawnManager.Instance.bossMarbleIndex].ChagneBoss();
+        }
     }
 
 
+    public void ChagneBoss()
+    {
+        isBossPos = true;
+
+        Vector3 up = transform.up;
+
+        Vector3 forward = Vector3.Cross(up, Vector3.right);
+        if (forward.sqrMagnitude < 0.01f) // up이 Vector3.right와 거의 평행이면
+            forward = Vector3.Cross(up, Vector3.forward);
+        forward.Normalize();
+
+        float angle = Random.Range(0f, 360f);
+
+        // 4. angle만큼 회전
+        Quaternion rotation = Quaternion.AngleAxis(angle, up);
+        Vector3 spawnDir = rotation * forward;
+
+        // 5. 반지름 곱해서 위치 계산
+        Vector3 spawnPos = transform.position - transform.up * yOffset/3f + spawnDir * spawnRange;
+
+        Boss.Instance.ChangeMarble(spawnPos, transform.rotation, marble.gameObject.transform, mapDirect);
+    }
 
     public void EraseEnemy()
     {

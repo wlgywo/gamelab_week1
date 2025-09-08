@@ -25,6 +25,9 @@ public class Boss : AI
 
     public bool isGravity = false;
 
+    public bool isMarbleChange = false;
+    public Vector3 marPos = Vector3.zero;
+
     protected override void Awake()
     {
         if(Instance == null) Instance = this;
@@ -33,6 +36,25 @@ public class Boss : AI
         base.Awake();
 
         slider = InGameManager.Instance.bossSlider;
+    }
+
+    protected override void FixedUpdate()
+    {
+        if(isMarbleChange)
+        {
+            Vector3 dir = marPos - transform.position;
+
+            if (dir.magnitude <= 0.4f)
+            {
+                rb.MovePosition(marPos);
+                isMarbleChange = false;
+            }
+            else rb.MovePosition(rb.position + dir.normalized * speed * 3 * Time.deltaTime);
+
+            return;
+        }
+
+        base.FixedUpdate();
     }
 
     protected override void Attack()
@@ -46,15 +68,15 @@ public class Boss : AI
     {
         int num = Random.Range(0, 100);
         
-        if(num < 40)
+        if(num < 25)
         {
             TurnGraviry();
         }
-        else if(num < 60)
+        else if(num < 55)
         {
             RandomAttack();
         }
-        else if(num < 80)
+        else if(num < 75)
         {
             MeleeAttack();
         }
@@ -93,6 +115,8 @@ public class Boss : AI
             InGameManager.Instance.RightGravity();
         }
 
+        curAttackSpeed = gravityTimer;
+
         isAttack = false;
     }
 
@@ -113,7 +137,7 @@ public class Boss : AI
 
         int cnt = 0;
 
-        while(cnt < 10) // 15회 공격
+        while(cnt < 30) // 2초 동안 30회 공격 
         {
             randomDir = Random.onUnitSphere;
 
@@ -130,7 +154,7 @@ public class Boss : AI
 
             cnt++;
 
-            yield return new WaitForSeconds(0.2f); // 0.2초 마다 공격
+            yield return new WaitForSeconds(0.05f); // 0.05초 마다 공격
 
             GameObject cardObject = Instantiate(card, transform.position, rotation);
 
@@ -229,6 +253,17 @@ public class Boss : AI
     {
         if (attackCoroutine != null) StopCoroutine(attackCoroutine);
         base.StopAllCoroutine();
+    }
+
+    public void ChangeMarble(Vector3 pos, Quaternion rot, Transform marble, MapDirect mapDirect)
+    {
+        marPos = pos;
+        //spawn
+        rb.rotation = rot;
+        anim.SetTrigger(RANDOMANIM);
+
+        isMarbleChange = true;
+        SetMarble(marble, mapDirect);
     }
 
     protected override void OnTriggerEnter(Collider other)
