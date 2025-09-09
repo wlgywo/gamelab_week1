@@ -75,7 +75,6 @@ public class DroneScript : MonoBehaviour
         if (Physics.Raycast(start, dir, out hit, maxDist, enemyMask, QueryTriggerInteraction.Ignore))
         {
             dist = hit.distance;
-            Debug.Log("누구 때릴라 함");
 
             var targets = hit.collider.GetComponentInParent<IEnemyTarget>();
             if (targets != null)
