@@ -16,6 +16,8 @@ public class InGameManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI orangeMineralCountText;
     [SerializeField] public TextMeshProUGUI blueMineralCountText;
     [SerializeField] public TextMeshProUGUI purpleMineralCountText;
+    [SerializeField] public TextMeshProUGUI droneAttackDamageLevelText;
+    [SerializeField] public TextMeshProUGUI droneAttackSpeedLevelText;
     [SerializeField] public Button redPotionBtn;
     [SerializeField] public Button droneBuyBtn;
     [SerializeField] public Button droneDamageBtn;
@@ -59,6 +61,8 @@ public class InGameManager : MonoBehaviour
     private int blueMineralPrice = 50;
     private int purpleMineralPrice = 100;
     private int healRate = 20;
+    private int droneAttackDamageLevel = 0;
+    private int droneAttackSpeedLevel = 0;
 
     [field: SerializeField] public KitBox kitBox { get; private set; }
 
@@ -150,11 +154,10 @@ public class InGameManager : MonoBehaviour
         if (gameOver) return;
         ShopUI.SetActive(true);
         SetShop();
+        ChangeDroneUpgradeText();
         PlayerController.Instance.isShopOpen = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-
     }
 
     public void ShopClose()
@@ -229,6 +232,8 @@ public class InGameManager : MonoBehaviour
     public void BuyDroneDamageUp()
     {
         DroneScript.Instance.attackDamage += 10;
+        droneAttackDamageLevel++;
+        ChangeDroneUpgradeText();
         ChangeGold(-droneDamageUpPrice);
     }
     public void BuyDroneSpeedUp()
@@ -239,6 +244,8 @@ public class InGameManager : MonoBehaviour
             DroneScript.Instance.retargetInterval = 0.3f;
             droneMaxSpeed = true;
         }
+        droneAttackSpeedLevel++;
+        ChangeDroneUpgradeText();
         ChangeGold(-droneAttackSpeedUpPrice);
     }
     public void SellRedMineral()
@@ -296,6 +303,15 @@ public class InGameManager : MonoBehaviour
         orangeMineralCountText.text = "X " + orangeMineralCount;
         blueMineralCountText.text = "X " + blueMineralCount;
         purpleMineralCountText.text = "X " + purpleMineralCount;
+    }
+
+    private void ChangeDroneUpgradeText()
+    {
+        droneAttackDamageLevelText.text = "Level : " + droneAttackDamageLevel;
+        if (droneMaxSpeed)
+            droneAttackSpeedLevelText.text = "Level : MAX";
+        else
+            droneAttackSpeedLevelText.text = "Level : " + droneAttackSpeedLevel;
     }
 
     public void Recall()
