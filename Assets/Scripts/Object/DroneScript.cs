@@ -8,7 +8,8 @@ public class DroneScript : MonoBehaviour
     public int attackDamage = 10;
     public float retargetInterval = 3.0f;
     public LayerMask enemyMask;
-    readonly HashSet<EnemyAI> inRange = new();
+    readonly HashSet<IEnemyTarget> inRange = new();
+    readonly HashSet<BossAI> inRangeBoss = new();
     [SerializeField] GameObject parentDrone;
 
     // 공격
@@ -16,7 +17,7 @@ public class DroneScript : MonoBehaviour
     public float laserThickness = 0.08f; // 큐브 두께
     public float laserLifetime = 0.05f;  // 시각효과 유지 시간
     private float lastFireTime = -999f;  // 내부 쿨다운 타임스탬프
-    public EnemyAI current { get; private set; }
+    public IEnemyTarget current { get; private set; }   // EnemyAI 대신 인터페이스로 변경
 
     void Awake() {
         if (Instance == null)
@@ -29,15 +30,15 @@ public class DroneScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (((1 << other.gameObject.layer) & enemyMask) == 0) return;
-        var e = other.GetComponentInParent<EnemyAI>();
-        if (e) inRange.Add(e);
+        var target = other.GetComponentInParent<IEnemyTarget>();
+        if (target != null) inRange.Add(target);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (((1 << other.gameObject.layer) & enemyMask) == 0) return;
-        var e = other.GetComponentInParent<EnemyAI>();
-        if (e) inRange.Remove(e);
+        var target = other.GetComponentInParent<IEnemyTarget>();
+        if (target != null) inRange.Remove(target);
     }
 
     IEnumerator Start()
@@ -51,49 +52,39 @@ public class DroneScript : MonoBehaviour
             yield return wait;
         }
     }
-
+    public void UnregisterTarget(IEnemyTarget target)
+    {
+        inRange.Remove(target);
+    }
     void Attack()
     {
-        // 1) 쿨다운/타깃 체크
         if (current == null) return;
 
-        // 2) 시작점/목표점/방향 계산
         Vector3 start = firePoint ? firePoint.position : transform.position;
 
-        // 콜라이더가 있으면 그 중심을 노리면 더 안정적
-        var col = current.GetComponent<Collider>();
-        Vector3 target = col ? col.bounds.center : current.transform.position;
+        var col = (current as MonoBehaviour).GetComponent<Collider>();
+        Vector3 target = col ? col.bounds.center : (current as MonoBehaviour).transform.position;
 
         Vector3 dir = (target - start);
         float dist = dir.magnitude;
         if (dist < 0.01f) return;
         dir /= dist;
 
-        // 3) 레이캐스트로 실제 충돌 지점/피해 적용
         RaycastHit hit;
-        float maxDist = dist + 0.5f; // 약간 여유
+        float maxDist = dist + 0.5f;
         if (Physics.Raycast(start, dir, out hit, maxDist, enemyMask, QueryTriggerInteraction.Ignore))
         {
-            dist = hit.distance; // 시각효과 길이도 충돌 지점까지만
+            dist = hit.distance;
+            Debug.Log("누구 때릴라 함");
 
-            // 맞은 대상에 데미지
-            var hitEnemy = hit.collider.GetComponentInParent<EnemyAI>();
-            if (hitEnemy != null)
+            var targets = hit.collider.GetComponentInParent<IEnemyTarget>();
+            if (targets != null)
             {
-                // EnemyAI에 이 함수가 있다고 가정
-                hitEnemy.GetDroneDamage(attackDamage);
+                targets.OnDamagedFromDrone(attackDamage); // EnemyAI든 BossAI든 알아서 호출됨
             }
         }
-        else
-        {
-            // 레이가 아무 것도 안 맞으면, 타깃까지 시각효과만 표시
-            // (원한다면 여기서 return 해도 됨)
-        }
 
-        // 4) 시각효과: 얇은 빨간 직사각형 큐브 생성 → 짧게 표시 후 파괴
         SpawnLaserVisual(start, dir, dist);
-
-        // 5) 쿨다운 갱신
         lastFireTime = Time.time;
     }
 
@@ -128,18 +119,18 @@ public class DroneScript : MonoBehaviour
     }
     void AcquireTarget()
     {
-        inRange.RemoveWhere(e => e == null || !e.gameObject.activeInHierarchy);
+        inRange.RemoveWhere(e => e == null || !(e as MonoBehaviour).gameObject.activeInHierarchy);
 
         float best = float.PositiveInfinity;
-        EnemyAI bestE = null;
+        IEnemyTarget bestTarget = null;
         var p = transform.position;
 
         foreach (var e in inRange)
         {
-            float d = (e.transform.position - p).sqrMagnitude;
-            if (d < best) { best = d; bestE = e; }
+            float d = ((e as MonoBehaviour).transform.position - p).sqrMagnitude;
+            if (d < best) { best = d; bestTarget = e; }
         }
-        current = bestE;
+        current = bestTarget;
     }
 
 }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossAI : MonoBehaviour
+public class BossAI : MonoBehaviour, IEnemyTarget
 {
     public static BossAI Instance { get; private set; }
     [SerializeField] protected Rigidbody rb;
@@ -213,6 +213,17 @@ public class BossAI : MonoBehaviour
             InGameManager.Instance.GameClear();
         }
 	}
+
+    public void OnDamagedFromDrone(int droneDamage)
+    {
+        hp -= droneDamage;
+        UpdateVisual();
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+            InGameManager.Instance.GameClear();
+        }
+    }
 
 	public void SetAttackDamage(int attackDamage)
 	{

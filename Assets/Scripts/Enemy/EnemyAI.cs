@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IEnemyTarget
 {
 	[SerializeField] protected Rigidbody rb;
 	[SerializeField] private Slider slider;
@@ -161,7 +161,7 @@ public class EnemyAI : MonoBehaviour
 		}
 	}
 
-    public void GetDroneDamage(int a)
+    public void OnDamagedFromDrone(int a)
     {
         hp -= a;
         UpdateVisual();
@@ -200,5 +200,7 @@ public class EnemyAI : MonoBehaviour
         {
             manager.ReSpawnEnemy();
         }
+        if (DroneScript.Instance != null)
+            DroneScript.Instance.UnregisterTarget(this);
     }
 }
