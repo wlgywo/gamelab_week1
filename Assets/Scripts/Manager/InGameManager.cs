@@ -42,7 +42,7 @@ public class InGameManager : MonoBehaviour
     public bool gameOver { get; private set; } = false;
 
     // 소지품 관련
-    private int gold = 10000;
+    private int gold = 0;
     private int redMineralCount = 0;
     private int orangeMineralCount = 0;
     private int blueMineralCount = 0;
